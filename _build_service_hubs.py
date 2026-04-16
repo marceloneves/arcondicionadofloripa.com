@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Gera hubs por serviço com descrição e links para todos os bairros."""
+"""Gera hubs por serviço em servico/*.html com descrição e links para todos os bairros."""
 
 from pathlib import Path
 import json
@@ -7,7 +7,7 @@ import json
 from _rebuild_servico_main import BAIRROS, SERV_META, SERVICE_KEYS
 
 ROOT = Path(__file__).parent
-OUT_DIR = ROOT / "servico-hub"
+OUT_DIR = ROOT / "servico"
 PHONE = "(48) 99999-0000"
 TEL = "+5548999990000"
 WA = "https://wa.me/5548999990000?text=Olá!%20Quero%20orçamento%20de%20ar-condicionado%20em%20Florianópolis."
@@ -46,7 +46,7 @@ def href_for(sk: str, prep: str, bairro_slug: str) -> str:
 
 
 def hub_slug(sk: str) -> str:
-    return f"/servico-hub/{sk}.html"
+    return f"/servico/{sk}.html"
 
 
 def schema_for(sk: str, title: str, description: str) -> str:
@@ -55,8 +55,8 @@ def schema_for(sk: str, title: str, description: str) -> str:
         "@graph": [
             {
                 "@type": "CollectionPage",
-                "@id": f"{BASE_URL}/servico-hub/{sk}.html#webpage",
-                "url": f"{BASE_URL}/servico-hub/{sk}.html",
+                "@id": f"{BASE_URL}/servico/{sk}.html#webpage",
+                "url": f"{BASE_URL}/servico/{sk}.html",
                 "name": title,
                 "description": description,
                 "isPartOf": {
@@ -68,7 +68,7 @@ def schema_for(sk: str, title: str, description: str) -> str:
             },
             {
                 "@type": "Service",
-                "@id": f"{BASE_URL}/servico-hub/{sk}.html#service",
+                "@id": f"{BASE_URL}/servico/{sk}.html#service",
                 "name": SERV_META[sk]["titulo"],
                 "serviceType": SERV_META[sk]["titulo"],
                 "description": SERV_META[sk]["oque"],
@@ -112,7 +112,7 @@ def build_page(sk: str) -> str:
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{title}</title>
   <meta name="description" content="{description}">
-  <link rel="canonical" href="{BASE_URL}/servico-hub/{sk}.html">
+  <link rel="canonical" href="{BASE_URL}/servico/{sk}.html">
   <link rel="stylesheet" href="../css/style.css">
   <script type="application/ld+json">{schema_for(sk, title, description)}</script>
 </head>
