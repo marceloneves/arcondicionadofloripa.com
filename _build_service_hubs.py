@@ -38,6 +38,14 @@ INTRO = {
         "A remoção e reinstalação de ar-condicionado em Florianópolis atende mudanças, reformas e readequações, com "
         "desmontagem segura, transporte e reinstalação com testes no novo ponto."
     ),
+    "conserto-de-ar-condicionado": (
+        "O conserto de ar-condicionado em Florianópolis foca em diagnóstico estruturado, identificação da causa raiz e "
+        "correção do defeito com testes finais, evitando trocas desnecessárias de peças."
+    ),
+    "pmoc-de-ar-condicionado": (
+        "O PMOC de ar-condicionado (Plano de Manutenção, Operação e Controle) organiza rotinas de manutenção, registros e "
+        "frequências para sistemas de climatização em empresas, condomínios e comércios em Florianópolis."
+    ),
 }
 
 
@@ -98,13 +106,15 @@ def build_page(sk: str) -> str:
     description = (
         f"Hub de {meta['curto']} em Florianópolis: descrição do serviço e links para todas as páginas por bairro."
     )
-    items = []
+    cards = []
     for bairro_slug, bairro in BAIRROS.items():
         href = href_for(sk, bairro["prep"], bairro_slug)
-        items.append(
-            f'<li><a href="{href}">{meta["titulo"]} {bairro["prep"]} {bairro["nome"]}</a></li>'
+        cards.append(
+            f'<article class="card hub-servico-item"><h3>{bairro["nome"]}</h3>'
+            f'<p>Página local de {meta["curto"]} {bairro["prep"]} {bairro["nome"]} em Florianópolis.</p>'
+            f'<a class="btn btn-outline" href="{href}">Ver página do bairro</a></article>'
         )
-    links_html = "".join(items)
+    cards_html = "".join(cards)
     return f"""<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -137,10 +147,10 @@ def build_page(sk: str) -> str:
   <p>Este hub reúne o contexto geral do serviço e os links locais para bairros atendidos em Florianópolis, o que facilita a navegação entre páginas com foco geográfico e intenção de busca mais específica.</p>
   <p>Se você quer comparar bairros, avaliar a cobertura ou acessar rapidamente a página certa do seu endereço, use a lista abaixo.</p>
 </div></section>
-<section class="section"><div class="container"><div class="card">
+<section class="section"><div class="container">
   <h2>Páginas de {meta["curto"]} por bairro</h2>
-  <div class="local-links"><ul>{links_html}</ul></div>
-</div></div></section>
+  <div class="grid-3">{cards_html}</div>
+</div></section>
 <section class="section"><div class="container cta-box"><div><h2>Precisa de {meta["curto"]} em Florianópolis?</h2><p>Fale com a equipe e receba orientação técnica para o seu caso.</p></div><div><a class="btn btn-whats" href="{WA}" target="_blank" rel="noopener">WhatsApp</a> <a class="btn btn-primary" href="../contato.html">Solicitar orçamento</a> <a class="btn btn-outline" href="tel:{TEL}">Ligar</a></div></div></section>
 <section class="section"><div class="container"><div class="card"><h2>Links úteis</h2><ul><li><a href="../index.html">Home</a></li><li><a href="../servicos.html">Página geral de serviços</a></li><li><a href="../bairros.html">Lista de bairros</a></li><li><a href="../contato.html">Contato</a></li></ul></div></div></section>
 </main>

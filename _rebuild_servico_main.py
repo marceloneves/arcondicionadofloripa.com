@@ -85,6 +85,8 @@ SERVICE_KEYS = (
     "instalacao-de-ar-condicionado",
     "manutencao-de-ar-condicionado",
     "limpeza-de-ar-condicionado",
+    "conserto-de-ar-condicionado",
+    "pmoc-de-ar-condicionado",
 )
 
 SERV_META = {
@@ -413,6 +415,113 @@ SERV_META = {
             ("Vocês desmontam para guardar o aparelho durante reforma?", "Sim, combinamos retirada e data de reinstalação."),
         ),
     },
+    "conserto-de-ar-condicionado": {
+        "titulo": "Conserto de Ar-Condicionado",
+        "curto": "conserto de ar-condicionado",
+        "verbo": "consertar",
+        "contexto_seo": (
+            '<p class="servico-contexto-seo">O <strong>conserto de ar-condicionado</strong> envolve <strong>diagnóstico</strong>, identificação de causa raiz e correção de falhas em componentes como <strong>placa eletrônica</strong>, <strong>compressor</strong>, <strong>ventiladores</strong>, <strong>sensores</strong> e <strong>alimentação elétrica</strong>. '
+            "{sent} <strong>{nome}</strong>, em <strong>Florianópolis</strong> (SC), o foco é devolver estabilidade ao sistema com testes após a intervenção e orientação de uso.</p>"
+        ),
+        "oque": "O conserto de ar-condicionado é o atendimento voltado a corrigir defeitos específicos, restaurar o funcionamento do equipamento e orientar sobre a melhor forma de uso após a intervenção.",
+        "lista": (
+            "aparelho que não liga ou desarma logo em seguida;",
+            "erros intermitentes em placa eletrônica ou sensores;",
+            "ruídos anormais vindos da unidade interna ou externa;",
+            "problemas recorrentes após instalação ou mudanças de local;",
+            "falhas após queda de energia ou surtos elétricos;",
+            "equipamento que passou por conserto anterior sem solução definitiva.",
+        ),
+        "como_passos": (
+            ("Coleta de informações", "Você explica o sintoma, histórico recente e o tipo de equipamento {prep} {nome}."),
+            ("Diagnóstico técnico", "Avaliamos comportamento do sistema, leituras básicas, histórico e indícios de defeito."),
+            ("Proposta de correção", "Indicamos a linha de reparo e as possibilidades (ajuste, troca de peça, nova avaliação)."),
+            ("Execução e testes", "Executamos o conserto combinado e testamos o funcionamento em diferentes condições."),
+        ),
+        "porque": (
+            "Ajuda a resolver falhas que vão além de limpeza e manutenção leve.",
+            "Permite avaliar se vale a pena reparar ou partir para troca do equipamento.",
+            "Reduz o risco de paradas repetidas em horários críticos.",
+            "Gera histórico técnico útil para decisões futuras {prep} {nome}.",
+        ),
+        "preco_txt": "O valor do conserto de ar-condicionado varia conforme o defeito encontrado, necessidade de peças, tempo de diagnóstico e acesso ao equipamento. Por isso, o orçamento correto costuma ser fechado após avaliação técnica.",
+        "preco_lista": (
+            "complexidade do problema identificado;",
+            "necessidade de componentes de reposição e disponibilidade;",
+            "acesso à unidade condensadora e evaporadora;",
+            "tempo de testes e validação após o conserto.",
+        ),
+        "contratar_ofertas": (
+            "diagnóstico estruturado antes de qualquer troca de peça;",
+            "orientação clara sobre custo-benefício de reparar ou trocar;",
+            "execução alinhada às recomendações do fabricante sempre que possível;",
+            "atendimento {prep} {nome} e regiões próximas em Florianópolis.",
+        ),
+        "vantagens": (
+            "Maior clareza sobre o real estado do equipamento.",
+            "Redução de tentativas e erros com trocas desnecessárias.",
+            "Possibilidade de prolongar a vida útil em cenários viáveis.",
+            "Base técnica para decidir quando migrar para um modelo mais novo.",
+        ),
+        "onde_txt": "Atendemos residências, comércios e condomínios {prep} {nome} em Florianópolis, com atenção especial a acessos, regras de condomínio e segurança elétrica.",
+        "faq_extra": (
+            ("Vocês consertam qualquer marca?", "Atendemos principais marcas do mercado; detalhes são combinados no contato."),
+            ("Sempre compensa consertar o aparelho?", "Depende da idade, estado geral e custo da peça; explicamos os prós e contras antes de decidir."),
+        ),
+    },
+    "pmoc-de-ar-condicionado": {
+        "titulo": "PMOC de Ar-Condicionado",
+        "curto": "PMOC de ar-condicionado",
+        "verbo": "implantar o PMOC",
+        "contexto_seo": (
+            '<p class="servico-contexto-seo">O <strong>PMOC</strong> (<strong>Plano de Manutenção, Operação e Controle</strong>) organiza <strong>rotinas de manutenção</strong>, <strong>registros</strong>, <strong>frequências</strong> e <strong>responsabilidades técnicas</strong> para sistemas de <strong>climatização</strong>. '
+            "{sent} <strong>{nome}</strong>, em <strong>Florianópolis</strong> (SC), ele é especialmente relevante para <strong>condomínios</strong>, <strong>clínicas</strong>, <strong>escritórios</strong> e ambientes com permanência prolongada de pessoas.</p>"
+        ),
+        "oque": "O PMOC de ar-condicionado é o plano formal que define como serão feitas manutenção, operação e controle dos sistemas de climatização, com foco em segurança, desempenho e qualidade do ar interno.",
+        "lista": (
+            "empresas que precisam organizar a manutenção de vários equipamentos;",
+            "condomínios com áreas comuns climatizadas;",
+            "ambientes com permanência prolongada de colaboradores ou clientes;",
+            "imóveis que desejam padronizar fornecedores, periodicidades e registros;",
+            "adequação a exigências legais e boas práticas de climatização.",
+        ),
+        "como_passos": (
+            ("Levantamento inicial", "Mapeamos os equipamentos, capacidades, locais de instalação e condições gerais {prep} {nome}."),
+            ("Definição do plano", "Estruturamos rotinas, periodicidades e pontos de verificação alinhados ao perfil do imóvel."),
+            ("Execução das rotinas", "Realizamos as manutenções previstas ou apoiamos a implementação com equipe local."),
+            ("Ajustes e registros", "Ajustamos o plano conforme histórico real e mantemos registros das intervenções."),
+        ),
+        "porque": (
+            "Ajuda a manter qualidade do ar e desempenho dos sistemas ao longo do tempo.",
+            "Organiza responsabilidades técnicas e periodicidades de manutenção.",
+            "Reduz improviso e paradas inesperadas em ambientes críticos.",
+            "Facilita demonstração de cuidado com climatização em auditorias e vistorias.",
+        ),
+        "preco_txt": "O valor para elaboração e execução do PMOC depende da quantidade de equipamentos, complexidade do sistema, perfil de uso do imóvel e escopo desejado (apenas plano ou plano + execução). Por isso, o orçamento é definido após um levantamento inicial.",
+        "preco_lista": (
+            "número de equipamentos e capacidades envolvidas;",
+            "distribuição dos aparelhos em diferentes áreas e pavimentos;",
+            "nível de detalhamento e tipo de registro exigido;",
+            "se o contrato inclui apenas plano ou também execução recorrente.",
+        ),
+        "contratar_ofertas": (
+            "elaboração do plano de manutenção, operação e controle adaptado ao imóvel;",
+            "apoio na execução das rotinas de PMOC conforme escopo combinado;",
+            "orientação sobre uso adequado dos sistemas de climatização;",
+            "atendimento {prep} {nome} e regiões próximas em Florianópolis.",
+        ),
+        "vantagens": (
+            "Visão organizada de todos os equipamentos e necessidades.",
+            "Mais previsibilidade de custos de manutenção ao longo do tempo.",
+            "Melhor conforto térmico para quem usa o espaço diariamente.",
+            "Apoio técnico para decisões de troca e modernização de sistemas.",
+        ),
+        "onde_txt": "Atendemos empresas, condomínios, comércios e espaços de serviço {prep} {nome}, em Florianópolis, que precisam estruturar ou revisar o seu PMOC de climatização.",
+        "faq_extra": (
+            ("PMOC é obrigatório para qualquer ambiente?", "Ele é especialmente recomendado e exigido em diversos contextos com permanência de pessoas; avaliamos seu caso no contato."),
+            ("Vocês também executam as manutenções previstas no PMOC?", "Sim, quando combinado no escopo, realizamos tanto o plano quanto as rotinas de manutenção."),
+        ),
+    },
 }
 
 # Ajustes de seção 3/4 e títulos por tipo de serviço (evita texto de “pane” em instalação, etc.)
@@ -441,6 +550,16 @@ SEC_EXTRAS = {
         "sec3_h2": "3. Por que contratar remoção e reinstalação com técnica {pp}?",
         "sec3_intro": "Mudanças e reformas exigem desmontagem segura, proteção do equipamento e reinstalação com testes. Improviso aumenta risco de vazamento, perda de peças e retrabalho na fachada ou área técnica.",
         "sec4_fecho": "Ou seja: o orçamento considera <strong>complexidade de desmontagem</strong>, <strong>nova rota</strong> de tubulação/dreno e <strong>logística</strong> entre retirada e reinstalação.",
+    },
+    "conserto-de-ar-condicionado": {
+        "sec3_h2": "3. Por que investir em conserto técnico {pp}?",
+        "sec3_intro": "Nem todo problema se resolve com limpeza ou recarga de gás. Um conserto bem conduzido começa por diagnóstico, identifica a causa raiz e só então parte para troca de peças ou ajustes.",
+        "sec4_fecho": "Ou seja: o orçamento depende de <strong>defeito encontrado</strong>, <strong>peças necessárias</strong> e <strong>tempo de testes</strong> para garantir que o problema não volte.",
+    },
+    "pmoc-de-ar-condicionado": {
+        "sec3_h2": "3. Por que implantar o PMOC {pp}?",
+        "sec3_intro": "O PMOC organiza a manutenção de forma estruturada, reduz improviso e melhora a previsibilidade do desempenho dos sistemas de climatização ao longo do ano.",
+        "sec4_fecho": "Ou seja: o valor leva em conta <strong>quantidade de equipamentos</strong>, <strong>complexidade do sistema</strong> e se o contrato inclui <strong>apenas plano</strong> ou também <strong>execução recorrente</strong>.",
     },
 }
 
