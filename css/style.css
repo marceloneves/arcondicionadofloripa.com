@@ -37,3 +37,4 @@ a{color:var(--blue);text-decoration:none}a:hover{color:var(--blue-dark)}.contain
 .servico-passos li{margin-bottom:.55rem}
 .servico-contexto-seo,.servico-vizinhanca{font-size:.98rem;color:var(--muted);line-height:1.65;margin:1rem 0 0}
 .servico-contexto-seo strong,.servico-vizinhanca strong{color:var(--text);font-weight:700}
+.servico-num-sec .faq-answer{font-size:1rem;line-height:1.75}
