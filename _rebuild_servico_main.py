@@ -8,11 +8,12 @@ from pathlib import Path
 
 root = Path(__file__).parent
 BASE_URL = "https://arcondicionadofloripa.com"
-bairros_html = (root / "bairros.html").read_text(encoding="utf-8")
+bairros_html = (root / "regioes.html").read_text(encoding="utf-8")
 
 # id -> nome, prep (do texto do card)
+# `[^<]+` no fragmento evita atravessar </p> e capturar o próximo card (cidades SC vêm antes dos bairros).
 pat_card = re.compile(
-    r'<article class="card" id="([^"]+)"><h2>([^<]+)</h2><p>Atendimento técnico de ar-condicionado (no|na|em|nos|nas) (.+?), em Florianópolis',
+    r'<article class="card" id="([^"]+)"><h2>([^<]+)</h2><p>Atendimento técnico de ar-condicionado (no|na|em|nos|nas) ([^<]+), em Florianópolis, para residência e comércio\.</p>',
 )
 BAIRROS = {}
 for bid, nome, prep, frag in pat_card.findall(bairros_html):
@@ -77,6 +78,24 @@ PERTO = {
     "tapera-da-base": ["estreito", "coqueiros"],
     "vargem-do-bom-jesus": ["vargem-grande", "ratones"],
 }
+
+# Cidades da Grande Florianópolis (páginas servico com sufixo -sc.html)
+CIDADES: dict[str, dict[str, str]] = {
+    "sao-jose": {"nome": "São José", "prep": "em"},
+    "palhoca": {"nome": "Palhoça", "prep": "em"},
+    "biguacu": {"nome": "Biguaçu", "prep": "em"},
+}
+
+CIDADE_VIZINHAS: dict[str, list[str]] = {
+    "sao-jose": ["palhoca", "biguacu"],
+    "palhoca": ["sao-jose", "biguacu"],
+    "biguacu": ["sao-jose", "palhoca"],
+}
+
+for cid, meta in CIDADES.items():
+    if cid in BAIRROS:
+        raise SystemExit(f"ID de região duplicado entre bairros e cidades: {cid}")
+    BAIRROS[cid] = {"nome": meta["nome"], "prep": meta["prep"]}
 
 SERVICE_KEYS = (
     "remocao-e-reinstalacao-de-ar-condicionado",
@@ -588,60 +607,90 @@ def prep_sentence_start(prep):
     return PREP_SENT.get(prep, prep.capitalize())
 
 
-def intro_paragraphs(sk, nome, prep, variante):
+def intro_paragraphs(sk, nome, prep, variante, is_city: bool = False):
     pp = prep_phrase(prep, nome)
     curto = SERV_META[sk]["curto"]
-    intros = [
-        (
-            f"Se você precisa de {curto} {pp}, em Florianópolis, o ideal é resolver com técnica e sem improviso. "
-            f"Quem mora ou trabalha {pp} sabe que conforto térmico faz diferença na rotina, principalmente em dias mais quentes.",
-            f"Em {nome}, é comum encontrar apartamentos, casas, condomínios e pontos comerciais com necessidades diferentes de climatização. "
-            f"Bem planejar o atendimento reduz retrabalho e melhora o resultado final, principalmente quando há restrições de fachada, área técnica ou agenda do condomínio.",
-        ),
-        (
-            f"Em Florianópolis, buscar {curto} {pp} com agilidade ajuda a voltar ao normal sem perder produtividade em casa ou no trabalho. "
-            f"Serviços bem executados também reduzem improviso e melhoram a sensação de conforto no ambiente.",
-            f"Nossa atuação {pp} prioriza diagnóstico claro, execução organizada e comunicação direta. "
-            f"Assim você entende o que será feito, o que está incluso no escopo e quais cuidados são necessários no seu tipo de imóvel.",
-        ),
-        (
-            f"O clima da Ilha e a rotina urbana fazem o ar-condicionado ser peça-chave em muitos imóveis {pp}. "
-            f"Por isso, um atendimento técnico bem conduzido evita soluções paliativas e melhora a estabilidade do equipamento ao longo do tempo.",
-            f"Se você precisa de {curto} {pp}, o caminho mais seguro é combinar visita, entender o cenário (modelo, instalação e objetivo do serviço) e só então executar com testes ao final.",
-        ),
-    ]
+    if is_city:
+        intros = [
+            (
+                f"Se você precisa de {curto} {pp}, na Grande Florianópolis (SC), o ideal é resolver com técnica e sem improviso. "
+                f"Quem mora ou trabalha {pp} sabe que conforto térmico faz diferença na rotina, principalmente em dias mais quentes.",
+                f"Em {nome}, é comum encontrar apartamentos, casas, condomínios e pontos comerciais com necessidades diferentes de climatização. "
+                f"Bem planejar o atendimento reduz retrabalho e melhora o resultado final, principalmente quando há restrições de fachada, área técnica ou agenda do condomínio.",
+            ),
+            (
+                f"Na região metropolitana, buscar {curto} {pp} com agilidade ajuda a voltar ao normal sem perder produtividade em casa ou no trabalho. "
+                f"Serviços bem executados também reduzem improviso e melhoram a sensação de conforto no ambiente.",
+                f"Nossa atuação {pp} prioriza diagnóstico claro, execução organizada e comunicação direta. "
+                f"Assim você entende o que será feito, o que está incluso no escopo e quais cuidados são necessários no seu tipo de imóvel.",
+            ),
+            (
+                f"O clima de Santa Catarina e a rotina urbana fazem o ar-condicionado ser peça-chave em muitos imóveis {pp}. "
+                f"Por isso, um atendimento técnico bem conduzido evita soluções paliativas e melhora a estabilidade do equipamento ao longo do tempo.",
+                f"Se você precisa de {curto} {pp}, o caminho mais seguro é combinar visita, entender o cenário (modelo, instalação e objetivo do serviço) e só então executar com testes ao final.",
+            ),
+        ]
+    else:
+        intros = [
+            (
+                f"Se você precisa de {curto} {pp}, em Florianópolis, o ideal é resolver com técnica e sem improviso. "
+                f"Quem mora ou trabalha {pp} sabe que conforto térmico faz diferença na rotina, principalmente em dias mais quentes.",
+                f"Em {nome}, é comum encontrar apartamentos, casas, condomínios e pontos comerciais com necessidades diferentes de climatização. "
+                f"Bem planejar o atendimento reduz retrabalho e melhora o resultado final, principalmente quando há restrições de fachada, área técnica ou agenda do condomínio.",
+            ),
+            (
+                f"Em Florianópolis, buscar {curto} {pp} com agilidade ajuda a voltar ao normal sem perder produtividade em casa ou no trabalho. "
+                f"Serviços bem executados também reduzem improviso e melhoram a sensação de conforto no ambiente.",
+                f"Nossa atuação {pp} prioriza diagnóstico claro, execução organizada e comunicação direta. "
+                f"Assim você entende o que será feito, o que está incluso no escopo e quais cuidados são necessários no seu tipo de imóvel.",
+            ),
+            (
+                f"O clima da Ilha e a rotina urbana fazem o ar-condicionado ser peça-chave em muitos imóveis {pp}. "
+                f"Por isso, um atendimento técnico bem conduzido evita soluções paliativas e melhora a estabilidade do equipamento ao longo do tempo.",
+                f"Se você precisa de {curto} {pp}, o caminho mais seguro é combinar visita, entender o cenário (modelo, instalação e objetivo do serviço) e só então executar com testes ao final.",
+            ),
+        ]
     return intros[variante % len(intros)]
 
 
-def build_links(sk, prep, bslug, nome):
+def _servico_fname_token(suffix: str) -> str:
+    return "florianopolis" if suffix == "florianopolis" else "sc"
+
+
+def build_links(sk, prep, bslug, nome, suffix: str):
+    tok = _servico_fname_token(suffix)
     lines = [
         '<li><a href="../index.html">Home</a></li>',
-        f'<li><a href="/bairro/{bslug}-florianopolis.html">Hub do bairro (todos os serviços)</a></li>',
+        f'<li><a href="/regioes/{bslug}-{tok}.html">Hub da região (todos os serviços)</a></li>',
         '<li><a href="../servicos.html">Página geral de serviços</a></li>',
         '<li><a href="../contato.html">Página de contato</a></li>',
     ]
+    p_here = BAIRROS[bslug]["prep"]
     for osk in LINK_ORDER:
         if osk == sk:
             continue
         lines.append(
-            f'<li><a href="/servico/{osk}-{prep}-{bslug}-florianopolis.html">{SERV_META[osk]["titulo"]} {prep_phrase(prep, nome)}</a></li>'
+            f'<li><a href="/servico/{osk}-{p_here}-{bslug}-{tok}.html">{SERV_META[osk]["titulo"]} {prep_phrase(p_here, nome)}</a></li>'
         )
-    for near in PERTO.get(bslug, [])[:2]:
+    near_list = CIDADE_VIZINHAS.get(bslug, [])[:2] if bslug in CIDADES else PERTO.get(bslug, [])[:2]
+    for near in near_list:
         if near not in BAIRROS:
             continue
         nn = BAIRROS[near]["nome"]
         np = BAIRROS[near]["prep"]
+        near_tok = _servico_fname_token("sc" if near in CIDADES else "florianopolis")
         lines.append(
-            f'<li><a href="/servico/{sk}-{np}-{near}-florianopolis.html">{SERV_META[sk]["titulo"]} {prep_phrase(np, nn)}</a></li>'
+            f'<li><a href="/servico/{sk}-{np}-{near}-{near_tok}.html">{SERV_META[sk]["titulo"]} {prep_phrase(np, nn)}</a></li>'
         )
     return "".join(lines)
 
 
-def faq_items(sk, prep, nome):
+def faq_items(sk, prep, nome, is_city: bool = False):
     cur = SERV_META[sk]["curto"]
     pp = prep_phrase(prep, nome)
+    lugar = nome if is_city else "Florianópolis"
     items = [
-        (f"Vocês fazem {cur} {pp} em Florianópolis?", f"Sim. Atendemos {prep} {nome} com serviço técnico e agenda conforme disponibilidade."),
+        (f"Vocês fazem {cur} {pp} em {lugar}?", f"Sim. Atendemos {prep} {nome} com serviço técnico e agenda conforme disponibilidade."),
         (f"O atendimento {pp} é rápido?", "Priorizamos triagem ágil e deslocamento organizado para reduzir o tempo de espera."),
         (f"Atendem apartamentos e comércios {pp}?", "Sim. Atendemos perfis residenciais e comerciais, respeitando regras de condomínio quando necessário."),
         ("Como solicitar orçamento?", "Você pode chamar no WhatsApp, ligar ou preencher o formulário de contato com dados do aparelho e do endereço."),
@@ -653,9 +702,9 @@ def faq_items(sk, prep, nome):
     return items
 
 
-def faq_block(sk, prep, nome):
+def faq_block(sk, prep, nome, is_city: bool = False):
     rows = []
-    for q, a in faq_items(sk, prep, nome):
+    for q, a in faq_items(sk, prep, nome, is_city=is_city):
         rows.append(
             f'<div class="faq-item"><button class="faq-question" type="button">{escape(q)}</button>'
             f'<div class="faq-answer"><p>{escape(a)}</p></div></div>'
@@ -663,9 +712,12 @@ def faq_block(sk, prep, nome):
     return "\n".join(rows)
 
 
-def build_meta_title(meta, pp):
-    # pp já inclui o nome do bairro (ex.: "no Centro")
-    t = f"{meta['titulo']} {pp} | Florianópolis SC"
+def build_meta_title(meta, pp, is_city: bool = False, nome_cidade: str = ""):
+    # pp já inclui o nome do local (ex.: "no Centro"). Em cidades, evita repetir "em X em X".
+    if is_city and nome_cidade:
+        t = f"{meta['titulo']} em {nome_cidade} | Grande Florianópolis SC"
+    else:
+        t = f"{meta['titulo']} {pp} | Florianópolis SC"
     if len(t) > 64:
         t = f"{meta['titulo']} {pp} | SC"
     if len(t) > 66:
@@ -673,17 +725,34 @@ def build_meta_title(meta, pp):
     return t
 
 
-def build_meta_desc(meta, pp, nome):
-    s = (
-        f"{meta['titulo']} {pp} em Florianópolis, SC: climatização e HVAC "
-        f"(split, inverter, multi-split) no bairro {nome}. Orçamento e execução com foco em segurança."
-    )
+def build_meta_desc(meta, pp, nome, is_city: bool = False):
+    if is_city:
+        s = (
+            f"{meta['titulo']} em {nome}, SC: climatização e HVAC "
+            f"(split, inverter, multi-split) na Grande Florianópolis. Orçamento e execução com foco em segurança."
+        )
+    else:
+        s = (
+            f"{meta['titulo']} {pp} em Florianópolis, SC: climatização e HVAC "
+            f"(split, inverter, multi-split) no bairro {nome}. Orçamento e execução com foco em segurança."
+        )
     if len(s) > 158:
         s = s[:155].rsplit(" ", 1)[0] + "…"
     return s
 
 
-def paragraph_vizinhos(bslug, nome):
+def paragraph_vizinhos(bslug, nome, is_city: bool = False):
+    if is_city:
+        ids = CIDADE_VIZINHAS.get(bslug, [])[:2]
+        names = [BAIRROS[i]["nome"] for i in ids if i in BAIRROS]
+        if len(names) < 2:
+            return ""
+        n1, n2 = names[0], names[1]
+        return (
+            f'<p class="servico-vizinhanca">Além de <strong>{escape(nome)}</strong>, a demanda por climatização costuma aparecer com força em '
+            f"<strong>{escape(n1)}</strong> e <strong>{escape(n2)}</strong> na <strong>Grande Florianópolis</strong> (<strong>SC</strong>), "
+            f"o que ajuda no planejamento de deslocamento e na organização da agenda técnica.</p>"
+        )
     ids = PERTO.get(bslug, [])[:2]
     names = [BAIRROS[i]["nome"] for i in ids if i in BAIRROS]
     if len(names) < 2:
@@ -696,14 +765,15 @@ def paragraph_vizinhos(bslug, nome):
     )
 
 
-def build_schema_graph(sk, prep, bslug, nome, fname, title, desc):
+def build_schema_graph(sk, prep, bslug, nome, fname, title, desc, is_city: bool = False, suffix: str = "florianopolis"):
     page_url = f"{BASE_URL}/servico/{fname}"
-    hub_url = f"{BASE_URL}/bairro/{bslug}-florianopolis.html"
+    tok = _servico_fname_token(suffix)
+    hub_url = f"{BASE_URL}/regioes/{bslug}-{tok}.html"
     meta = SERV_META[sk]
     pp = prep_phrase(prep, nome)
     main_q = [
         {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}}
-        for q, a in faq_items(sk, prep, nome)
+        for q, a in faq_items(sk, prep, nome, is_city=is_city)
     ]
     provider = {
         "@type": "LocalBusiness",
@@ -736,18 +806,33 @@ def build_schema_graph(sk, prep, bslug, nome, fname, title, desc):
             "serviceType": meta["titulo"],
             "description": meta["oque"],
             "url": page_url,
-            "areaServed": [
-                {
-                    "@type": "City",
-                    "name": "Florianópolis",
-                    "containedInPlace": {
-                        "@type": "AdministrativeArea",
-                        "name": "Santa Catarina",
-                        "containedInPlace": {"@type": "Country", "name": "BR"},
+            "areaServed": (
+                [
+                    {
+                        "@type": "City",
+                        "name": nome,
+                        "containedInPlace": {
+                            "@type": "AdministrativeArea",
+                            "name": "Santa Catarina",
+                            "containedInPlace": {"@type": "Country", "name": "BR"},
+                        },
                     },
-                },
-                {"@type": "Place", "name": f"{nome}, Florianópolis"},
-            ],
+                    {"@type": "Place", "name": f"{nome}, SC"},
+                ]
+                if is_city
+                else [
+                    {
+                        "@type": "City",
+                        "name": "Florianópolis",
+                        "containedInPlace": {
+                            "@type": "AdministrativeArea",
+                            "name": "Santa Catarina",
+                            "containedInPlace": {"@type": "Country", "name": "BR"},
+                        },
+                    },
+                    {"@type": "Place", "name": f"{nome}, Florianópolis"},
+                ]
+            ),
             "provider": provider,
             "mainEntityOfPage": {"@id": page_url + "#webpage"},
         },
@@ -756,7 +841,7 @@ def build_schema_graph(sk, prep, bslug, nome, fname, title, desc):
             "@id": page_url + "#breadcrumb",
             "itemListElement": [
                 {"@type": "ListItem", "position": 1, "name": "Início", "item": BASE_URL + "/"},
-                {"@type": "ListItem", "position": 2, "name": "Bairros", "item": BASE_URL + "/bairros.html"},
+                {"@type": "ListItem", "position": 2, "name": "Regiões", "item": BASE_URL + "/regioes.html"},
                 {"@type": "ListItem", "position": 3, "name": nome, "item": hub_url},
                 {"@type": "ListItem", "position": 4, "name": f"{meta['titulo']} {pp}", "item": page_url},
             ],
@@ -765,13 +850,16 @@ def build_schema_graph(sk, prep, bslug, nome, fname, title, desc):
     ]
 
 
-def patch_head_seo(html, sk, prep, bslug, nome, fname):
+def patch_head_seo(html, sk, prep, bslug, nome, fname, is_city: bool = False, suffix: str = "florianopolis"):
     meta = SERV_META[sk]
     pp = prep_phrase(prep, nome)
     page_url = f"{BASE_URL}/servico/{fname}"
-    title = build_meta_title(meta, pp)
-    desc = build_meta_desc(meta, pp, nome)
-    payload = {"@context": "https://schema.org", "@graph": build_schema_graph(sk, prep, bslug, nome, fname, title, desc)}
+    title = build_meta_title(meta, pp, is_city=is_city, nome_cidade=nome if is_city else "")
+    desc = build_meta_desc(meta, pp, nome, is_city=is_city)
+    payload = {
+        "@context": "https://schema.org",
+        "@graph": build_schema_graph(sk, prep, bslug, nome, fname, title, desc, is_city=is_city, suffix=suffix),
+    }
     jstr = json.dumps(payload, ensure_ascii=False)
     new_script = f"<script type=\"application/ld+json\">\n{jstr}\n</script>"
     if 'rel="canonical"' not in html:
@@ -806,12 +894,13 @@ def patch_head_seo(html, sk, prep, bslug, nome, fname):
     return html
 
 
-def build_main(sk, prep, bslug, nome):
+def build_main(sk, prep, bslug, nome, suffix: str = "florianopolis"):
+    is_city = bslug in CIDADES
     meta = SERV_META[sk]
     pp = prep_phrase(prep, nome)
     extras = SEC_EXTRAS.get(sk, {})
     variante = int(hashlib.md5(f"{sk}-{bslug}".encode()).hexdigest(), 16) % 3
-    p1, p2 = intro_paragraphs(sk, nome, prep, variante)
+    p1, p2 = intro_paragraphs(sk, nome, prep, variante, is_city=is_city)
 
     lista_html = "".join(f"<li>{x.format(prep=prep, nome=nome)}</li>" for x in meta["lista"])
     porque_html = "".join(f"<li>{x.format(prep=prep, nome=nome)}</li>" for x in meta["porque"])
@@ -819,19 +908,40 @@ def build_main(sk, prep, bslug, nome):
     ofertas_html = "".join(f"<li>{x.format(prep=prep, nome=nome)}</li>" for x in meta["contratar_ofertas"])
     vant_html = "".join(f"<li>{x.format(prep=prep, nome=nome)}</li>" for x in meta["vantagens"])
 
-    links_ul = build_links(sk, prep, bslug, nome)
+    links_ul = build_links(sk, prep, bslug, nome, suffix)
 
     ctx_html = meta.get("contexto_seo") or ""
     if ctx_html:
         ctx_html = ctx_html.format(prep=prep, nome=nome, sent=prep_sentence_start(prep))
-    viz_html = paragraph_vizinhos(bslug, nome)
+    viz_html = paragraph_vizinhos(bslug, nome, is_city=is_city)
 
     sec3_h2 = (extras.get("sec3_h2") or "3. Por que fazer {curto} {pp}?").format(curto=meta["curto"], pp=pp)
-    sec3_intro = (extras.get("sec3_intro") or (
+    sec3_intro = extras.get("sec3_intro") or (
         "Quando o ar-condicionado apresenta sintomas ou passa muito tempo sem revisão técnica, adiar o serviço pode aumentar desconforto e, em alguns casos, ampliar o problema."
-    ))
+    )
     sec4_fecho = extras.get("sec4_fecho") or (
         "Ou seja: o orçamento mais fiel depende de três eixos — <strong>onde</strong> está o equipamento, <strong>qual</strong> é o modelo/cenário e <strong>qual</strong> é o objetivo do serviço (preventivo, corretivo ou adequação)."
+    )
+
+    p_sec1_fecho = (
+        f"Na Grande Florianópolis (SC), isso é relevante porque cada cidade tem perfis diferentes de imóveis e uso — e, {prep} {nome}, a demanda por climatização costuma ser constante ao longo do ano."
+        if is_city
+        else f"Em Florianópolis, isso é relevante porque cada bairro tem perfis diferentes de imóveis e uso — e, {prep} {nome}, a demanda por climatização costuma ser constante ao longo do ano."
+    )
+    p_sec3_fecho = (
+        f"Em {nome} e na rotina da região metropolitana, agir com técnica e rapidez costuma fazer diferença na experiência de uso e na previsibilidade do ambiente."
+        if is_city
+        else f"No bairro {nome} e na rotina de Florianópolis, agir com técnica e rapidez costuma fazer diferença na experiência de uso e na previsibilidade do ambiente."
+    )
+    p_sec5_links = (
+        "Também atendemos Florianópolis e cidades vizinhas — veja links úteis ao final desta página para navegar entre serviços na mesma cidade e em regiões próximas."
+        if is_city
+        else "Também atendemos regiões próximas em Florianópolis — veja links úteis ao final desta página para navegar entre serviços do mesmo bairro e bairros vizinhos."
+    )
+    p_sec7_cobertura = (
+        "Nosso atendimento busca cobrir a cidade e entornos próximos na Grande Florianópolis, com foco em deslocamento planejado e comunicação clara sobre prazos."
+        if is_city
+        else "Nosso atendimento busca cobrir o bairro e entornos próximos em Florianópolis, com foco em deslocamento planejado e comunicação clara sobre prazos."
     )
 
     return f"""<main>
@@ -849,14 +959,14 @@ def build_main(sk, prep, bslug, nome):
   <p>{meta["oque"]}</p>
   <p>Esse atendimento costuma ser necessário em situações como:</p>
   <ul>{lista_html}</ul>
-  <p>Em Florianópolis, isso é relevante porque cada bairro tem perfis diferentes de imóveis e uso — e, {prep} {nome}, a demanda por climatização costuma ser constante ao longo do ano.</p></div>
+  <p>{p_sec1_fecho}</p></div>
   <div class="servico-num-sec"><h2>2. Como funciona o serviço?</h2>
   <p>O atendimento é organizado para reduzir dúvidas e evitar retrabalho.</p>
   <ol class="servico-passos">{"".join(f"<li><strong>{t}:</strong> {d.format(prep=prep, nome=nome)}</li>" for t, d in meta["como_passos"])}</ol></div>
   <div class="servico-num-sec"><h2>{sec3_h2}</h2>
   <p>{sec3_intro}</p>
   <ul>{porque_html}</ul>
-  <p>No bairro {nome} e na rotina de Florianópolis, agir com técnica e rapidez costuma fazer diferença na experiência de uso e na previsibilidade do ambiente.</p></div>
+  <p>{p_sec3_fecho}</p></div>
   <div class="servico-num-sec"><h2>4. Quanto custa {meta["curto"]} {pp}?</h2>
   <p>{meta["preco_txt"]}</p>
   <p>O valor pode variar mais em cenários como:</p>
@@ -866,7 +976,7 @@ def build_main(sk, prep, bslug, nome):
   <p>Ao procurar atendimento técnico {pp}, o ideal é escolher uma equipe que explique o processo, combine escopo e execute com segurança.</p>
   <p>Oferecemos:</p>
   <ul>{ofertas_html}</ul>
-  <p>Também atendemos regiões próximas em Florianópolis — veja links úteis ao final desta página para navegar entre serviços do mesmo bairro e bairros vizinhos.</p></div>
+  <p>{p_sec5_links}</p></div>
   <div class="servico-num-sec"><h2>6. Vantagens de contratar um serviço profissional</h2>
   <p>Contratar um serviço técnico bem conduzido reduz improviso e melhora o resultado final.</p>
   <ul>{vant_html}</ul>
@@ -875,26 +985,36 @@ def build_main(sk, prep, bslug, nome):
   <p><strong>Principais perfis de atendimento:</strong> ruas residenciais, avenidas de circulação local, comércio de bairro, condomínios e conjuntos comerciais.</p>
   <p><strong>Áreas atendidas:</strong> {meta["onde_txt"].format(prep=prep, nome=nome)}</p>
   {viz_html}
-  <p>Nosso atendimento busca cobrir o bairro e entornos próximos em Florianópolis, com foco em deslocamento planejado e comunicação clara sobre prazos.</p></div>
+  <p>{p_sec7_cobertura}</p></div>
   <div class="servico-num-sec"><h2>8. Perguntas frequentes</h2>
-  <div class="faq">{faq_block(sk, prep, nome)}</div></div>
+  <div class="faq">{faq_block(sk, prep, nome, is_city=is_city)}</div></div>
 </div></section>
 <section class="section"><div class="container cta-box"><div><h2>Precisa de {meta["curto"]} {pp}?</h2><p>Fale agora com a equipe e receba orientação técnica.</p></div><div><a class="btn btn-whats" href="{WA}" target="_blank" rel="noopener">WhatsApp</a> <a class="btn btn-primary" href="../contato.html">Solicitar orçamento</a> <a class="btn btn-outline" href="tel:{TEL}">Ligar</a></div></div></section>
 <section class="section"><div class="container"><div class="card"><h2>Links internos úteis</h2><ul>{links_ul}</ul></div></div></section>
 </main>"""
 
 
-def parse_filename(fname):
+def parse_filename(fname: str):
     base = fname.replace(".html", "")
-    if not base.endswith("-florianopolis"):
+    if base.endswith("-florianopolis"):
+        suffix = "florianopolis"
+        inner = base[: -len("-florianopolis")]
+    elif base.endswith("-sc"):
+        suffix = "sc"
+        inner = base[: -len("-sc")]
+    else:
         return None
-    base = base[: -len("-florianopolis")]
     for sk in sorted(SERVICE_KEYS, key=len, reverse=True):
-        if base.startswith(sk + "-"):
-            rest = base[len(sk) + 1 :]
+        if inner.startswith(sk + "-"):
+            rest = inner[len(sk) + 1 :]
             m = re.match(r"^(no|na|em|nos|nas)-(.+)$", rest)
-            if m:
-                return sk, m.group(1), m.group(2)
+            if not m:
+                continue
+            prep, loc = m.group(1), m.group(2)
+            if suffix == "florianopolis":
+                return sk, prep, loc, suffix
+            if loc in CIDADES:
+                return sk, prep, loc, suffix
     return None
 
 
@@ -902,25 +1022,45 @@ def rebuild(path: Path):
     parsed = parse_filename(path.name)
     if not parsed:
         return False
-    sk, prep, bslug = parsed
+    sk, _prep_ignore, bslug, suffix = parsed
     if bslug not in BAIRROS:
-        print("Bairro não mapeado:", bslug, path.name)
+        print("Região não mapeada:", bslug, path.name)
         return False
     nome = BAIRROS[bslug]["nome"]
     prep = BAIRROS[bslug]["prep"]
+    is_city = bslug in CIDADES
 
     html = path.read_text(encoding="utf-8")
     m = re.search(r"<main>.*?</main>", html, re.DOTALL)
     if not m:
         return False
-    new_main = build_main(sk, prep, bslug, nome)
+    new_main = build_main(sk, prep, bslug, nome, suffix=suffix)
     html = html[: m.start()] + new_main + html[m.end() :]
-    html = patch_head_seo(html, sk, prep, bslug, nome, path.name)
+    html = patch_head_seo(html, sk, prep, bslug, nome, path.name, is_city=is_city, suffix=suffix)
     path.write_text(html, encoding="utf-8")
     return True
 
 
+def ensure_city_servico_stubs() -> None:
+    """Cria arquivos servico/*-em-{cidade}-sc.html a partir de um template existente (conteúdo é sobrescrito pelo rebuild)."""
+    src = root / "servico" / "instalacao-de-ar-condicionado-no-centro-florianopolis.html"
+    if not src.is_file():
+        print("Aviso: template para stubs de cidade não encontrado:", src)
+        return
+    tpl = src.read_text(encoding="utf-8")
+    for cid in CIDADES:
+        prep = CIDADES[cid]["prep"]
+        for sk in SERVICE_KEYS:
+            fn = f"{sk}-{prep}-{cid}-sc.html"
+            dst = root / "servico" / fn
+            if dst.is_file():
+                continue
+            dst.write_text(tpl, encoding="utf-8")
+            print("Criado stub:", dst.name)
+
+
 def main():
+    ensure_city_servico_stubs()
     n = 0
     for p in sorted((root / "servico").glob("*.html")):
         if rebuild(p):

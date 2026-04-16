@@ -7,7 +7,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parent
-BAIRRO_DIR = ROOT / "bairro"
+BAIRRO_DIR = ROOT / "regioes"
 
 
 @dataclass(frozen=True)
@@ -17,7 +17,7 @@ class BairroItem:
 
     @property
     def href(self) -> str:
-        return f"/bairro/{self.filename}"
+        return f"/regioes/{self.filename}"
 
 
 def _norm_sort_key(s: str) -> str:
@@ -33,9 +33,9 @@ def load_bairros() -> list[BairroItem]:
     items: list[BairroItem] = []
     for path in sorted(BAIRRO_DIR.glob("*.html")):
         html = path.read_text(encoding="utf-8")
-        m = re.search(r"<h1>\s*Ar-Condicionado em (.*?),\s*Florianópolis\s*</h1>", html)
+        m = re.search(r"<h1>\s*Ar-Condicionado em (.*?),\s*(Florianópolis|SC)\s*</h1>", html)
         if not m:
-            raise SystemExit(f"Não consegui extrair o nome do bairro em: {path}")
+            raise SystemExit(f"Não consegui extrair o nome da região em: {path}")
         name = m.group(1).strip()
         items.append(BairroItem(name=name, filename=path.name))
 
@@ -50,9 +50,8 @@ def build_bairros_ul(items: list[BairroItem]) -> str:
 
 
 def patch_file_footer(html: str, bairros_ul: str) -> tuple[str, int]:
-    # Substitui APENAS o bloco do footer que tem a coluna "Bairros"
-    # Mantém <div><h4>Bairros</h4> intacto, trocando apenas o conteúdo do <ul>.
-    pattern = re.compile(r"(<div><h4>Bairros</h4>)\s*<ul>[\s\S]*?</ul>(</div>)")
+    # Substitui APENAS o bloco do footer da coluna de regiões (título legado "Bairros" ou "Regiões").
+    pattern = re.compile(r"(<div><h4>(?:Bairros|Regiões)</h4>)\s*<ul>[\s\S]*?</ul>(</div>)")
 
     def repl(m: re.Match[str]) -> str:
         return f"{m.group(1)}{bairros_ul}{m.group(2)}"

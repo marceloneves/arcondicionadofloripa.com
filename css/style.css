@@ -16,6 +16,13 @@ a{color:var(--blue);text-decoration:none}a:hover{color:var(--blue-dark)}.contain
 .faq-item{border-bottom:1px solid var(--border)}.faq-question{width:100%;text-align:left;border:none;background:none;padding:1rem .1rem;font-weight:700;color:var(--blue-dark);cursor:pointer}
 .faq-answer{display:none;padding:0 0 1rem;color:var(--muted)}.faq-item.open .faq-answer{display:block}.cta-box{background:linear-gradient(140deg,#f0f5ff,#fff);border:1px solid var(--border);border-radius:16px;padding:1.4rem;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1rem}
 .inner-banner{padding:3rem 0 2rem;background:var(--soft);border-bottom:1px solid var(--border)}.inner-banner h1{margin:.2rem 0;color:var(--blue-dark)}.local-links ul{columns:2;padding-left:1rem}
+.servicos-grupo-titulo{color:var(--blue-dark);font-size:clamp(1.15rem,2.4vw,1.4rem);margin:2.75rem 0 1rem;padding-bottom:.55rem;border-bottom:2px solid var(--border);scroll-margin-top:5.5rem;line-height:1.3}
+.servicos-por-tipo .servicos-grupo-titulo:first-child{margin-top:0}
+.servicos-grupo-meta{font-weight:600;color:var(--muted);font-size:.92em}
+.servicos-grupo-extra{color:var(--muted);margin:-.35rem 0 0;font-size:1rem}
+.servicos-grupo-extra a{font-weight:700}
+.servicos-indice-tipo{background:var(--soft);border-bottom:1px solid var(--border);padding:1.75rem 0}.servicos-indice-tipo-lead{margin:0 0 .85rem;color:var(--muted);font-size:.98rem}.servicos-indice-tipo-list{display:flex;flex-wrap:wrap;gap:.5rem .9rem;list-style:none;margin:0;padding:0}.servicos-indice-tipo-list li{font-size:.95rem}.servicos-indice-tipo-list a{font-weight:600}
+.servicos-por-regiao{padding:2.25rem 0;border-bottom:1px solid var(--border)}.servicos-por-regiao:last-of-type{border-bottom:none}.servicos-regiao-titulo{margin:0 0 .35rem;scroll-margin-top:5.5rem;font-size:clamp(1.2rem,2.5vw,1.45rem);color:var(--blue-dark)}.servicos-regiao-meta{margin:0 0 1rem;color:var(--muted);font-size:.95rem}
 .site-footer{background:#0d1f3d;color:#dce7ff;margin-top:3rem}.site-footer a{color:#c3d7ff}.footer-grid{display:grid;grid-template-columns:2fr 1fr 1.2fr 1.2fr;gap:1rem;padding:2.2rem 0}
 .site-footer ul{margin:0;padding-left:1rem}.footer-bottom{border-top:1px solid rgba(255,255,255,.14);padding:1rem 0;display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
 /* Rodapé: bairros em lista vertical direta (sem rolagem horizontal) */

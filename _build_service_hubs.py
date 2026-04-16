@@ -4,7 +4,7 @@
 from pathlib import Path
 import json
 
-from _rebuild_servico_main import BAIRROS, SERV_META, SERVICE_KEYS
+from _rebuild_servico_main import BAIRROS, CIDADES, SERV_META, SERVICE_KEYS
 
 ROOT = Path(__file__).parent
 OUT_DIR = ROOT / "servico"
@@ -50,7 +50,8 @@ INTRO = {
 
 
 def href_for(sk: str, prep: str, bairro_slug: str) -> str:
-    return f"/servico/{sk}-{prep}-{bairro_slug}-florianopolis.html"
+    suf = "sc" if bairro_slug in CIDADES else "florianopolis"
+    return f"/servico/{sk}-{prep}-{bairro_slug}-{suf}.html"
 
 
 def hub_slug(sk: str) -> str:
@@ -109,10 +110,11 @@ def build_page(sk: str) -> str:
     cards = []
     for bairro_slug, bairro in BAIRROS.items():
         href = href_for(sk, bairro["prep"], bairro_slug)
+        loc_txt = "na Grande Florianópolis (SC)" if bairro_slug in CIDADES else "em Florianópolis"
         cards.append(
             f'<article class="card hub-servico-item"><h3>{bairro["nome"]}</h3>'
-            f'<p>Página local de {meta["curto"]} {bairro["prep"]} {bairro["nome"]} em Florianópolis.</p>'
-            f'<a class="btn btn-outline" href="{href}">Ver página do bairro</a></article>'
+            f'<p>Página local de {meta["curto"]} {bairro["prep"]} {bairro["nome"]} {loc_txt}.</p>'
+            f'<a class="btn btn-outline" href="{href}">Ver página local</a></article>'
         )
     cards_html = "".join(cards)
     return f"""<!DOCTYPE html>
@@ -134,7 +136,7 @@ def build_page(sk: str) -> str:
     <nav class="main-nav" id="mainNav">
       <a href="../index.html">Início</a>
       <a href="../servicos.html" class="active">Serviços</a>
-      <a href="../bairros.html">Bairros</a>
+      <a href="../regioes.html">Regiões</a>
       <a href="../contato.html">Contato</a>
     </nav>
     <a class="btn btn-whats" href="{WA}" target="_blank" rel="noopener">WhatsApp</a>
@@ -152,12 +154,12 @@ def build_page(sk: str) -> str:
   <div class="grid-3">{cards_html}</div>
 </div></section>
 <section class="section"><div class="container cta-box"><div><h2>Precisa de {meta["curto"]} em Florianópolis?</h2><p>Fale com a equipe e receba orientação técnica para o seu caso.</p></div><div><a class="btn btn-whats" href="{WA}" target="_blank" rel="noopener">WhatsApp</a> <a class="btn btn-primary" href="../contato.html">Solicitar orçamento</a> <a class="btn btn-outline" href="tel:{TEL}">Ligar</a></div></div></section>
-<section class="section"><div class="container"><div class="card"><h2>Links úteis</h2><ul><li><a href="../index.html">Home</a></li><li><a href="../servicos.html">Página geral de serviços</a></li><li><a href="../bairros.html">Lista de bairros</a></li><li><a href="../contato.html">Contato</a></li></ul></div></div></section>
+<section class="section"><div class="container"><div class="card"><h2>Links úteis</h2><ul><li><a href="../index.html">Home</a></li><li><a href="../servicos.html">Página geral de serviços</a></li><li><a href="../regioes.html">Lista de regiões</a></li><li><a href="../contato.html">Contato</a></li></ul></div></div></section>
 </main>
 <footer class="site-footer">
   <div class="container footer-grid">
     <div><h3>Ar Condicionado em Florianópolis</h3><p>Atendimento técnico para instalação, manutenção, limpeza, higienização, carga de gás e reinstalação em Florianópolis.</p></div>
-    <div><h4>Links rápidos</h4><ul><li><a href="../index.html">Início</a></li><li><a href="../servicos.html">Serviços</a></li><li><a href="../bairros.html">Bairros</a></li><li><a href="../contato.html">Contato</a></li></ul></div>
+    <div><h4>Links rápidos</h4><ul><li><a href="../index.html">Início</a></li><li><a href="../servicos.html">Serviços</a></li><li><a href="../regioes.html">Regiões</a></li><li><a href="../contato.html">Contato</a></li></ul></div>
     <div><h4>Serviços</h4><ul><li><a href="{hub_slug('instalacao-de-ar-condicionado')}">Instalação</a></li><li><a href="{hub_slug('manutencao-de-ar-condicionado')}">Manutenção</a></li><li><a href="{hub_slug('limpeza-de-ar-condicionado')}">Limpeza</a></li><li><a href="{hub_slug('higienizacao-de-ar-condicionado')}">Higienização</a></li><li><a href="{hub_slug('carga-de-gas-de-ar-condicionado')}">Carga de gás</a></li><li><a href="{hub_slug('remocao-e-reinstalacao-de-ar-condicionado')}">Remoção e reinstalação</a></li></ul></div>
     <div><h4>Este hub</h4><p><a href="../servicos.html">Ver visão geral dos serviços</a></p></div>
   </div>
