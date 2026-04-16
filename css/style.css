@@ -35,3 +35,5 @@ a{color:var(--blue);text-decoration:none}a:hover{color:var(--blue-dark)}.contain
 .servico-num-sec h2{font-size:clamp(1.05rem,2.2vw,1.25rem);margin-bottom:.75rem;line-height:1.35}
 .servico-passos{padding-left:1.2rem;margin:.5rem 0 0}
 .servico-passos li{margin-bottom:.55rem}
+.servico-contexto-seo,.servico-vizinhanca{font-size:.98rem;color:var(--muted);line-height:1.65;margin:1rem 0 0}
+.servico-contexto-seo strong,.servico-vizinhanca strong{color:var(--text);font-weight:700}

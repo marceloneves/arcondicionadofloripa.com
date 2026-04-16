@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
-"""Regenera o <main> das páginas servico/* com 8 seções no padrão editorial solicitado."""
-import re
+"""Regenera páginas servico/*: <main> (8 seções), <title>, meta description, canonical e JSON-LD (@graph)."""
 import hashlib
+import json
+import re
+from html import escape
 from pathlib import Path
 
 root = Path(__file__).parent
+BASE_URL = "https://arcondicionadofloripa.com"
 bairros_html = (root / "bairros.html").read_text(encoding="utf-8")
 
 # id -> nome, prep (do texto do card)
@@ -89,6 +92,10 @@ SERV_META = {
         "titulo": "Instalação de Ar-Condicionado",
         "curto": "instalação de ar-condicionado",
         "verbo": "instalar",
+        "contexto_seo": (
+            '<p class="servico-contexto-seo">Em <strong>Florianópolis</strong>, capital de <strong>Santa Catarina</strong>, a <strong>climatização</strong> na <strong>Ilha de Santa Catarina</strong> combina umidade, salinidade em algumas frentes e uso intenso de <strong>ar-condicionado split</strong>, <strong>multi-split</strong> e <strong>inverter</strong>. '
+            "{sent} <strong>{nome}</strong>, o serviço técnico costuma envolver <strong>linha frigorígena</strong> em <strong>tubulação de cobre</strong>, <strong>dreno de condensado</strong>, <strong>vácuo</strong>, <strong>teste de estanqueidade</strong> quando aplicável, <strong>fixação</strong> da <strong>unidade condensadora</strong> e <strong>alimentação elétrica</strong> compatível com o fabricante — sempre alinhado a boas práticas de <strong>HVAC</strong> e segurança.</p>"
+        ),
         "oque": "A instalação de ar-condicionado é o serviço técnico que posiciona evaporadora e condensadora, executa tubulação, dreno e conexões elétricas seguindo normas e boas práticas de climatização.",
         "lista": (
             "primeiro equipamento no imóvel ou ampliação de pontos de climatização;",
@@ -140,6 +147,10 @@ SERV_META = {
         "titulo": "Manutenção de Ar-Condicionado",
         "curto": "manutenção de ar-condicionado",
         "verbo": "manter",
+        "contexto_seo": (
+            '<p class="servico-contexto-seo">A <strong>manutenção de ar-condicionado</strong> em <strong>Florianópolis</strong> (SC) costuma cruzar <strong>manutenção preventiva</strong> e <strong>corretiva</strong>, inspeção de <strong>pressões de trabalho</strong>, comportamento do <strong>compressor</strong>, <strong>motor-ventilador</strong>, <strong>dreno</strong> e <strong>superaquecimento</strong> relativo. '
+            "{sent} <strong>{nome}</strong>, o objetivo é preservar o <strong>circuito frigorífico</strong>, reduzir retrabalho e manter o conforto térmico em <strong>residências</strong>, <strong>comércios</strong> e <strong>condomínios</strong> na <strong>Grande Florianópolis</strong>.</p>"
+        ),
         "oque": "A manutenção de ar-condicionado é o serviço que revisa o funcionamento do sistema, identifica desgastes e ajusta pontos críticos para reduzir falhas e melhorar o desempenho.",
         "lista": (
             "queda de desempenho ou ar menos frio;",
@@ -190,6 +201,10 @@ SERV_META = {
         "titulo": "Limpeza de Ar-Condicionado",
         "curto": "limpeza de ar-condicionado",
         "verbo": "limpar",
+        "contexto_seo": (
+            '<p class="servico-contexto-seo">A <strong>limpeza técnica</strong> atua em <strong>filtro de ar</strong>, <strong>serpentina</strong> acessível, <strong>rodá</strong> (ventilador radial) e <strong>bandeja</strong>, melhorando <strong>vazão de ar</strong> e sensação de frescor. '
+            "Em <strong>Florianópolis</strong>, <strong>Santa Catarina</strong>, {sent} <strong>{nome}</strong>, o acúmulo de poeira e umidade na <strong>evaporadora</strong> é comum em períodos de calor e vento — cenário típico de <strong>climatização</strong> na <strong>Ilha de Santa Catarina</strong>.</p>"
+        ),
         "oque": "A limpeza de ar-condicionado remove sujeira acumulada em filtros, serpentina acessível e bandeja, melhorando fluxo de ar e rendimento térmico.",
         "lista": (
             "filtro muito sujo ou com odor;",
@@ -240,6 +255,10 @@ SERV_META = {
         "titulo": "Higienização de Ar-Condicionado",
         "curto": "higienização de ar-condicionado",
         "verbo": "higienizar",
+        "contexto_seo": (
+            '<p class="servico-contexto-seo">A <strong>higienização de ar-condicionado</strong> reforça a <strong>qualidade do ar interno</strong> (IAQ), atuando em <strong>odor</strong>, <strong>biofilme</strong> e resíduos que escapam à limpeza superficial da <strong>evaporadora</strong>. '
+            "{sent} <strong>{nome}</strong>, em <strong>Florianópolis</strong> (SC), o serviço costuma ser buscado em <strong>apartamentos</strong>, <strong>consultórios</strong>, <strong>escritórios</strong> e <strong>comércio</strong> — ambientes onde <strong>HVAC</strong> e conforto térmico impactam diretamente a rotina na <strong>Ilha de Santa Catarina</strong>.</p>"
+        ),
         "oque": "A higienização é um serviço mais profundo, voltado a reduzir biofilme, odores e contaminantes em componentes internos, com foco em qualidade do ar e conforto.",
         "lista": (
             "cheiro forte ao ligar o aparelho;",
@@ -290,6 +309,10 @@ SERV_META = {
         "titulo": "Carga de Gás de Ar-Condicionado",
         "curto": "carga de gás de ar-condicionado",
         "verbo": "recarregar",
+        "contexto_seo": (
+            '<p class="servico-contexto-seo">A <strong>carga de gás</strong> (ou ajuste de <strong>fluido refrigerante</strong>) deve estar ligada a <strong>diagnóstico</strong> do <strong>circuito frigorífico</strong>, checagem de <strong>vazamento</strong>, <strong>vácuo</strong> e desempenho do <strong>compressor</strong>. '
+            "Em <strong>Florianópolis</strong>, <strong>Santa Catarina</strong>, {sent} <strong>{nome}</strong>, é comum associar o tema a <strong>ar menos gelado</strong>, <strong>gelo na linha</strong> e <strong>climatização</strong> em <strong>split</strong> e <strong>multi-split</strong> — sempre com foco em segurança e conformidade técnica na <strong>Ilha de Santa Catarina</strong>.</p>"
+        ),
         "oque": "A carga de gás (fluido refrigerante) só deve ser feita após diagnóstico técnico. O objetivo é recuperar desempenho com quantidade correta e verificação de vazamentos quando indicado.",
         "lista": (
             "ar menos gelado do que o habitual;",
@@ -340,6 +363,10 @@ SERV_META = {
         "titulo": "Remoção e Reinstalação de Ar-Condicionado",
         "curto": "remoção e reinstalação de ar-condicionado",
         "verbo": "remover e reinstalar",
+        "contexto_seo": (
+            '<p class="servico-contexto-seo">A <strong>remoção e reinstalação</strong> envolve <strong>desmontagem</strong> segura, <strong>transporte</strong> da <strong>unidade interna</strong> e <strong>condensadora</strong>, eventual <strong>recolhimento de refrigerante</strong> conforme técnica aplicável, e nova montagem com <strong>vácuo</strong>, <strong>teste</strong> e <strong>vazamento</strong> verificado. '
+            "{sent} <strong>{nome}</strong>, em <strong>Florianópolis</strong> (SC), é serviço típico de <strong>mudança</strong>, <strong>reforma</strong> e <strong>readequação de fachada</strong> em <strong>condomínios</strong> na <strong>Ilha de Santa Catarina</strong>.</p>"
+        ),
         "oque": "Esse serviço envolve desmontagem segura, transporte adequado do equipamento e reinstalação com novos testes, ideal para mudanças, reformas ou troca de posição das unidades.",
         "lista": (
             "mudança de imóvel mantendo o mesmo aparelho;",
@@ -435,6 +462,13 @@ def prep_phrase(prep, nome):
     return f"{prep} {nome}"
 
 
+PREP_SENT = {"no": "No", "na": "Na", "em": "Em", "nos": "Nos", "nas": "Nas"}
+
+
+def prep_sentence_start(prep):
+    return PREP_SENT.get(prep, prep.capitalize())
+
+
 def intro_paragraphs(sk, nome, prep, variante):
     pp = prep_phrase(prep, nome)
     curto = SERV_META[sk]["curto"]
@@ -484,7 +518,7 @@ def build_links(sk, prep, bslug, nome):
     return "".join(lines)
 
 
-def faq_block(sk, prep, nome):
+def faq_items(sk, prep, nome):
     cur = SERV_META[sk]["curto"]
     pp = prep_phrase(prep, nome)
     items = [
@@ -497,12 +531,160 @@ def faq_block(sk, prep, nome):
     ]
     for q, a in SERV_META[sk]["faq_extra"]:
         items.append((q.format(prep=prep, nome=nome), a.format(prep=prep, nome=nome)))
-    out = []
-    for q, a in items:
-        out.append(
-            f'<div class="faq-item"><button class="faq-question" type="button">{q}</button><div class="faq-answer"><p>{a}</p></div></div>'
+    return items
+
+
+def faq_block(sk, prep, nome):
+    rows = []
+    for q, a in faq_items(sk, prep, nome):
+        rows.append(
+            f'<div class="faq-item"><button class="faq-question" type="button">{escape(q)}</button>'
+            f'<div class="faq-answer"><p>{escape(a)}</p></div></div>'
         )
-    return "\n".join(out)
+    return "\n".join(rows)
+
+
+def build_meta_title(meta, pp):
+    # pp já inclui o nome do bairro (ex.: "no Centro")
+    t = f"{meta['titulo']} {pp} | Florianópolis SC"
+    if len(t) > 64:
+        t = f"{meta['titulo']} {pp} | SC"
+    if len(t) > 66:
+        t = t[:63] + "…"
+    return t
+
+
+def build_meta_desc(meta, pp, nome):
+    s = (
+        f"{meta['titulo']} {pp} em Florianópolis, SC: climatização e HVAC "
+        f"(split, inverter, multi-split) no bairro {nome}. Orçamento e execução com foco em segurança."
+    )
+    if len(s) > 158:
+        s = s[:155].rsplit(" ", 1)[0] + "…"
+    return s
+
+
+def paragraph_vizinhos(bslug, nome):
+    ids = PERTO.get(bslug, [])[:2]
+    names = [BAIRROS[i]["nome"] for i in ids if i in BAIRROS]
+    if len(names) < 2:
+        return ""
+    n1, n2 = names[0], names[1]
+    return (
+        f'<p class="servico-vizinhanca">O <strong>{escape(nome)}</strong> se articula com <strong>{escape(n1)}</strong> e <strong>{escape(n2)}</strong> '
+        f"no tecido urbano de <strong>Florianópolis</strong> (<strong>Santa Catarina</strong>), o que ajuda na logística de atendimento na "
+        f"<strong>Ilha de Santa Catarina</strong> e em buscas por técnico de ar-condicionado em bairros próximos.</p>"
+    )
+
+
+def build_schema_graph(sk, prep, bslug, nome, fname, title, desc):
+    page_url = f"{BASE_URL}/servico/{fname}"
+    hub_url = f"{BASE_URL}/bairro/{bslug}-florianopolis.html"
+    meta = SERV_META[sk]
+    pp = prep_phrase(prep, nome)
+    main_q = [
+        {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}}
+        for q, a in faq_items(sk, prep, nome)
+    ]
+    provider = {
+        "@type": "LocalBusiness",
+        "name": "Ar Condicionado em Florianópolis",
+        "url": BASE_URL,
+        "telephone": TEL,
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Florianópolis",
+            "addressRegion": "SC",
+            "addressCountry": "BR",
+        },
+    }
+    return [
+        {
+            "@type": "WebPage",
+            "@id": page_url + "#webpage",
+            "url": page_url,
+            "name": title,
+            "description": desc,
+            "inLanguage": "pt-BR",
+            "isPartOf": {"@type": "WebSite", "@id": BASE_URL + "/#website", "url": BASE_URL, "name": "Ar Condicionado em Florianópolis"},
+            "about": {"@id": page_url + "#service"},
+            "breadcrumb": {"@id": page_url + "#breadcrumb"},
+        },
+        {
+            "@type": "Service",
+            "@id": page_url + "#service",
+            "name": f"{meta['titulo']} {pp}",
+            "serviceType": meta["titulo"],
+            "description": meta["oque"],
+            "url": page_url,
+            "areaServed": [
+                {
+                    "@type": "City",
+                    "name": "Florianópolis",
+                    "containedInPlace": {
+                        "@type": "AdministrativeArea",
+                        "name": "Santa Catarina",
+                        "containedInPlace": {"@type": "Country", "name": "BR"},
+                    },
+                },
+                {"@type": "Place", "name": f"{nome}, Florianópolis"},
+            ],
+            "provider": provider,
+            "mainEntityOfPage": {"@id": page_url + "#webpage"},
+        },
+        {
+            "@type": "BreadcrumbList",
+            "@id": page_url + "#breadcrumb",
+            "itemListElement": [
+                {"@type": "ListItem", "position": 1, "name": "Início", "item": BASE_URL + "/"},
+                {"@type": "ListItem", "position": 2, "name": "Bairros", "item": BASE_URL + "/bairros.html"},
+                {"@type": "ListItem", "position": 3, "name": nome, "item": hub_url},
+                {"@type": "ListItem", "position": 4, "name": f"{meta['titulo']} {pp}", "item": page_url},
+            ],
+        },
+        {"@type": "FAQPage", "@id": page_url + "#faq", "mainEntity": main_q},
+    ]
+
+
+def patch_head_seo(html, sk, prep, bslug, nome, fname):
+    meta = SERV_META[sk]
+    pp = prep_phrase(prep, nome)
+    page_url = f"{BASE_URL}/servico/{fname}"
+    title = build_meta_title(meta, pp)
+    desc = build_meta_desc(meta, pp, nome)
+    payload = {"@context": "https://schema.org", "@graph": build_schema_graph(sk, prep, bslug, nome, fname, title, desc)}
+    jstr = json.dumps(payload, ensure_ascii=False)
+    new_script = f"<script type=\"application/ld+json\">\n{jstr}\n</script>"
+    if 'rel="canonical"' not in html:
+        html, ccan = re.subn(
+            r'(<meta name="viewport"[^>]*>)',
+            rf'\1\n  <link rel="canonical" href="{escape(page_url)}">',
+            html,
+            count=1,
+        )
+        if ccan != 1:
+            print("Aviso: canonical não inserido em", fname)
+    html, c = re.subn(r"<title>.*?</title>", f"<title>{escape(title)}</title>", html, count=1, flags=re.DOTALL)
+    if c != 1:
+        print("Aviso: <title> não atualizado em", fname)
+    html, c = re.subn(
+        r'<meta\s+name="description"\s+content="[^"]*"\s*/?>',
+        f'<meta name="description" content="{escape(desc, quote=True)}">',
+        html,
+        count=1,
+    )
+    if c != 1:
+        print("Aviso: meta description não atualizada em", fname)
+    html, c = re.subn(
+        r'<script type="application/ld\+json">.*?</script>',
+        new_script,
+        html,
+        count=1,
+        flags=re.DOTALL,
+    )
+    if c != 1:
+        print("Aviso: JSON-LD não atualizado em", fname)
+    return html
 
 
 def build_main(sk, prep, bslug, nome):
@@ -520,6 +702,11 @@ def build_main(sk, prep, bslug, nome):
 
     links_ul = build_links(sk, prep, bslug, nome)
 
+    ctx_html = meta.get("contexto_seo") or ""
+    if ctx_html:
+        ctx_html = ctx_html.format(prep=prep, nome=nome, sent=prep_sentence_start(prep))
+    viz_html = paragraph_vizinhos(bslug, nome)
+
     sec3_h2 = (extras.get("sec3_h2") or "3. Por que fazer {curto} {pp}?").format(curto=meta["curto"], pp=pp)
     sec3_intro = (extras.get("sec3_intro") or (
         "Quando o ar-condicionado apresenta sintomas ou passa muito tempo sem revisão técnica, adiar o serviço pode aumentar desconforto e, em alguns casos, ampliar o problema."
@@ -536,13 +723,14 @@ def build_main(sk, prep, bslug, nome):
 <section class="section servico-intro"><div class="container">
   <p>{p1}</p>
   <p>{p2} O serviço de {meta["curto"]} {pp} é pensado para quem busca resultado técnico com orientação clara, execução organizada e menos improviso no dia a dia.</p>
+  {ctx_html}
 </div></section>
 <section class="section"><div class="container">
   <div class="servico-num-sec"><h2>1. O que é o serviço de {meta["curto"]} {pp}?</h2>
   <p>{meta["oque"]}</p>
   <p>Esse atendimento costuma ser necessário em situações como:</p>
   <ul>{lista_html}</ul>
-  <p>Em Florianópolis, isso é relevante porque cada bairro tem perfis diferentes de imóveis e uso — e {prep} {nome} a demanda por climatização costuma ser constante ao longo do ano.</p></div>
+  <p>Em Florianópolis, isso é relevante porque cada bairro tem perfis diferentes de imóveis e uso — e, {prep} {nome}, a demanda por climatização costuma ser constante ao longo do ano.</p></div>
   <div class="servico-num-sec"><h2>2. Como funciona o serviço?</h2>
   <p>O atendimento é organizado para reduzir dúvidas e evitar retrabalho.</p>
   <ol class="servico-passos">{"".join(f"<li><strong>{t}:</strong> {d.format(prep=prep, nome=nome)}</li>" for t, d in meta["como_passos"])}</ol></div>
@@ -567,6 +755,7 @@ def build_main(sk, prep, bslug, nome):
   <div class="servico-num-sec"><h2>7. Onde atendemos com {meta["curto"]} {pp}?</h2>
   <p><strong>Principais perfis de atendimento:</strong> ruas residenciais, avenidas de circulação local, comércio de bairro, condomínios e conjuntos comerciais.</p>
   <p><strong>Áreas atendidas:</strong> {meta["onde_txt"].format(prep=prep, nome=nome)}</p>
+  {viz_html}
   <p>Nosso atendimento busca cobrir o bairro e entornos próximos em Florianópolis, com foco em deslocamento planejado e comunicação clara sobre prazos.</p></div>
   <div class="servico-num-sec"><h2>8. Perguntas frequentes</h2>
   <div class="faq">{faq_block(sk, prep, nome)}</div></div>
@@ -606,7 +795,9 @@ def rebuild(path: Path):
     if not m:
         return False
     new_main = build_main(sk, prep, bslug, nome)
-    path.write_text(html[: m.start()] + new_main + html[m.end() :], encoding="utf-8")
+    html = html[: m.start()] + new_main + html[m.end() :]
+    html = patch_head_seo(html, sk, prep, bslug, nome, path.name)
+    path.write_text(html, encoding="utf-8")
     return True
 
 
