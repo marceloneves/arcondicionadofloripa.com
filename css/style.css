@@ -18,8 +18,28 @@ a{color:var(--blue);text-decoration:none}a:hover{color:var(--blue-dark)}.contain
 .inner-banner{padding:3rem 0 2rem;background:var(--soft);border-bottom:1px solid var(--border)}.inner-banner h1{margin:.2rem 0;color:var(--blue-dark)}.local-links ul{columns:2;padding-left:1rem}
 .site-footer{background:#0d1f3d;color:#dce7ff;margin-top:3rem}.site-footer a{color:#c3d7ff}.footer-grid{display:grid;grid-template-columns:2fr 1fr 1.2fr 1.2fr;gap:1rem;padding:2.2rem 0}
 .site-footer ul{margin:0;padding-left:1rem}.footer-bottom{border-top:1px solid rgba(255,255,255,.14);padding:1rem 0;display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
-/* Rodapé: bairros em lista vertical direta */
-.site-footer .footer-grid>div:nth-child(4) ul{columns:1;max-height:none;overflow:visible;padding-right:0}
+/* Rodapé: bairros em lista vertical direta (sem rolagem horizontal) */
+.site-footer .footer-grid>div:nth-child(4) ul,
+.site-footer .footer-grid>div:last-child ul{
+  column-count:1 !important;
+  columns:auto !important;
+  max-height:none !important;
+  overflow:visible !important;
+  overflow-x:visible !important;
+  white-space:normal !important;
+  padding-right:0;
+}
+.site-footer .footer-grid>div:nth-child(4) li,
+.site-footer .footer-grid>div:last-child li{
+  display:list-item !important;
+  break-inside:avoid;
+}
+.site-footer .footer-grid>div:nth-child(4) a,
+.site-footer .footer-grid>div:last-child a{
+  white-space:normal !important;
+  word-break:normal;
+  overflow-wrap:anywhere;
+}
 .form-grid{display:grid;gap:1rem;grid-template-columns:1fr 1fr}.form-group label{display:block;font-weight:700;margin-bottom:.35rem}.form-group input,.form-group select,.form-group textarea{width:100%;padding:.75rem;border:1px solid var(--border);border-radius:10px;font:inherit}
 .form-group textarea{min-height:130px;resize:vertical}.notice{font-size:.92rem;color:#b91c1c;min-height:1.2em}.floating-whatsapp{position:fixed;right:16px;bottom:16px;background:#22c55e;color:#fff;border-radius:999px;padding:.8rem 1rem;font-weight:700;box-shadow:0 12px 30px rgba(34,197,94,.3)}
 @media (max-width:960px){.grid-2,.grid-3,.steps{grid-template-columns:repeat(2,1fr)}.hero-grid{grid-template-columns:1fr}.footer-grid{grid-template-columns:1fr 1fr}}
