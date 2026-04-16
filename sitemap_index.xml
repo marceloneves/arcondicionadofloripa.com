@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <sitemap>
+    <loc>https://arcondicionadofloripa.com/sitemap_pages.xml</loc>
+    <lastmod>2026-04-16</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://arcondicionadofloripa.com/sitemap_servicos.xml</loc>
+    <lastmod>2026-04-16</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://arcondicionadofloripa.com/sitemap_bairros.xml</loc>
+    <lastmod>2026-04-16</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://arcondicionadofloripa.com/sitemap_blog.xml</loc>
+    <lastmod>2026-04-16</lastmod>
+  </sitemap>
+</sitemapindex>

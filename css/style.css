@@ -38,3 +38,14 @@ a{color:var(--blue);text-decoration:none}a:hover{color:var(--blue-dark)}.contain
 .servico-contexto-seo,.servico-vizinhanca{font-size:.98rem;color:var(--muted);line-height:1.65;margin:1rem 0 0}
 .servico-contexto-seo strong,.servico-vizinhanca strong{color:var(--text);font-weight:700}
 .servico-num-sec .faq-answer{font-size:1rem;line-height:1.75}
+
+/* Bairros: links de serviços em caixinhas */
+.bairro-links{display:grid;grid-template-columns:1fr;gap:.6rem;margin:.8rem 0 0}
+.bairro-link{display:block;padding:.65rem .75rem;border:1px solid var(--border);border-radius:12px;background:linear-gradient(140deg,#f7faff,#fff);color:var(--blue-dark);font-weight:700}
+.bairro-link:hover{background:var(--soft);color:var(--blue-dark)}
+
+/* Blog: reduzir espaçamento vertical entre seções */
+.page-blog-article .section{padding:1.75rem 0}
+.page-blog-article .section h2{margin:0 0 .65rem}
+.page-blog-article .section h3{margin:1rem 0 .4rem}
+.page-blog-article .inner-banner{padding:2.4rem 0 1.6rem}
