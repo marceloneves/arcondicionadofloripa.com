@@ -8,9 +8,9 @@ from _rebuild_servico_main import BAIRROS, SERV_META, SERVICE_KEYS
 
 ROOT = Path(__file__).parent
 OUT_DIR = ROOT / "servico"
-PHONE = "(48) 99999-0000"
-TEL = "+5548999990000"
-WA = "https://wa.me/5548999990000?text=Olá!%20Quero%20orçamento%20de%20ar-condicionado%20em%20Florianópolis."
+PHONE = "(48) 98810-5199"
+TEL = "+5548988105199"
+WA = "https://wa.me/5548988105199?text=Olá!%20Quero%20orçamento%20de%20ar-condicionado%20em%20Florianópolis."
 BASE_URL = "https://arcondicionadofloripa.com"
 
 INTRO = {
