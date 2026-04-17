@@ -10,6 +10,33 @@ root = Path(__file__).parent
 BASE_URL = "https://arcondicionadofloripa.com"
 bairros_html = (root / "regioes.html").read_text(encoding="utf-8")
 
+# Rodapé idêntico ao de index.html (paths absolutos /…). Se alterar a home, atualize aqui também.
+SITE_FOOTER_HTML = """<footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <h3>Ar Condicionado em Florianópolis</h3>
+      <p>Atendimento técnico e rápido para instalação, manutenção, limpeza, higienização, carga de gás e reinstalação em Florianópolis desde 2021.</p>
+    </div>
+    <div><h4>Institucional</h4><ul><li><a href="/index.html">Início</a></li><li><a href="/servicos.html">Serviços</a></li><li><a href="/regioes.html">Regiões Atendidas</a></li><li><a href="/quem-somos.html">Quem Somos</a></li><li><a href="/blog.html">Blog</a></li><li><a href="/contato.html">Contato</a></li><li><a href="/politica-de-privacidade.html">Política de Privacidade</a></li></ul></div>
+    <div><h4>Serviços</h4><ul><li><a href="/servicos.html#instalacao-de-ar-condicionado">Instalação de Ar-Condicionado</a></li><li><a href="/servicos.html#manutencao-de-ar-condicionado">Manutenção de Ar-Condicionado</a></li><li><a href="/servicos.html#limpeza-de-ar-condicionado">Limpeza de Ar-Condicionado</a></li><li><a href="/servicos.html#higienizacao-de-ar-condicionado">Higienização de Ar-Condicionado</a></li><li><a href="/servicos.html#carga-de-gas-de-ar-condicionado">Carga de Gás de Ar-Condicionado</a></li><li><a href="/servicos.html#remocao-e-reinstalacao-de-ar-condicionado">Remoção e Reinstalação de Ar-Condicionado</a></li><li><a href="/servicos.html#conserto-de-ar-condicionado">Conserto de Ar-Condicionado</a></li><li><a href="/servicos.html#pmoc-de-ar-condicionado">PMOC de Ar-Condicionado</a></li></ul></div>
+    <div><h4>Cidades</h4><ul><li><a href="/servicos.html#servicos-florianopolis">Florianópolis</a></li><li><a href="/regioes/sao-jose-sc.html">São José</a></li><li><a href="/regioes/biguacu-sc.html">Biguaçu</a></li><li><a href="/regioes/palhoca-sc.html">Palhoça</a></li></ul></div>
+  </div>
+  <div class="container footer-bottom"><p class="footer-address">Rodovia Armando Calil Bullos, 410 — Vargem Grande, Florianópolis - SC, 88056-618</p><p>© 2026 Ar Condicionado em Florianópolis. Todos os direitos reservados.</p><p><a href="tel:+5548988105199">(48) 98810-5199</a></p><p>Fale conosco: <a href="mailto:marcelo@arcondicionadofloripa.com">marcelo@arcondicionadofloripa.com</a></p></div>
+</footer>"""
+
+
+def patch_footer_servico(html: str) -> str:
+    new_html, c = re.subn(
+        r'<footer\s+class="site-footer">.*?</footer>',
+        SITE_FOOTER_HTML,
+        html,
+        count=1,
+        flags=re.DOTALL,
+    )
+    if c != 1:
+        print("Aviso: rodapé não substituído em página de serviço (esperado 1 footer):", c)
+    return new_html
+
 # id -> nome, prep (do texto do card)
 # `[^<]+` no fragmento evita atravessar </p> e capturar o próximo card (cidades SC vêm antes dos bairros).
 pat_card = re.compile(
@@ -96,6 +123,9 @@ for cid, meta in CIDADES.items():
     if cid in BAIRROS:
         raise SystemExit(f"ID de região duplicado entre bairros e cidades: {cid}")
     BAIRROS[cid] = {"nome": meta["nome"], "prep": meta["prep"]}
+
+# Página agregada da capital (sem hubs por bairro): servico/*-em-florianopolis.html
+BAIRROS["florianopolis"] = {"nome": "Florianópolis", "prep": "em"}
 
 SERVICE_KEYS = (
     "remocao-e-reinstalacao-de-ar-condicionado",
@@ -582,15 +612,6 @@ SEC_EXTRAS = {
     },
 }
 
-LINK_ORDER = [
-    "instalacao-de-ar-condicionado",
-    "manutencao-de-ar-condicionado",
-    "limpeza-de-ar-condicionado",
-    "higienizacao-de-ar-condicionado",
-    "carga-de-gas-de-ar-condicionado",
-    "remocao-e-reinstalacao-de-ar-condicionado",
-]
-
 PHONE = "(48) 98810-5199"
 TEL = "+5548988105199"
 WA = "https://wa.me/5548988105199?text=Olá!%20Quero%20orçamento%20de%20ar-condicionado%20em%20Florianópolis."
@@ -657,32 +678,34 @@ def _servico_fname_token(suffix: str) -> str:
     return "florianopolis" if suffix == "florianopolis" else "sc"
 
 
-def build_links(sk, prep, bslug, nome, suffix: str):
+def servico_html_fname(osk: str, bslug: str, prep: str, suffix: str) -> str:
+    """Nome do ficheiro em servico/ para o par (tipo de serviço, região)."""
+    if bslug == "florianopolis":
+        return f"{osk}-em-florianopolis.html"
     tok = _servico_fname_token(suffix)
-    lines = [
-        '<li><a href="../index.html">Home</a></li>',
-        f'<li><a href="/regioes/{bslug}-{tok}.html">Hub da região (todos os serviços)</a></li>',
-        '<li><a href="../servicos.html">Página geral de serviços</a></li>',
-        '<li><a href="../contato.html">Página de contato</a></li>',
-    ]
+    return f"{osk}-{prep}-{bslug}-{tok}.html"
+
+
+def build_outros_servicos_cidade_html(sk: str, bslug: str, nome: str, suffix: str) -> str:
+    """Sete cartões com os demais tipos de serviço na mesma cidade/região (exclui o serviço da página atual)."""
     p_here = BAIRROS[bslug]["prep"]
-    for osk in LINK_ORDER:
+    cards: list[str] = []
+    for osk in SERVICE_KEYS:
         if osk == sk:
             continue
-        lines.append(
-            f'<li><a href="/servico/{osk}-{p_here}-{bslug}-{tok}.html">{SERV_META[osk]["titulo"]} {prep_phrase(p_here, nome)}</a></li>'
+        fn = servico_html_fname(osk, bslug, p_here, suffix)
+        tit = SERV_META[osk]["titulo"]
+        lbl = f"{tit} em {nome}"
+        cards.append(
+            f'<article class="card servico-outro-card"><h3><a href="/servico/{fn}">{escape(lbl)}</a></h3></article>'
         )
-    near_list = CIDADE_VIZINHAS.get(bslug, [])[:2] if bslug in CIDADES else PERTO.get(bslug, [])[:2]
-    for near in near_list:
-        if near not in BAIRROS:
-            continue
-        nn = BAIRROS[near]["nome"]
-        np = BAIRROS[near]["prep"]
-        near_tok = _servico_fname_token("sc" if near in CIDADES else "florianopolis")
-        lines.append(
-            f'<li><a href="/servico/{sk}-{np}-{near}-{near_tok}.html">{SERV_META[sk]["titulo"]} {prep_phrase(np, nn)}</a></li>'
-        )
-    return "".join(lines)
+    body = "".join(cards)
+    return (
+        f'<section class="section servico-outros-servicos"><div class="container">'
+        f'<h2 class="servico-outros-titulo">Outros serviços em {escape(nome)}</h2>'
+        f'<p class="servico-outros-lead">Na mesma região também realizamos os serviços abaixo.</p>'
+        f'<div class="grid-3 servico-outros-grid">{body}</div></div></section>'
+    )
 
 
 def faq_items(sk, prep, nome, is_city: bool = False):
@@ -768,7 +791,10 @@ def paragraph_vizinhos(bslug, nome, is_city: bool = False):
 def build_schema_graph(sk, prep, bslug, nome, fname, title, desc, is_city: bool = False, suffix: str = "florianopolis"):
     page_url = f"{BASE_URL}/servico/{fname}"
     tok = _servico_fname_token(suffix)
-    hub_url = f"{BASE_URL}/regioes/{bslug}-{tok}.html"
+    if bslug == "florianopolis":
+        hub_url = f"{BASE_URL}/servicos.html#servicos-florianopolis"
+    else:
+        hub_url = f"{BASE_URL}/regioes/{bslug}-{tok}.html"
     meta = SERV_META[sk]
     pp = prep_phrase(prep, nome)
     main_q = [
@@ -895,7 +921,7 @@ def patch_head_seo(html, sk, prep, bslug, nome, fname, is_city: bool = False, su
 
 
 def build_main(sk, prep, bslug, nome, suffix: str = "florianopolis"):
-    is_city = bslug in CIDADES
+    is_city = bslug in CIDADES or bslug == "florianopolis"
     meta = SERV_META[sk]
     pp = prep_phrase(prep, nome)
     extras = SEC_EXTRAS.get(sk, {})
@@ -908,7 +934,7 @@ def build_main(sk, prep, bslug, nome, suffix: str = "florianopolis"):
     ofertas_html = "".join(f"<li>{x.format(prep=prep, nome=nome)}</li>" for x in meta["contratar_ofertas"])
     vant_html = "".join(f"<li>{x.format(prep=prep, nome=nome)}</li>" for x in meta["vantagens"])
 
-    links_ul = build_links(sk, prep, bslug, nome, suffix)
+    outros_servicos_html = build_outros_servicos_cidade_html(sk, bslug, nome, suffix)
 
     ctx_html = meta.get("contexto_seo") or ""
     if ctx_html:
@@ -933,11 +959,26 @@ def build_main(sk, prep, bslug, nome, suffix: str = "florianopolis"):
         if is_city
         else f"No bairro {nome} e na rotina de Florianópolis, agir com técnica e rapidez costuma fazer diferença na experiência de uso e na previsibilidade do ambiente."
     )
-    p_sec5_links = (
-        "Também atendemos Florianópolis e cidades vizinhas — veja links úteis ao final desta página para navegar entre serviços na mesma cidade e em regiões próximas."
-        if is_city
-        else "Também atendemos regiões próximas em Florianópolis — veja links úteis ao final desta página para navegar entre serviços do mesmo bairro e bairros vizinhos."
-    )
+    if bslug == "florianopolis":
+        curto = meta["curto"]
+        sj = servico_html_fname(sk, "sao-jose", "em", "sc")
+        bg = servico_html_fname(sk, "biguacu", "em", "sc")
+        ph = servico_html_fname(sk, "palhoca", "em", "sc")
+        p_sec5_links = (
+            "Confira a secção <strong>Outros serviços</strong> nesta página para navegar entre tipos de serviço na capital e na Grande Florianópolis."
+        )
+        sec5_extra = (
+            f'<p class="servico-tambem-atende">Também atendemos <a href="/servico/{sj}">{curto} em São José</a>, '
+            f'<a href="/servico/{bg}">Biguaçu</a> e <a href="/servico/{ph}">Palhoça</a> '
+            f"(na ilha e na Grande Florianópolis, inclusive bairros como Trindade e Campeche).</p>"
+        )
+    else:
+        sec5_extra = ""
+        p_sec5_links = (
+            "Também atendemos Florianópolis e cidades vizinhas — a secção <strong>Outros serviços</strong> nesta página reúne os demais tipos de serviço na mesma cidade."
+            if is_city
+            else "Também atendemos regiões próximas em Florianópolis — a secção <strong>Outros serviços</strong> nesta página reúne os demais tipos de serviço na mesma região."
+        )
     p_sec7_cobertura = (
         "Nosso atendimento busca cobrir a cidade e entornos próximos na Grande Florianópolis, com foco em deslocamento planejado e comunicação clara sobre prazos."
         if is_city
@@ -976,7 +1017,7 @@ def build_main(sk, prep, bslug, nome, suffix: str = "florianopolis"):
   <p>Ao procurar atendimento técnico {pp}, o ideal é escolher uma equipe que explique o processo, combine escopo e execute com segurança.</p>
   <p>Oferecemos:</p>
   <ul>{ofertas_html}</ul>
-  <p>{p_sec5_links}</p></div>
+  <p>{p_sec5_links}</p>{sec5_extra}</div>
   <div class="servico-num-sec"><h2>6. Vantagens de contratar um serviço profissional</h2>
   <p>Contratar um serviço técnico bem conduzido reduz improviso e melhora o resultado final.</p>
   <ul>{vant_html}</ul>
@@ -990,7 +1031,7 @@ def build_main(sk, prep, bslug, nome, suffix: str = "florianopolis"):
   <div class="faq">{faq_block(sk, prep, nome, is_city=is_city)}</div></div>
 </div></section>
 <section class="section"><div class="container cta-box"><div><h2>Precisa de {meta["curto"]} {pp}?</h2><p>Fale agora com a equipe e receba orientação técnica.</p></div><div><a class="btn btn-whats" href="{WA}" target="_blank" rel="noopener">WhatsApp</a> <a class="btn btn-primary" href="../contato.html">Solicitar orçamento</a> <a class="btn btn-outline" href="tel:{TEL}">Ligar</a></div></div></section>
-<section class="section"><div class="container"><div class="card"><h2>Links internos úteis</h2><ul>{links_ul}</ul></div></div></section>
+{outros_servicos_html}
 </main>"""
 
 
@@ -1009,6 +1050,9 @@ def parse_filename(fname: str):
             rest = inner[len(sk) + 1 :]
             m = re.match(r"^(no|na|em|nos|nas)-(.+)$", rest)
             if not m:
+                # Capital agregada: *-em-florianopolis.html (sem slug de bairro)
+                if suffix == "florianopolis" and rest == "em":
+                    return sk, "em", "florianopolis", suffix
                 continue
             prep, loc = m.group(1), m.group(2)
             if suffix == "florianopolis":
@@ -1028,7 +1072,7 @@ def rebuild(path: Path):
         return False
     nome = BAIRROS[bslug]["nome"]
     prep = BAIRROS[bslug]["prep"]
-    is_city = bslug in CIDADES
+    is_city = bslug in CIDADES or bslug == "florianopolis"
 
     html = path.read_text(encoding="utf-8")
     m = re.search(r"<main>.*?</main>", html, re.DOTALL)
@@ -1037,13 +1081,14 @@ def rebuild(path: Path):
     new_main = build_main(sk, prep, bslug, nome, suffix=suffix)
     html = html[: m.start()] + new_main + html[m.end() :]
     html = patch_head_seo(html, sk, prep, bslug, nome, path.name, is_city=is_city, suffix=suffix)
+    html = patch_footer_servico(html)
     path.write_text(html, encoding="utf-8")
     return True
 
 
 def ensure_city_servico_stubs() -> None:
     """Cria arquivos servico/*-em-{cidade}-sc.html a partir de um template existente (conteúdo é sobrescrito pelo rebuild)."""
-    src = root / "servico" / "instalacao-de-ar-condicionado-no-centro-florianopolis.html"
+    src = root / "servico" / "instalacao-de-ar-condicionado-em-florianopolis.html"
     if not src.is_file():
         print("Aviso: template para stubs de cidade não encontrado:", src)
         return

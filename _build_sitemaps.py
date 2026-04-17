@@ -96,19 +96,22 @@ def main() -> None:
     out_pages = ROOT / "sitemap_pages.xml"
     out_servicos = ROOT / "sitemap_servicos.xml"
     out_regioes = ROOT / "sitemap_regioes.xml"
-    out_blog = ROOT / "sitemap_blog.xml"
+    out_local = ROOT / "sitemap_local.xml"
+    out_blog = ROOT / "sitemap_posts.xml"
 
     _write_urlset(out_pages, _make_items(root_pages))
     _write_urlset(out_servicos, _make_items(servico_pages))
     _write_urlset(out_regioes, _make_items(regioes_hubs))
+    # Sitemap local = páginas locais (serviços + regiões)
+    _write_urlset(out_local, _make_items(servico_pages + regioes_hubs))
     _write_urlset(out_blog, _make_items(blog_pages))
 
     index = ROOT / "sitemap_index.xml"
-    _write_sitemapindex(index, [out_pages, out_servicos, out_regioes, out_blog])
+    _write_sitemapindex(index, [out_pages, out_servicos, out_regioes, out_local, out_blog])
 
     print("OK: sitemaps gerados")
     print("-", index.name)
-    for p in [out_pages, out_servicos, out_regioes, out_blog]:
+    for p in [out_pages, out_servicos, out_regioes, out_local, out_blog]:
         print("-", p.name)
 
 
