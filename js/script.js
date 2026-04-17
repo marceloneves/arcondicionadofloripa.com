@@ -10,4 +10,29 @@
   if(!/^\(?\d{2}\)?\s?9?\d{4}-?\d{4}$/.test(tel.value.replace(/\s+/g,'')))errors.push('Informe um telefone válido com DDD.');
   if(!bairro.value)errors.push('Selecione um bairro.');if(!servico.value)errors.push('Selecione um serviço.');if(msg.value.trim().length<10)errors.push('Descreva sua necessidade com pelo menos 10 caracteres.');
   if(errors.length){notice.textContent=errors[0];return;}notice.style.color='#166534';notice.textContent='Mensagem validada com sucesso. Nossa equipe retornará em breve.';form.reset();});}
+
+  const galleryLinks = document.querySelectorAll('.home-instalacao-link');
+  if(galleryLinks.length){
+    const lightbox = document.createElement('div');
+    lightbox.className = 'img-lightbox';
+    lightbox.innerHTML = '<button class="img-lightbox-close" type="button" aria-label="Fechar imagem">Fechar</button><img alt="">';
+    document.body.appendChild(lightbox);
+    const lbImg = lightbox.querySelector('img');
+    const closeBtn = lightbox.querySelector('.img-lightbox-close');
+    const close = ()=>lightbox.classList.remove('open');
+
+    galleryLinks.forEach(link=>{
+      link.addEventListener('click',(e)=>{
+        e.preventDefault();
+        const img = link.querySelector('img');
+        lbImg.src = link.getAttribute('href');
+        lbImg.alt = img ? img.alt : 'Imagem ampliada';
+        lightbox.classList.add('open');
+      });
+    });
+
+    closeBtn.addEventListener('click', close);
+    lightbox.addEventListener('click',(e)=>{ if(e.target === lightbox) close(); });
+    document.addEventListener('keydown',(e)=>{ if(e.key === 'Escape') close(); });
+  }
 })();
