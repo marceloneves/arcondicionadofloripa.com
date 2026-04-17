@@ -35,7 +35,7 @@ def _blog_article_files_sorted() -> list[Path]:
     return sorted(
         p
         for p in blog.glob("*.html")
-        if p.is_file() and p.name != "pagina-2.html"
+        if p.is_file() and p.name not in ("pagina-2.html", "pagina-3.html")
     )
 
 
@@ -53,10 +53,13 @@ def _format_date_pt_br(d: date) -> str:
 
 
 def _blog_sitemap_lastmod(path: Path) -> str:
-    """lastmod no sitemap: data editorial do post; página 2 = dia seguinte ao último artigo."""
+    """lastmod no sitemap: data editorial do post; páginas 2/3 = dias após o último artigo."""
     if path.name == "pagina-2.html":
         n = len(_blog_article_files_sorted())
         return (BLOG_PUBLICATION_START + timedelta(days=n)).isoformat()
+    if path.name == "pagina-3.html":
+        n = len(_blog_article_files_sorted())
+        return (BLOG_PUBLICATION_START + timedelta(days=n + 1)).isoformat()
     if path.parent.name == "blog" and path.suffix == ".html":
         return _publication_date_for_blog_article(path).isoformat()
     return _lastmod_iso(path)
@@ -64,7 +67,7 @@ def _blog_sitemap_lastmod(path: Path) -> str:
 
 def _sync_blog_post_meta_in_html(path: Path) -> None:
     """Insere ou atualiza data abaixo do <h1> do banner (somente artigos)."""
-    if path.name == "pagina-2.html":
+    if path.name in ("pagina-2.html", "pagina-3.html"):
         return
     d = _publication_date_for_blog_article(path)
     iso = d.isoformat()
