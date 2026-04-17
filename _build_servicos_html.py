@@ -73,8 +73,8 @@ def build_page() -> str:
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Serviços de Ar-Condicionado | Florianópolis e Grande Florianópolis</title>
-  <meta name="description" content="Serviços de ar-condicionado com páginas principais por cidade: Florianópolis, São José, Biguaçu e Palhoça.">
+  <title>Serviços de ar condicionado | Grande Florianópolis SC</title>
+  <meta name="description" content="Instalação a PMOC em Floripa, São José, Biguaçu e Palhoça. Abra sua cidade e peça orçamento no WhatsApp — técnico na Grande Florianópolis.">
   <link rel="preload" as="image" href="/images/ar-condicionado-florianopolis.webp">
   <link rel="stylesheet" href="css/style.css">
 

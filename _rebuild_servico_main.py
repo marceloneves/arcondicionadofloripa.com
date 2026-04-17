@@ -8,6 +8,13 @@ from pathlib import Path
 
 root = Path(__file__).parent
 BASE_URL = "https://arcondicionadofloripa.com"
+# JSON-LD: HVACBusiness (#empresa) reutilizado em todas as páginas de serviço.
+BUSINESS_ID = f"{BASE_URL}/#empresa"
+BUSINESS_NAME = "Ar Condicionado Floripa"
+BUSINESS_IMAGE = f"{BASE_URL}/images/ar-condicionado-florianopolis.webp"
+BUSINESS_STREET = "Rodovia Armando Calil Bullos, 410"
+BUSINESS_NEIGHBORHOOD = "Vargem Grande"
+BUSINESS_POSTAL = "88056-618"
 bairros_html = (root / "regioes.html").read_text(encoding="utf-8")
 
 # Rodapé idêntico ao de index.html (paths absolutos /…). Se alterar a home, atualize aqui também.
@@ -573,6 +580,43 @@ SERV_META = {
     },
 }
 
+# Meta description: frases únicas por serviço (cidade × bairro) — evita texto genérico repetido e cortado no SERP.
+# Tupla: (trecho para páginas em cidade/SC, trecho para páginas de bairro em Florianópolis).
+SEO_META_FRAGMENTS: dict[str, tuple[str, str]] = {
+    "instalacao-de-ar-condicionado": (
+        "Split e multi: tubulação, dreno, vácuo e testes. Orçamento claro — chame no WhatsApp e agende visita.",
+        "Tubulação e dreno conforme norma. Orçamento no bairro; resposta rápida por WhatsApp.",
+    ),
+    "manutencao-de-ar-condicionado": (
+        "Filtros, pressões, dreno e testes. Volte a ter ar gelado com diagnóstico honesto. Peça orçamento no WhatsApp.",
+        "Revisão no bairro que evita pane e alto consumo. Fale conosco e combine horário.",
+    ),
+    "limpeza-de-ar-condicionado": (
+        "Filtros, serpentina e bandeja: mais frescor e menos odor. Serviço objetivo — solicite orçamento hoje.",
+        "Mais vazão e higiene no seu split. Orçamento rápido para residência ou empresa no bairro.",
+    ),
+    "higienizacao-de-ar-condicionado": (
+        "Elimine mau cheiro e sujeira profunda na evaporadora. Ideal para apartamento e consultório. Peça valor no WhatsApp.",
+        "Tratamento profundo no bairro com escopo combinado. Entre em contato e agende.",
+    ),
+    "carga-de-gas-de-ar-condicionado": (
+        "Recarga só após diagnóstico: vazamento, vácuo e fluido certo. Evite golpe — orçamento transparente no WhatsApp.",
+        "Avaliação técnica antes de recarregar. Proteja o compressor; fale com a equipe no bairro.",
+    ),
+    "remocao-e-reinstalacao-de-ar-condicionado": (
+        "Mudança ou obra: desmontagem segura, transporte e nova instalação com testes. Solicite orçamento sem compromisso.",
+        "Protegemos equipamento e fachada. Combine retirada e reinstalação — WhatsApp.",
+    ),
+    "conserto-de-ar-condicionado": (
+        "Placa, compressor, sensores: achamos a causa antes de trocar peça. Orçamento justo — chame no WhatsApp.",
+        "Defeito no split do bairro? Diagnóstico claro e reparo com testes. Peça visita.",
+    ),
+    "pmoc-de-ar-condicionado": (
+        "Condomínios e empresas: PMOC com rotinas e registros. Organize a climatização — peça proposta pelo WhatsApp.",
+        "Periodicidade e responsáveis definidos para seu edifício. Fale com a equipe técnica.",
+    ),
+}
+
 # Ajustes de seção 3/4 e títulos por tipo de serviço (evita texto de “pane” em instalação, etc.)
 SEC_EXTRAS = {
     "instalacao-de-ar-condicionado": {
@@ -735,33 +779,74 @@ def faq_block(sk, prep, nome, is_city: bool = False):
     return "\n".join(rows)
 
 
+TITLE_MAX_LEN = 70
+# Snippet Google ~155–160 caracteres; evitamos corte feio e incentivamos clique.
+META_DESC_MAX_LEN = 155
+
+
 def build_meta_title(meta, pp, is_city: bool = False, nome_cidade: str = ""):
-    # pp já inclui o nome do local (ex.: "no Centro"). Em cidades, evita repetir "em X em X".
+    """Título único, com palavra-chave + local; máximo TITLE_MAX_LEN (SERP não corta o texto exibido)."""
+    tit = meta["titulo"]
+    curto = (meta.get("curto") or tit).strip()
+    short = (curto[0].upper() + curto[1:]) if curto else tit
+
     if is_city and nome_cidade:
-        t = f"{meta['titulo']} em {nome_cidade} | Grande Florianópolis SC"
+        variants = (
+            f"{tit} em {nome_cidade} | SC",
+            f"{short} em {nome_cidade} | SC",
+            f"{tit} em {nome_cidade}",
+            f"{short} em {nome_cidade}",
+        )
     else:
-        t = f"{meta['titulo']} {pp} | Florianópolis SC"
-    if len(t) > 64:
-        t = f"{meta['titulo']} {pp} | SC"
-    if len(t) > 66:
-        t = t[:63] + "…"
-    return t
+        variants = (
+            f"{tit} {pp} | SC",
+            f"{short} {pp} | SC",
+            f"{tit} {pp}",
+            f"{short} {pp}",
+        )
+    for t in variants:
+        if len(t) <= TITLE_MAX_LEN:
+            return t
+    # Último recurso: corta no último espaço antes do limite (sem reticências).
+    t = variants[0]
+    if len(t) <= TITLE_MAX_LEN:
+        return t
+    cut = t[:TITLE_MAX_LEN]
+    if " " in cut:
+        cut = cut.rsplit(" ", 1)[0]
+    return cut[:TITLE_MAX_LEN]
 
 
-def build_meta_desc(meta, pp, nome, is_city: bool = False):
+def _clip_meta_description(s: str, max_len: int = META_DESC_MAX_LEN) -> str:
+    """Encerra o snippet em limite seguro, em limite de palavra, sem reticências artificiais no HTML."""
+    s = (s or "").strip()
+    if len(s) <= max_len:
+        return s
+    cut = s[: max_len + 1]
+    if " " in cut:
+        cut = cut[:max_len].rsplit(" ", 1)[0]
+    else:
+        cut = s[:max_len]
+    return cut.rstrip(" ,;:")
+
+
+def build_meta_desc(sk: str, meta, nome: str, is_city: bool = False):
+    """Snippet persuasivo para o SERP; comprimento ≤ META_DESC_MAX_LEN (evita corte feio no Google)."""
+    frags = SEO_META_FRAGMENTS.get(sk)
+    if not frags:
+        frags = (
+            "Split e inverter com técnica e orçamento claro na Grande Florianópolis. Chame no WhatsApp.",
+            "Atendimento no bairro com orçamento e agendamento. Fale no WhatsApp.",
+        )
+    city_frag, bairro_frag = frags
+    curto = meta["curto"]
+    if curto:
+        curto = curto[0].upper() + curto[1:]
     if is_city:
-        s = (
-            f"{meta['titulo']} em {nome}, SC: climatização e HVAC "
-            f"(split, inverter, multi-split) na Grande Florianópolis. Orçamento e execução com foco em segurança."
-        )
+        s = f"{curto} em {nome}, SC. {city_frag}"
     else:
-        s = (
-            f"{meta['titulo']} {pp} em Florianópolis, SC: climatização e HVAC "
-            f"(split, inverter, multi-split) no bairro {nome}. Orçamento e execução com foco em segurança."
-        )
-    if len(s) > 158:
-        s = s[:155].rsplit(" ", 1)[0] + "…"
-    return s
+        s = f"{curto} no bairro {nome}, Florianópolis. {bairro_frag}"
+    return _clip_meta_description(s)
 
 
 def paragraph_vizinhos(bslug, nome, is_city: bool = False):
@@ -789,91 +874,64 @@ def paragraph_vizinhos(bslug, nome, is_city: bool = False):
 
 
 def build_schema_graph(sk, prep, bslug, nome, fname, title, desc, is_city: bool = False, suffix: str = "florianopolis"):
+    """@graph: HVACBusiness (#empresa) + Service (#servico) + BreadcrumbList + FAQPage."""
     page_url = f"{BASE_URL}/servico/{fname}"
-    tok = _servico_fname_token(suffix)
-    if bslug == "florianopolis":
-        hub_url = f"{BASE_URL}/servicos.html#servicos-florianopolis"
-    else:
-        hub_url = f"{BASE_URL}/regioes/{bslug}-{tok}.html"
     meta = SERV_META[sk]
     pp = prep_phrase(prep, nome)
     main_q = [
         {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}}
         for q, a in faq_items(sk, prep, nome, is_city=is_city)
     ]
-    provider = {
-        "@type": "LocalBusiness",
-        "name": "Ar Condicionado em Florianópolis",
-        "url": BASE_URL,
+
+    hvac_business = {
+        "@type": "HVACBusiness",
+        "@id": BUSINESS_ID,
+        "name": BUSINESS_NAME,
+        "url": f"{BASE_URL}/",
         "telephone": TEL,
+        "image": BUSINESS_IMAGE,
         "address": {
             "@type": "PostalAddress",
+            "streetAddress": f"{BUSINESS_STREET} — {BUSINESS_NEIGHBORHOOD}",
             "addressLocality": "Florianópolis",
             "addressRegion": "SC",
+            "postalCode": BUSINESS_POSTAL,
             "addressCountry": "BR",
         },
+        "areaServed": [
+            {"@type": "City", "name": "Florianópolis"},
+            {"@type": "City", "name": "São José"},
+            {"@type": "City", "name": "Palhoça"},
+            {"@type": "City", "name": "Biguaçu"},
+        ],
     }
-    return [
-        {
-            "@type": "WebPage",
-            "@id": page_url + "#webpage",
-            "url": page_url,
-            "name": title,
-            "description": desc,
-            "inLanguage": "pt-BR",
-            "isPartOf": {"@type": "WebSite", "@id": BASE_URL + "/#website", "url": BASE_URL, "name": "Ar Condicionado em Florianópolis"},
-            "about": {"@id": page_url + "#service"},
-            "breadcrumb": {"@id": page_url + "#breadcrumb"},
-        },
-        {
-            "@type": "Service",
-            "@id": page_url + "#service",
-            "name": f"{meta['titulo']} {pp}",
-            "serviceType": meta["titulo"],
-            "description": meta["oque"],
-            "url": page_url,
-            "areaServed": (
-                [
-                    {
-                        "@type": "City",
-                        "name": nome,
-                        "containedInPlace": {
-                            "@type": "AdministrativeArea",
-                            "name": "Santa Catarina",
-                            "containedInPlace": {"@type": "Country", "name": "BR"},
-                        },
-                    },
-                    {"@type": "Place", "name": f"{nome}, SC"},
-                ]
-                if is_city
-                else [
-                    {
-                        "@type": "City",
-                        "name": "Florianópolis",
-                        "containedInPlace": {
-                            "@type": "AdministrativeArea",
-                            "name": "Santa Catarina",
-                            "containedInPlace": {"@type": "Country", "name": "BR"},
-                        },
-                    },
-                    {"@type": "Place", "name": f"{nome}, Florianópolis"},
-                ]
-            ),
-            "provider": provider,
-            "mainEntityOfPage": {"@id": page_url + "#webpage"},
-        },
-        {
-            "@type": "BreadcrumbList",
-            "@id": page_url + "#breadcrumb",
-            "itemListElement": [
-                {"@type": "ListItem", "position": 1, "name": "Início", "item": BASE_URL + "/"},
-                {"@type": "ListItem", "position": 2, "name": "Regiões", "item": BASE_URL + "/regioes.html"},
-                {"@type": "ListItem", "position": 3, "name": nome, "item": hub_url},
-                {"@type": "ListItem", "position": 4, "name": f"{meta['titulo']} {pp}", "item": page_url},
-            ],
-        },
-        {"@type": "FAQPage", "@id": page_url + "#faq", "mainEntity": main_q},
-    ]
+
+    # Cidade atendida pelo serviço (página): capital ou cidade da Grande Florianópolis.
+    service_area = {"@type": "City", "name": nome if is_city else "Florianópolis"}
+
+    service_entity = {
+        "@type": "Service",
+        "@id": page_url + "#servico",
+        "name": title,
+        "serviceType": meta["titulo"],
+        "description": desc,
+        "url": page_url,
+        "provider": {"@id": BUSINESS_ID},
+        "areaServed": service_area,
+    }
+
+    breadcrumb = {
+        "@type": "BreadcrumbList",
+        "@id": page_url + "#breadcrumb",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Início", "item": f"{BASE_URL}/"},
+            {"@type": "ListItem", "position": 2, "name": title, "item": page_url},
+        ],
+    }
+
+    faq_block = {"@type": "FAQPage", "@id": page_url + "#faq", "mainEntity": main_q}
+
+    return [hvac_business, service_entity, breadcrumb, faq_block]
 
 
 def patch_head_seo(html, sk, prep, bslug, nome, fname, is_city: bool = False, suffix: str = "florianopolis"):
@@ -881,7 +939,7 @@ def patch_head_seo(html, sk, prep, bslug, nome, fname, is_city: bool = False, su
     pp = prep_phrase(prep, nome)
     page_url = f"{BASE_URL}/servico/{fname}"
     title = build_meta_title(meta, pp, is_city=is_city, nome_cidade=nome if is_city else "")
-    desc = build_meta_desc(meta, pp, nome, is_city=is_city)
+    desc = build_meta_desc(sk, meta, nome, is_city=is_city)
     payload = {
         "@context": "https://schema.org",
         "@graph": build_schema_graph(sk, prep, bslug, nome, fname, title, desc, is_city=is_city, suffix=suffix),
@@ -916,7 +974,9 @@ def patch_head_seo(html, sk, prep, bslug, nome, fname, is_city: bool = False, su
         flags=re.DOTALL,
     )
     if c != 1:
-        print("Aviso: JSON-LD não atualizado em", fname)
+        html, ins = re.subn(r"(</head>)", f"{new_script}\n\\1", html, count=1)
+        if ins != 1:
+            print("Aviso: JSON-LD não inserido em", fname)
     return html
 
 
