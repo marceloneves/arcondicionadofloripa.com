@@ -10,6 +10,22 @@ from _rebuild_servico_main import CIDADES, SERVICE_KEYS, SERV_META
 ROOT = Path(__file__).resolve().parent
 
 IMG = "images/ar-condicionado-florianopolis.webp"
+IMG_W, IMG_H = 1408, 768
+
+
+class _FirstLcpImg:
+    """Primeira imagem da página: LCP; demais: lazy."""
+
+    __slots__ = ("_done",)
+
+    def __init__(self) -> None:
+        self._done = False
+
+    def img_extra_attrs(self) -> str:
+        if self._done:
+            return f' width="{IMG_W}" height="{IMG_H}" loading="lazy" decoding="async"'
+        self._done = True
+        return f' width="{IMG_W}" height="{IMG_H}" fetchpriority="high" loading="eager" decoding="async"'
 
 
 def _href(sk: str, cidade_slug: str, suffix: str) -> str:
@@ -18,19 +34,20 @@ def _href(sk: str, cidade_slug: str, suffix: str) -> str:
     return f"servico/{sk}-em-{cidade_slug}-{suffix}.html"
 
 
-def _card(sk: str, cidade_slug: str, suffix: str, nome_cidade: str) -> str:
+def _card(sk: str, cidade_slug: str, suffix: str, nome_cidade: str, lcp: _FirstLcpImg) -> str:
     meta = SERV_META[sk]
     href = _href(sk, cidade_slug, suffix)
     label = f'{meta["titulo"]} em {nome_cidade}'
+    extra = lcp.img_extra_attrs()
     return (
         f'<article class="card"><h3><a href="{href}">{label}</a></h3>'
         f'<a class="servico-card-img-link" href="{href}">'
-        f'<img class="servico-card-img" src="{IMG}" alt="{label}"></a></article>'
+        f'<img class="servico-card-img" src="{IMG}" alt="{label}"{extra}></a></article>'
     )
 
 
-def _bloco_cidade(section_id: str, nome: str, cidade_slug: str, suffix: str) -> str:
-    cards = "".join(_card(sk, cidade_slug, suffix, nome) for sk in SERVICE_KEYS)
+def _bloco_cidade(section_id: str, nome: str, cidade_slug: str, suffix: str, lcp: _FirstLcpImg) -> str:
+    cards = "".join(_card(sk, cidade_slug, suffix, nome, lcp) for sk in SERVICE_KEYS)
     return f"""  <section class="section servicos-por-regiao" id="{section_id}">
     <div class="container">
       <h2 class="servicos-regiao-titulo">Serviços em {nome}</h2>
@@ -42,12 +59,13 @@ def _bloco_cidade(section_id: str, nome: str, cidade_slug: str, suffix: str) -> 
 
 
 def build_page() -> str:
+    lcp = _FirstLcpImg()
     blocos = [
-        _bloco_cidade("servicos-florianopolis", "Florianópolis", "florianopolis", "florianopolis"),
+        _bloco_cidade("servicos-florianopolis", "Florianópolis", "florianopolis", "florianopolis", lcp),
     ]
     for slug, meta in CIDADES.items():
         blocos.append(
-            _bloco_cidade(f"servicos-{slug}", meta["nome"], slug, "sc"),
+            _bloco_cidade(f"servicos-{slug}", meta["nome"], slug, "sc", lcp),
         )
     main_sections = "\n\n".join(blocos)
     return f"""<!DOCTYPE html>
@@ -57,6 +75,7 @@ def build_page() -> str:
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Serviços de Ar-Condicionado | Florianópolis e Grande Florianópolis</title>
   <meta name="description" content="Serviços de ar-condicionado com páginas principais por cidade: Florianópolis, São José, Biguaçu e Palhoça.">
+  <link rel="preload" as="image" href="/images/ar-condicionado-florianopolis.webp">
   <link rel="stylesheet" href="css/style.css">
 
 </head>
