@@ -109,9 +109,11 @@ a{color:var(--blue);text-decoration:none}a:hover{color:var(--blue-dark)}.contain
 .page-blog-article .inner-banner{padding:2.4rem 0 1.6rem}
 .blog-servicos-box{background:#eef5ff;border:1px solid #cfe0fb;border-left:5px solid var(--blue);border-radius:12px;padding:1rem 1.1rem;margin:1rem 0 1.25rem;box-shadow:0 8px 18px rgba(8,66,152,.08)}
 .blog-servicos-box p{margin:.2rem 0 .55rem;color:var(--blue-dark)}
-.blog-servicos-box ul{margin:.1rem 0 .8rem;padding-left:1.15rem;columns:2;column-gap:1.2rem}
-.blog-servicos-box li{color:var(--text);break-inside:avoid;margin:0 0 .15rem}
-@media (max-width:760px){.blog-servicos-box ul{columns:1}}
+.blog-servicos-box ul{margin:.1rem 0 .8rem;padding-left:1.15rem;list-style:disc;display:grid;grid-template-columns:1fr 1fr;gap:.35rem 1.2rem}
+.blog-servicos-box li{color:var(--text);margin:0;min-width:0}
+.blog-servicos-box li a{color:var(--blue);font-weight:600;text-decoration:none;position:relative;z-index:1}
+.blog-servicos-box li a:hover,.blog-servicos-box li a:focus-visible{color:var(--blue-dark);text-decoration:underline;text-underline-offset:2px}
+@media (max-width:760px){.blog-servicos-box ul{grid-template-columns:1fr}}
 .page-blog-article .blog-author-section{padding-top:1rem;padding-bottom:1rem}
 .blog-author-card{display:flex;align-items:flex-start;gap:1.1rem;background:#f8fafc;border:1px solid var(--border);border-radius:16px;padding:1.25rem 1.35rem;margin:0;box-shadow:0 6px 20px rgba(8,66,152,.06)}
 .blog-author-media{flex-shrink:0}
