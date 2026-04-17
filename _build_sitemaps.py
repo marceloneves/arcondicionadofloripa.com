@@ -10,8 +10,8 @@ from typing import Iterable
 ROOT = Path(__file__).resolve().parent
 BASE_URL = "https://arcondicionadofloripa.com"
 
-# Publicação dos artigos do blog no sitemap: 1 URL por dia, a partir desta data (ordem = nomes de arquivo A–Z).
-BLOG_PUBLICATION_START = date(2026, 4, 1)
+# Publicação dos artigos do blog no sitemap: intervalo de 2 dias entre posts, a partir desta data (ordem = nomes de arquivo A–Z).
+BLOG_PUBLICATION_START = date(2026, 3, 1)
 
 _MESES_PT = (
     "janeiro",
@@ -45,7 +45,7 @@ def _publication_date_for_blog_article(path: Path) -> date:
         idx = files.index(path.resolve())
     except ValueError as e:
         raise ValueError(f"Arquivo de blog fora da lista de artigos: {path}") from e
-    return BLOG_PUBLICATION_START + timedelta(days=idx)
+    return BLOG_PUBLICATION_START + timedelta(days=idx * 2)
 
 
 def _format_date_pt_br(d: date) -> str:
@@ -53,13 +53,13 @@ def _format_date_pt_br(d: date) -> str:
 
 
 def _blog_sitemap_lastmod(path: Path) -> str:
-    """lastmod no sitemap: data editorial do post; páginas 2/3 = dias após o último artigo."""
+    """lastmod no sitemap: data editorial do post; páginas 2/3 = após o último artigo (mesmo passo de 2 dias)."""
     if path.name == "pagina-2.html":
         n = len(_blog_article_files_sorted())
-        return (BLOG_PUBLICATION_START + timedelta(days=n)).isoformat()
+        return (BLOG_PUBLICATION_START + timedelta(days=n * 2)).isoformat()
     if path.name == "pagina-3.html":
         n = len(_blog_article_files_sorted())
-        return (BLOG_PUBLICATION_START + timedelta(days=n + 1)).isoformat()
+        return (BLOG_PUBLICATION_START + timedelta(days=n * 2 + 2)).isoformat()
     if path.parent.name == "blog" and path.suffix == ".html":
         return _publication_date_for_blog_article(path).isoformat()
     return _lastmod_iso(path)
