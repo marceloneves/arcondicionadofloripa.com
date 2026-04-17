@@ -1,13 +1,101 @@
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from typing import Iterable
 
 
 ROOT = Path(__file__).resolve().parent
 BASE_URL = "https://arcondicionadofloripa.com"
+
+# Publicação dos artigos do blog no sitemap: 1 URL por dia, a partir desta data (ordem = nomes de arquivo A–Z).
+BLOG_PUBLICATION_START = date(2026, 4, 1)
+
+_MESES_PT = (
+    "janeiro",
+    "fevereiro",
+    "março",
+    "abril",
+    "maio",
+    "junho",
+    "julho",
+    "agosto",
+    "setembro",
+    "outubro",
+    "novembro",
+    "dezembro",
+)
+
+
+def _blog_article_files_sorted() -> list[Path]:
+    """HTML de post no diretório blog/ (exclui paginação)."""
+    blog = ROOT / "blog"
+    return sorted(
+        p
+        for p in blog.glob("*.html")
+        if p.is_file() and p.name != "pagina-2.html"
+    )
+
+
+def _publication_date_for_blog_article(path: Path) -> date:
+    files = _blog_article_files_sorted()
+    try:
+        idx = files.index(path.resolve())
+    except ValueError as e:
+        raise ValueError(f"Arquivo de blog fora da lista de artigos: {path}") from e
+    return BLOG_PUBLICATION_START + timedelta(days=idx)
+
+
+def _format_date_pt_br(d: date) -> str:
+    return f"{d.day} de {_MESES_PT[d.month - 1]} de {d.year}"
+
+
+def _blog_sitemap_lastmod(path: Path) -> str:
+    """lastmod no sitemap: data editorial do post; página 2 = dia seguinte ao último artigo."""
+    if path.name == "pagina-2.html":
+        n = len(_blog_article_files_sorted())
+        return (BLOG_PUBLICATION_START + timedelta(days=n)).isoformat()
+    if path.parent.name == "blog" and path.suffix == ".html":
+        return _publication_date_for_blog_article(path).isoformat()
+    return _lastmod_iso(path)
+
+
+def _sync_blog_post_meta_in_html(path: Path) -> None:
+    """Insere ou atualiza data abaixo do <h1> do banner (somente artigos)."""
+    if path.name == "pagina-2.html":
+        return
+    d = _publication_date_for_blog_article(path)
+    iso = d.isoformat()
+    display = _format_date_pt_br(d)
+    text = path.read_text(encoding="utf-8")
+    banner_start = text.find('<section class="inner-banner">')
+    if banner_start == -1:
+        return
+    banner_end = text.find("</section>", banner_start)
+    if banner_end == -1:
+        return
+    before = text[:banner_start]
+    banner = text[banner_start:banner_end]
+    after = text[banner_end:]
+    banner = re.sub(
+        r"<p class=\"blog-post-meta\">\s*<time[^>]*>.*?</time>\s*</p>\s*",
+        "",
+        banner,
+        count=1,
+        flags=re.DOTALL,
+    )
+    h1_close = banner.find("</h1>")
+    if h1_close == -1:
+        return
+    insert_at = h1_close + len("</h1>")
+    block = (
+        f'\n    <p class="blog-post-meta">'
+        f'<time datetime="{iso}">{display}</time></p>'
+    )
+    new_banner = banner[:insert_at] + block + banner[insert_at:]
+    path.write_text(before + new_banner + after, encoding="utf-8")
 
 
 @dataclass(frozen=True)
@@ -77,6 +165,10 @@ def _make_items(files: list[Path]) -> list[UrlItem]:
     return [UrlItem(loc=_loc_for(p), lastmod=_lastmod_iso(p)) for p in files]
 
 
+def _make_blog_items(files: list[Path]) -> list[UrlItem]:
+    return [UrlItem(loc=_loc_for(p), lastmod=_blog_sitemap_lastmod(p)) for p in files]
+
+
 def main() -> None:
     # Páginas principais na raiz (exclui 404 se existir, e arquivos técnicos)
     root_pages = []
@@ -92,6 +184,9 @@ def main() -> None:
     regioes_hubs = _collect_html_files(ROOT / "regioes")
     blog_pages = _collect_html_files(ROOT / "blog")
 
+    for p in blog_pages:
+        _sync_blog_post_meta_in_html(p)
+
     # Arquivos de saída
     out_pages = ROOT / "sitemap_pages.xml"
     out_servicos = ROOT / "sitemap_servicos.xml"
@@ -104,7 +199,7 @@ def main() -> None:
     _write_urlset(out_regioes, _make_items(regioes_hubs))
     # Sitemap local = páginas locais (serviços + regiões)
     _write_urlset(out_local, _make_items(servico_pages + regioes_hubs))
-    _write_urlset(out_blog, _make_items(blog_pages))
+    _write_urlset(out_blog, _make_blog_items(blog_pages))
 
     index = ROOT / "sitemap_index.xml"
     _write_sitemapindex(index, [out_pages, out_servicos, out_regioes, out_local, out_blog])
