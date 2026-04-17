@@ -7,14 +7,18 @@ a{color:var(--blue);text-decoration:none}a:hover{color:var(--blue-dark)}.contain
 .btn{display:inline-block;padding:.75rem 1.1rem;border-radius:10px;border:1px solid var(--blue);font-weight:700;transition:.2s ease}.btn-primary{background:var(--blue);color:#fff}.btn-primary:hover{background:var(--blue-dark)}
 .btn-outline{background:#fff;color:var(--blue)}.btn-outline:hover{background:var(--soft)}.btn-whats{background:#22c55e;border-color:#22c55e;color:#fff}.btn-whats:hover{filter:brightness(.95);color:#fff}
 .hero{padding:4.5rem 0 3.2rem}.hero-grid{display:grid;gap:2rem;align-items:center;grid-template-columns:1.2fr .8fr}.hero h1{font-size:clamp(1.8rem,3vw,2.7rem);line-height:1.2;color:var(--blue-dark);margin:0 0 1rem}
-.hero p{color:var(--muted);font-size:1.05rem}.hero-art{background:linear-gradient(135deg,#eaf1ff,#f8fbff);border:1px solid var(--border);border-radius:16px;padding:2rem;text-align:center}.hero-art img{width:100%;max-width:340px}
+.hero p{color:var(--muted);font-size:1.05rem}.hero-art{background:none;border:none;border-radius:0;padding:0;text-align:center}.hero-art img{width:100%;max-width:520px;filter:drop-shadow(0 10px 20px rgba(11,94,215,.16));-webkit-mask-image:radial-gradient(ellipse at center,#000 62%,rgba(0,0,0,.92) 74%,rgba(0,0,0,.65) 86%,transparent 100%);mask-image:radial-gradient(ellipse at center,#000 62%,rgba(0,0,0,.92) 74%,rgba(0,0,0,.65) 86%,transparent 100%)}
 .section{padding:3.2rem 0}.section h2{color:var(--blue-dark);margin-top:0}.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
 .card{background:#fff;border:1px solid var(--border);border-radius:14px;box-shadow:0 8px 24px rgba(8,66,152,.08);padding:1.1rem}.card h3{margin-top:0;color:var(--blue-dark);font-size:1.05rem}
+.servico-card-img{display:block;width:100%;height:140px;object-fit:cover;border-radius:10px;margin:.65rem 0 .8rem}
 .badge-list{display:flex;flex-wrap:wrap;gap:.6rem}.badge{background:var(--soft);border:1px solid var(--border);border-radius:999px;padding:.4rem .7rem;font-size:.92rem}
 .steps{counter-reset:step;display:grid;gap:1rem;grid-template-columns:repeat(4,1fr)}.step{border:1px solid var(--border);border-radius:12px;padding:1rem;background:#fff}
 .step::before{counter-increment:step;content:counter(step);display:inline-flex;width:30px;height:30px;border-radius:999px;align-items:center;justify-content:center;background:var(--blue);color:#fff;font-weight:700;margin-bottom:.5rem}
 .faq-item{border-bottom:1px solid var(--border)}.faq-question{width:100%;text-align:left;border:none;background:none;padding:1rem .1rem;font-weight:700;color:var(--blue-dark);cursor:pointer}
 .faq-answer{display:none;padding:0 0 1rem;color:var(--muted)}.faq-item.open .faq-answer{display:block}.cta-box{background:linear-gradient(140deg,#f0f5ff,#fff);border:1px solid var(--border);border-radius:16px;padding:1.4rem;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1rem}
+.page-home .faq-question{font-size:1.2rem}
+.page-home .faq-answer{font-size:1.1rem}
+.payment-icon{font-size:1.6rem;line-height:1;vertical-align:middle}
 .inner-banner{padding:3rem 0 2rem;background:var(--soft);border-bottom:1px solid var(--border)}.inner-banner h1{margin:.2rem 0;color:var(--blue-dark)}.local-links ul{columns:2;padding-left:1rem}
 .servicos-grupo-titulo{color:var(--blue-dark);font-size:clamp(1.15rem,2.4vw,1.4rem);margin:2.75rem 0 1rem;padding-bottom:.55rem;border-bottom:2px solid var(--border);scroll-margin-top:5.5rem;line-height:1.3}
 .servicos-por-tipo .servicos-grupo-titulo:first-child{margin-top:0}
@@ -22,7 +26,7 @@ a{color:var(--blue);text-decoration:none}a:hover{color:var(--blue-dark)}.contain
 .servicos-grupo-extra{color:var(--muted);margin:-.35rem 0 0;font-size:1rem}
 .servicos-grupo-extra a{font-weight:700}
 .servicos-indice-tipo{background:var(--soft);border-bottom:1px solid var(--border);padding:1.75rem 0}.servicos-indice-tipo-lead{margin:0 0 .85rem;color:var(--muted);font-size:.98rem}.servicos-indice-tipo-list{display:flex;flex-wrap:wrap;gap:.5rem .9rem;list-style:none;margin:0;padding:0}.servicos-indice-tipo-list li{font-size:.95rem}.servicos-indice-tipo-list a{font-weight:600}
-.servicos-por-regiao{padding:2.25rem 0;border-bottom:1px solid var(--border)}.servicos-por-regiao:last-of-type{border-bottom:none}.servicos-regiao-titulo{margin:0 0 .35rem;scroll-margin-top:5.5rem;font-size:clamp(1.2rem,2.5vw,1.45rem);color:var(--blue-dark)}.servicos-regiao-meta{margin:0 0 1rem;color:var(--muted);font-size:.95rem}
+.servicos-por-regiao{padding:2.25rem 0;border-bottom:1px solid var(--border)}.servicos-por-regiao:last-of-type{border-bottom:none}.servicos-regiao-titulo{margin:0 0 1rem;scroll-margin-top:5.5rem;font-size:clamp(1.2rem,2.5vw,1.45rem);color:var(--blue-dark)}.servicos-regiao-meta{margin:0 0 1rem;color:var(--muted);font-size:.95rem}
 .site-footer{background:#0d1f3d;color:#dce7ff;margin-top:3rem}.site-footer a{color:#c3d7ff}.footer-grid{display:grid;grid-template-columns:2fr 1fr 1.2fr 1.2fr;gap:1rem;padding:2.2rem 0}
 .site-footer ul{margin:0;padding-left:1rem}.footer-bottom{border-top:1px solid rgba(255,255,255,.14);padding:1rem 0;display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
 /* Rodapé: bairros em lista vertical direta (sem rolagem horizontal) */
@@ -59,14 +63,19 @@ a{color:var(--blue);text-decoration:none}a:hover{color:var(--blue-dark)}.contain
 .servico-phones{font-size:1.05rem;font-weight:700;margin:0}
 .servico-phones a{color:var(--blue)}
 .servico-intro .container p:first-child{margin-top:0}
+.servico-intro p{font-size:1.15rem;line-height:1.7}
+.servico-intro{padding-bottom:1.6rem}
+.servico-intro + .section{padding-top:1.6rem}
 .servico-num-sec{margin-bottom:2.25rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border)}
 .servico-num-sec:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
 .servico-num-sec h2{font-size:clamp(1.05rem,2.2vw,1.25rem);margin-bottom:.75rem;line-height:1.35}
+.servico-num-sec p,.servico-num-sec li{font-size:1.15rem;line-height:1.7}
 .servico-passos{padding-left:1.2rem;margin:.5rem 0 0}
 .servico-passos li{margin-bottom:.55rem}
-.servico-contexto-seo,.servico-vizinhanca{font-size:.98rem;color:var(--muted);line-height:1.65;margin:1rem 0 0}
+.servico-contexto-seo,.servico-vizinhanca{font-size:1.12rem;color:var(--muted);line-height:1.7;margin:1rem 0 0}
 .servico-contexto-seo strong,.servico-vizinhanca strong{color:var(--text);font-weight:700}
-.servico-num-sec .faq-answer{font-size:1rem;line-height:1.75}
+.servico-num-sec .faq-question{font-size:1.22rem;line-height:1.5}
+.servico-num-sec .faq-answer{font-size:1.22rem;line-height:1.75}
 
 /* Bairros: links de serviços em caixinhas */
 .bairro-links{display:grid;grid-template-columns:1fr;gap:.6rem;margin:.8rem 0 0}
@@ -77,4 +86,6 @@ a{color:var(--blue);text-decoration:none}a:hover{color:var(--blue-dark)}.contain
 .page-blog-article .section{padding:1.75rem 0}
 .page-blog-article .section h2{margin:0 0 .65rem}
 .page-blog-article .section h3{margin:1rem 0 .4rem}
+.page-blog-article .section p,
+.page-blog-article .section li{font-size:1.15rem;line-height:1.75}
 .page-blog-article .inner-banner{padding:2.4rem 0 1.6rem}
