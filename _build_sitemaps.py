@@ -30,12 +30,12 @@ _MESES_PT = (
 
 
 def _blog_article_files_sorted() -> list[Path]:
-    """HTML de post no diretório blog/ (exclui paginação)."""
+    """HTML de post: blog/<slug>/index.html (exclui paginação)."""
     blog = ROOT / "blog"
     return sorted(
         p
-        for p in blog.glob("*.html")
-        if p.is_file() and p.name not in ("pagina-2.html", "pagina-3.html")
+        for p in blog.glob("*/index.html")
+        if p.is_file() and p.parent.name not in ("pagina-2", "pagina-3")
     )
 
 
@@ -54,20 +54,20 @@ def _format_date_pt_br(d: date) -> str:
 
 def _blog_sitemap_lastmod(path: Path) -> str:
     """lastmod no sitemap: data editorial do post; páginas 2/3 = após o último artigo (mesmo passo de 2 dias)."""
-    if path.name == "pagina-2.html":
+    if path.parent.name == "pagina-2":
         n = len(_blog_article_files_sorted())
         return (BLOG_PUBLICATION_START + timedelta(days=n * 2)).isoformat()
-    if path.name == "pagina-3.html":
+    if path.parent.name == "pagina-3":
         n = len(_blog_article_files_sorted())
         return (BLOG_PUBLICATION_START + timedelta(days=n * 2 + 2)).isoformat()
-    if path.parent.name == "blog" and path.suffix == ".html":
+    if path.parent.parent.resolve() == (ROOT / "blog").resolve() and path.name == "index.html":
         return _publication_date_for_blog_article(path).isoformat()
     return _lastmod_iso(path)
 
 
 def _sync_blog_post_meta_in_html(path: Path) -> None:
     """Insere ou atualiza data abaixo do <h1> do banner (somente artigos)."""
-    if path.name in ("pagina-2.html", "pagina-3.html"):
+    if path.parent.name in ("pagina-2", "pagina-3"):
         return
     d = _publication_date_for_blog_article(path)
     iso = d.isoformat()
@@ -116,6 +116,9 @@ def _loc_for(path: Path) -> str:
     rel = path.relative_to(ROOT).as_posix()
     if rel == "index.html":
         return f"{BASE_URL}/"
+    if rel.endswith("/index.html"):
+        prefix = rel[: -len("/index.html")]
+        return f"{BASE_URL}/{prefix}/"
     return f"{BASE_URL}/{rel}"
 
 
@@ -158,10 +161,10 @@ def _write_sitemapindex(out_path: Path, sitemap_files: list[Path]) -> None:
     out_path.write_text(xml, encoding="utf-8")
 
 
-def _collect_html_files(dirpath: Path) -> list[Path]:
+def _collect_nested_index(dirpath: Path) -> list[Path]:
     if not dirpath.exists():
         return []
-    return sorted([p for p in dirpath.glob("*.html") if p.is_file()])
+    return sorted(p for p in dirpath.glob("*/index.html") if p.is_file())
 
 
 def _make_items(files: list[Path]) -> list[UrlItem]:
@@ -173,19 +176,30 @@ def _make_blog_items(files: list[Path]) -> list[UrlItem]:
 
 
 def main() -> None:
-    # Páginas principais na raiz (exclui 404 se existir, e arquivos técnicos)
-    root_pages = []
+    # Páginas principais: home + índices por secção
+    root_pages: list[Path] = []
+    home = ROOT / "index.html"
+    if home.is_file():
+        root_pages.append(home)
+    for sub in ("servicos", "contato", "blog", "quem-somos", "regioes", "politica-de-privacidade"):
+        p = ROOT / sub / "index.html"
+        if p.is_file():
+            root_pages.append(p)
     for p in ROOT.glob("*.html"):
-        if not p.is_file():
+        if not p.is_file() or p.name.lower() in {"404.html"}:
             continue
-        if p.name.lower() in {"404.html"}:
-            continue
-        root_pages.append(p)
+        if p not in root_pages:
+            root_pages.append(p)
 
     # Seções
-    servico_pages = _collect_html_files(ROOT / "servico")
-    regioes_hubs = _collect_html_files(ROOT / "regioes")
-    blog_pages = _collect_html_files(ROOT / "blog")
+    servico_pages = _collect_nested_index(ROOT / "servico")
+    regioes_hubs = _collect_nested_index(ROOT / "regioes")
+    reg_index = ROOT / "regioes" / "index.html"
+    if reg_index.is_file() and reg_index not in regioes_hubs:
+        regioes_hubs = sorted([reg_index, *regioes_hubs])
+    blog_pages = sorted(
+        p for p in (ROOT / "blog").glob("*/index.html") if p.is_file()
+    )
 
     for p in blog_pages:
         _sync_blog_post_meta_in_html(p)

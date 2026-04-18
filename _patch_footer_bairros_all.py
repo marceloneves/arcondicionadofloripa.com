@@ -13,11 +13,11 @@ BAIRRO_DIR = ROOT / "regioes"
 @dataclass(frozen=True)
 class BairroItem:
     name: str
-    filename: str  # ex: "centro-florianopolis.html"
+    slug: str  # ex: "centro-florianopolis" (pasta regioes/<slug>/)
 
     @property
     def href(self) -> str:
-        return f"/regioes/{self.filename}"
+        return f"/regioes/{self.slug}/"
 
 
 def _norm_sort_key(s: str) -> str:
@@ -31,13 +31,13 @@ def load_bairros() -> list[BairroItem]:
         raise SystemExit(f"Diretório não encontrado: {BAIRRO_DIR}")
 
     items: list[BairroItem] = []
-    for path in sorted(BAIRRO_DIR.glob("*.html")):
+    for path in sorted(BAIRRO_DIR.glob("*/index.html")):
         html = path.read_text(encoding="utf-8")
         m = re.search(r"<h1>\s*Ar-Condicionado em (.*?),\s*(Florianópolis|SC)\s*</h1>", html)
         if not m:
             raise SystemExit(f"Não consegui extrair o nome da região em: {path}")
         name = m.group(1).strip()
-        items.append(BairroItem(name=name, filename=path.name))
+        items.append(BairroItem(name=name, slug=path.parent.name))
 
     items.sort(key=lambda x: _norm_sort_key(x.name))
     return items

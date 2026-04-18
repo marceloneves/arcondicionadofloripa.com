@@ -8,7 +8,8 @@ ROOT = Path(__file__).parent
 
 
 def build_services_block(prefix: str) -> str:
-    base = f"{prefix}servicos.html"
+    _ = prefix  # legado: links absolutos a partir da raiz
+    base = "/servicos/"
     return (
         f'<div><h4>Serviços</h4><ul>'
         f'<li><a href="{base}#instalacao-de-ar-condicionado">Instalação de Ar-Condicionado</a></li>'
@@ -33,11 +34,7 @@ def patch_file(path: Path) -> bool:
     html = path.read_text(encoding="utf-8")
     if '<h4>Serviços</h4>' not in html:
         return False
-    # Define prefix for servicos.html based on directory depth
-    if path.parent == ROOT:
-        prefix = ""
-    else:
-        prefix = "../"
+    prefix = ""
     new_block = build_services_block(prefix)
     new_html, n = PAT.subn(new_block, html, count=1)
     if n:

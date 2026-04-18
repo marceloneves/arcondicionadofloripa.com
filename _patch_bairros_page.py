@@ -5,7 +5,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parent
-PATH = ROOT / "regioes.html"
+PATH = ROOT / "regioes" / "index.html"
 
 
 def main() -> None:
@@ -39,7 +39,7 @@ def main() -> None:
     html = html.replace("<li>", "").replace("</li>", "")
 
     PATH.write_text(html, encoding="utf-8")
-    print("OK: regioes.html atualizado")
+    print("OK: regioes/index.html atualizado")
 
 
 if __name__ == "__main__":

@@ -1,84 +1,341 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "cleanUrls": false,
-  "rewrites": [
-    { "source": "/", "destination": "/index.html" },
-
-    { "source": "/servicos", "destination": "/servicos.html" },
-    { "source": "/contato", "destination": "/contato.html" },
-    { "source": "/blog", "destination": "/blog.html" },
-    { "source": "/quem-somos", "destination": "/quem-somos.html" },
-    { "source": "/politica-de-privacidade", "destination": "/politica-de-privacidade.html" },
-    { "source": "/regioes", "destination": "/regioes.html" },
-
-    { "source": "/servico/carga-de-gas-de-ar-condicionado-em-biguacu-sc", "destination": "/servico/carga-de-gas-de-ar-condicionado-em-biguacu-sc.html" },
-    { "source": "/servico/carga-de-gas-de-ar-condicionado-em-florianopolis", "destination": "/servico/carga-de-gas-de-ar-condicionado-em-florianopolis.html" },
-    { "source": "/servico/carga-de-gas-de-ar-condicionado-em-palhoca-sc", "destination": "/servico/carga-de-gas-de-ar-condicionado-em-palhoca-sc.html" },
-    { "source": "/servico/carga-de-gas-de-ar-condicionado-em-sao-jose-sc", "destination": "/servico/carga-de-gas-de-ar-condicionado-em-sao-jose-sc.html" },
-
-    { "source": "/servico/conserto-de-ar-condicionado-em-biguacu-sc", "destination": "/servico/conserto-de-ar-condicionado-em-biguacu-sc.html" },
-    { "source": "/servico/conserto-de-ar-condicionado-em-florianopolis", "destination": "/servico/conserto-de-ar-condicionado-em-florianopolis.html" },
-    { "source": "/servico/conserto-de-ar-condicionado-em-palhoca-sc", "destination": "/servico/conserto-de-ar-condicionado-em-palhoca-sc.html" },
-    { "source": "/servico/conserto-de-ar-condicionado-em-sao-jose-sc", "destination": "/servico/conserto-de-ar-condicionado-em-sao-jose-sc.html" },
-
-    { "source": "/servico/higienizacao-de-ar-condicionado-em-biguacu-sc", "destination": "/servico/higienizacao-de-ar-condicionado-em-biguacu-sc.html" },
-    { "source": "/servico/higienizacao-de-ar-condicionado-em-florianopolis", "destination": "/servico/higienizacao-de-ar-condicionado-em-florianopolis.html" },
-    { "source": "/servico/higienizacao-de-ar-condicionado-em-palhoca-sc", "destination": "/servico/higienizacao-de-ar-condicionado-em-palhoca-sc.html" },
-    { "source": "/servico/higienizacao-de-ar-condicionado-em-sao-jose-sc", "destination": "/servico/higienizacao-de-ar-condicionado-em-sao-jose-sc.html" },
-
-    { "source": "/servico/instalacao-de-ar-condicionado-em-biguacu-sc", "destination": "/servico/instalacao-de-ar-condicionado-em-biguacu-sc.html" },
-    { "source": "/servico/instalacao-de-ar-condicionado-em-florianopolis", "destination": "/servico/instalacao-de-ar-condicionado-em-florianopolis.html" },
-    { "source": "/servico/instalacao-de-ar-condicionado-em-palhoca-sc", "destination": "/servico/instalacao-de-ar-condicionado-em-palhoca-sc.html" },
-    { "source": "/servico/instalacao-de-ar-condicionado-em-sao-jose-sc", "destination": "/servico/instalacao-de-ar-condicionado-em-sao-jose-sc.html" },
-
-    { "source": "/servico/limpeza-de-ar-condicionado-em-biguacu-sc", "destination": "/servico/limpeza-de-ar-condicionado-em-biguacu-sc.html" },
-    { "source": "/servico/limpeza-de-ar-condicionado-em-florianopolis", "destination": "/servico/limpeza-de-ar-condicionado-em-florianopolis.html" },
-    { "source": "/servico/limpeza-de-ar-condicionado-em-palhoca-sc", "destination": "/servico/limpeza-de-ar-condicionado-em-palhoca-sc.html" },
-    { "source": "/servico/limpeza-de-ar-condicionado-em-sao-jose-sc", "destination": "/servico/limpeza-de-ar-condicionado-em-sao-jose-sc.html" },
-
-    { "source": "/servico/manutencao-de-ar-condicionado-em-biguacu-sc", "destination": "/servico/manutencao-de-ar-condicionado-em-biguacu-sc.html" },
-    { "source": "/servico/manutencao-de-ar-condicionado-em-florianopolis", "destination": "/servico/manutencao-de-ar-condicionado-em-florianopolis.html" },
-    { "source": "/servico/manutencao-de-ar-condicionado-em-palhoca-sc", "destination": "/servico/manutencao-de-ar-condicionado-em-palhoca-sc.html" },
-    { "source": "/servico/manutencao-de-ar-condicionado-em-sao-jose-sc", "destination": "/servico/manutencao-de-ar-condicionado-em-sao-jose-sc.html" },
-
-    { "source": "/servico/pmoc-de-ar-condicionado-em-biguacu-sc", "destination": "/servico/pmoc-de-ar-condicionado-em-biguacu-sc.html" },
-    { "source": "/servico/pmoc-de-ar-condicionado-em-florianopolis", "destination": "/servico/pmoc-de-ar-condicionado-em-florianopolis.html" },
-    { "source": "/servico/pmoc-de-ar-condicionado-em-palhoca-sc", "destination": "/servico/pmoc-de-ar-condicionado-em-palhoca-sc.html" },
-    { "source": "/servico/pmoc-de-ar-condicionado-em-sao-jose-sc", "destination": "/servico/pmoc-de-ar-condicionado-em-sao-jose-sc.html" },
-
-    { "source": "/servico/remocao-e-reinstalacao-de-ar-condicionado-em-biguacu-sc", "destination": "/servico/remocao-e-reinstalacao-de-ar-condicionado-em-biguacu-sc.html" },
-    { "source": "/servico/remocao-e-reinstalacao-de-ar-condicionado-em-florianopolis", "destination": "/servico/remocao-e-reinstalacao-de-ar-condicionado-em-florianopolis.html" },
-    { "source": "/servico/remocao-e-reinstalacao-de-ar-condicionado-em-palhoca-sc", "destination": "/servico/remocao-e-reinstalacao-de-ar-condicionado-em-palhoca-sc.html" },
-    { "source": "/servico/remocao-e-reinstalacao-de-ar-condicionado-em-sao-jose-sc", "destination": "/servico/remocao-e-reinstalacao-de-ar-condicionado-em-sao-jose-sc.html" },
-
-    { "source": "/blog/codigo-controle-universal-ar-condicionado-philco", "destination": "/blog/codigo-controle-universal-ar-condicionado-philco.html" },
-    { "source": "/blog/codigo-controle-universal-ar-condicionado", "destination": "/blog/codigo-controle-universal-ar-condicionado.html" },
-    { "source": "/blog/como-instalar-ar-condicionado-de-parede-de-forma-simples", "destination": "/blog/como-instalar-ar-condicionado-de-parede-de-forma-simples.html" },
-    { "source": "/blog/como-instalar-ar-condicionado-na-janela-guia-pratico", "destination": "/blog/como-instalar-ar-condicionado-na-janela-guia-pratico.html" },
-    { "source": "/blog/como-limpar-a-serpentina-do-ar-condicionado", "destination": "/blog/como-limpar-a-serpentina-do-ar-condicionado.html" },
-    { "source": "/blog/como-saber-se-ar-condicionado-esta-vazando-gas", "destination": "/blog/como-saber-se-ar-condicionado-esta-vazando-gas.html" },
-    { "source": "/blog/como-saber-se-o-compressor-do-ar-condicionado-esta-ruim", "destination": "/blog/como-saber-se-o-compressor-do-ar-condicionado-esta-ruim.html" },
-    { "source": "/blog/como-saber-se-o-gas-do-ar-condicionado-acabou", "destination": "/blog/como-saber-se-o-gas-do-ar-condicionado-acabou.html" },
-    { "source": "/blog/melhor-bomba-de-dreno-para-ar-condicionado", "destination": "/blog/melhor-bomba-de-dreno-para-ar-condicionado.html" },
-    { "source": "/blog/o-que-e-ar-condicionado-inverter", "destination": "/blog/o-que-e-ar-condicionado-inverter.html" },
-    { "source": "/blog/pagina-2", "destination": "/blog/pagina-2.html" },
-    { "source": "/blog/pagina-3", "destination": "/blog/pagina-3.html" },
-    { "source": "/blog/qual-a-potencia-de-um-ar-condicionado-de-9000-btus", "destination": "/blog/qual-a-potencia-de-um-ar-condicionado-de-9000-btus.html" },
-    { "source": "/blog/qual-ar-condicionado-e-mais-economico-9000-ou-12000-btus", "destination": "/blog/qual-ar-condicionado-e-mais-economico-9000-ou-12000-btus.html" },
-    { "source": "/blog/qual-disjuntor-para-ar-condicionado-18000-btus-220v", "destination": "/blog/qual-disjuntor-para-ar-condicionado-18000-btus-220v.html" },
-    { "source": "/blog/qual-disjuntor-para-ar-condicionado-24000-btus-220v", "destination": "/blog/qual-disjuntor-para-ar-condicionado-24000-btus-220v.html" },
-    { "source": "/blog/qual-e-o-melhor-gas-para-ar-condicionado-hoje", "destination": "/blog/qual-e-o-melhor-gas-para-ar-condicionado-hoje.html" },
-    { "source": "/blog/qual-fio-usar-para-ar-condicionado-12000-btus-220v", "destination": "/blog/qual-fio-usar-para-ar-condicionado-12000-btus-220v.html" },
-    { "source": "/blog/qual-fio-usar-para-ar-condicionado-guia-pratico", "destination": "/blog/qual-fio-usar-para-ar-condicionado-guia-pratico.html" },
-    { "source": "/blog/qual-o-consumo-de-um-ar-condicionado-saiba-economizar", "destination": "/blog/qual-o-consumo-de-um-ar-condicionado-saiba-economizar.html" },
-    { "source": "/blog/qual-transformador-para-ar-condicionado-12000-btus", "destination": "/blog/qual-transformador-para-ar-condicionado-12000-btus.html" },
-    { "source": "/blog/quanto-custa-capacitor-de-ar-condicionado-em-florianopolis", "destination": "/blog/quanto-custa-capacitor-de-ar-condicionado-em-florianopolis.html" },
-    { "source": "/blog/quanto-custa-carga-de-gas-de-ar-condicionado-em-florianopolis", "destination": "/blog/quanto-custa-carga-de-gas-de-ar-condicionado-em-florianopolis.html" },
-    { "source": "/blog/quanto-custa-compressor-de-ar-condicionado-em-florianopolis", "destination": "/blog/quanto-custa-compressor-de-ar-condicionado-em-florianopolis.html" },
-    { "source": "/blog/quanto-custa-higienizacao-de-ar-condicionado-em-florianopolis", "destination": "/blog/quanto-custa-higienizacao-de-ar-condicionado-em-florianopolis.html" },
-    { "source": "/blog/quanto-custa-instalacao-ar-condicionado-split", "destination": "/blog/quanto-custa-instalacao-ar-condicionado-split.html" },
-    { "source": "/blog/quanto-custa-limpeza-de-ar-condicionado-em-florianopolis", "destination": "/blog/quanto-custa-limpeza-de-ar-condicionado-em-florianopolis.html" },
-    { "source": "/blog/quanto-custa-manutencao-de-ar-condicionado-em-florianopolis", "destination": "/blog/quanto-custa-manutencao-de-ar-condicionado-em-florianopolis.html" },
-    { "source": "/blog/quanto-tempo-para-instalar-ar-condicionado", "destination": "/blog/quanto-tempo-para-instalar-ar-condicionado.html" }
+  "trailingSlash": true,
+  "redirects": [
+    {
+      "source": "/blog/codigo-controle-universal-ar-condicionado-philco.html",
+      "destination": "/blog/codigo-controle-universal-ar-condicionado-philco/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/codigo-controle-universal-ar-condicionado.html",
+      "destination": "/blog/codigo-controle-universal-ar-condicionado/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/como-instalar-ar-condicionado-de-parede-de-forma-simples.html",
+      "destination": "/blog/como-instalar-ar-condicionado-de-parede-de-forma-simples/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/como-instalar-ar-condicionado-na-janela-guia-pratico.html",
+      "destination": "/blog/como-instalar-ar-condicionado-na-janela-guia-pratico/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/como-limpar-a-serpentina-do-ar-condicionado.html",
+      "destination": "/blog/como-limpar-a-serpentina-do-ar-condicionado/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/como-saber-se-ar-condicionado-esta-vazando-gas.html",
+      "destination": "/blog/como-saber-se-ar-condicionado-esta-vazando-gas/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/como-saber-se-o-compressor-do-ar-condicionado-esta-ruim.html",
+      "destination": "/blog/como-saber-se-o-compressor-do-ar-condicionado-esta-ruim/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/como-saber-se-o-gas-do-ar-condicionado-acabou.html",
+      "destination": "/blog/como-saber-se-o-gas-do-ar-condicionado-acabou/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/melhor-bomba-de-dreno-para-ar-condicionado.html",
+      "destination": "/blog/melhor-bomba-de-dreno-para-ar-condicionado/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/o-que-e-ar-condicionado-inverter.html",
+      "destination": "/blog/o-que-e-ar-condicionado-inverter/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/pagina-2.html",
+      "destination": "/blog/pagina-2/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/pagina-3.html",
+      "destination": "/blog/pagina-3/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/qual-a-potencia-de-um-ar-condicionado-de-9000-btus.html",
+      "destination": "/blog/qual-a-potencia-de-um-ar-condicionado-de-9000-btus/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/qual-ar-condicionado-e-mais-economico-9000-ou-12000-btus.html",
+      "destination": "/blog/qual-ar-condicionado-e-mais-economico-9000-ou-12000-btus/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/qual-disjuntor-para-ar-condicionado-18000-btus-220v.html",
+      "destination": "/blog/qual-disjuntor-para-ar-condicionado-18000-btus-220v/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/qual-disjuntor-para-ar-condicionado-24000-btus-220v.html",
+      "destination": "/blog/qual-disjuntor-para-ar-condicionado-24000-btus-220v/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/qual-e-o-melhor-gas-para-ar-condicionado-hoje.html",
+      "destination": "/blog/qual-e-o-melhor-gas-para-ar-condicionado-hoje/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/qual-fio-usar-para-ar-condicionado-12000-btus-220v.html",
+      "destination": "/blog/qual-fio-usar-para-ar-condicionado-12000-btus-220v/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/qual-fio-usar-para-ar-condicionado-guia-pratico.html",
+      "destination": "/blog/qual-fio-usar-para-ar-condicionado-guia-pratico/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/qual-o-consumo-de-um-ar-condicionado-saiba-economizar.html",
+      "destination": "/blog/qual-o-consumo-de-um-ar-condicionado-saiba-economizar/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/qual-transformador-para-ar-condicionado-12000-btus.html",
+      "destination": "/blog/qual-transformador-para-ar-condicionado-12000-btus/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/quanto-custa-capacitor-de-ar-condicionado-em-florianopolis.html",
+      "destination": "/blog/quanto-custa-capacitor-de-ar-condicionado-em-florianopolis/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/quanto-custa-carga-de-gas-de-ar-condicionado-em-florianopolis.html",
+      "destination": "/blog/quanto-custa-carga-de-gas-de-ar-condicionado-em-florianopolis/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/quanto-custa-compressor-de-ar-condicionado-em-florianopolis.html",
+      "destination": "/blog/quanto-custa-compressor-de-ar-condicionado-em-florianopolis/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/quanto-custa-higienizacao-de-ar-condicionado-em-florianopolis.html",
+      "destination": "/blog/quanto-custa-higienizacao-de-ar-condicionado-em-florianopolis/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/quanto-custa-instalacao-ar-condicionado-split.html",
+      "destination": "/blog/quanto-custa-instalacao-ar-condicionado-split/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/quanto-custa-limpeza-de-ar-condicionado-em-florianopolis.html",
+      "destination": "/blog/quanto-custa-limpeza-de-ar-condicionado-em-florianopolis/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/quanto-custa-manutencao-de-ar-condicionado-em-florianopolis.html",
+      "destination": "/blog/quanto-custa-manutencao-de-ar-condicionado-em-florianopolis/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/quanto-tempo-para-instalar-ar-condicionado.html",
+      "destination": "/blog/quanto-tempo-para-instalar-ar-condicionado/",
+      "permanent": true
+    },
+    {
+      "source": "/servicos.html",
+      "destination": "/servicos/",
+      "permanent": true
+    },
+    {
+      "source": "/contato.html",
+      "destination": "/contato/",
+      "permanent": true
+    },
+    {
+      "source": "/quem-somos.html",
+      "destination": "/quem-somos/",
+      "permanent": true
+    },
+    {
+      "source": "/regioes.html",
+      "destination": "/regioes/",
+      "permanent": true
+    },
+    {
+      "source": "/politica-de-privacidade.html",
+      "destination": "/politica-de-privacidade/",
+      "permanent": true
+    },
+    {
+      "source": "/blog.html",
+      "destination": "/blog/",
+      "permanent": true
+    },
+    {
+      "source": "/servico/carga-de-gas-de-ar-condicionado-em-biguacu-sc.html",
+      "destination": "/servico/carga-de-gas-de-ar-condicionado-em-biguacu-sc/",
+      "permanent": true
+    },
+    {
+      "source": "/servico/carga-de-gas-de-ar-condicionado-em-florianopolis.html",
+      "destination": "/servico/carga-de-gas-de-ar-condicionado-em-florianopolis/",
+      "permanent": true
+    },
+    {
+      "source": "/servico/carga-de-gas-de-ar-condicionado-em-palhoca-sc.html",
+      "destination": "/servico/carga-de-gas-de-ar-condicionado-em-palhoca-sc/",
+      "permanent": true
+    },
+    {
+      "source": "/servico/carga-de-gas-de-ar-condicionado-em-sao-jose-sc.html",
+      "destination": "/servico/carga-de-gas-de-ar-condicionado-em-sao-jose-sc/",
+      "permanent": true
+    },
+    {
+      "source": "/servico/conserto-de-ar-condicionado-em-biguacu-sc.html",
+      "destination": "/servico/conserto-de-ar-condicionado-em-biguacu-sc/",
+      "permanent": true
+    },
+    {
+      "source": "/servico/conserto-de-ar-condicionado-em-florianopolis.html",
+      "destination": "/servico/conserto-de-ar-condicionado-em-florianopolis/",
+      "permanent": true
+    },
+    {
+      "source": "/servico/conserto-de-ar-condicionado-em-palhoca-sc.html",
+      "destination": "/servico/conserto-de-ar-condicionado-em-palhoca-sc/",
+      "permanent": true
+    },
+    {
+      "source": "/servico/conserto-de-ar-condicionado-em-sao-jose-sc.html",
+      "destination": "/servico/conserto-de-ar-condicionado-em-sao-jose-sc/",
+      "permanent": true
+    },
+    {
+      "source": "/servico/higienizacao-de-ar-condicionado-em-biguacu-sc.html",
+      "destination": "/servico/higienizacao-de-ar-condicionado-em-biguacu-sc/",
+      "permanent": true
+    },
+    {
+      "source": "/servico/higienizacao-de-ar-condicionado-em-florianopolis.html",
+      "destination": "/servico/higienizacao-de-ar-condicionado-em-florianopolis/",
+      "permanent": true
+    },
+    {
+      "source": "/servico/higienizacao-de-ar-condicionado-em-palhoca-sc.html",
+      "destination": "/servico/higienizacao-de-ar-condicionado-em-palhoca-sc/",
+      "permanent": true
+    },
+    {
+      "source": "/servico/higienizacao-de-ar-condicionado-em-sao-jose-sc.html",
+      "destination": "/servico/higienizacao-de-ar-condicionado-em-sao-jose-sc/",
+      "permanent": true
+    },
+    {
+      "source": "/servico/instalacao-de-ar-condicionado-em-biguacu-sc.html",
+      "destination": "/servico/instalacao-de-ar-condicionado-em-biguacu-sc/",
+      "permanent": true
+    },
+    {
+      "source": "/servico/instalacao-de-ar-condicionado-em-florianopolis.html",
+      "destination": "/servico/instalacao-de-ar-condicionado-em-florianopolis/",
+      "permanent": true
+    },
+    {
+      "source": "/servico/instalacao-de-ar-condicionado-em-palhoca-sc.html",
+      "destination": "/servico/instalacao-de-ar-condicionado-em-palhoca-sc/",
+      "permanent": true
+    },
+    {
+      "source": "/servico/instalacao-de-ar-condicionado-em-sao-jose-sc.html",
+      "destination": "/servico/instalacao-de-ar-condicionado-em-sao-jose-sc/",
+      "permanent": true
+    },
+    {
+      "source": "/servico/limpeza-de-ar-condicionado-em-biguacu-sc.html",
+      "destination": "/servico/limpeza-de-ar-condicionado-em-biguacu-sc/",
+      "permanent": true
+    },
+    {
+      "source": "/servico/limpeza-de-ar-condicionado-em-florianopolis.html",
+      "destination": "/servico/limpeza-de-ar-condicionado-em-florianopolis/",
+      "permanent": true
+    },
+    {
+      "source": "/servico/limpeza-de-ar-condicionado-em-palhoca-sc.html",
+      "destination": "/servico/limpeza-de-ar-condicionado-em-palhoca-sc/",
+      "permanent": true
+    },
+    {
+      "source": "/servico/limpeza-de-ar-condicionado-em-sao-jose-sc.html",
+      "destination": "/servico/limpeza-de-ar-condicionado-em-sao-jose-sc/",
+      "permanent": true
+    },
+    {
+      "source": "/servico/manutencao-de-ar-condicionado-em-biguacu-sc.html",
+      "destination": "/servico/manutencao-de-ar-condicionado-em-biguacu-sc/",
+      "permanent": true
+    },
+    {
+      "source": "/servico/manutencao-de-ar-condicionado-em-florianopolis.html",
+      "destination": "/servico/manutencao-de-ar-condicionado-em-florianopolis/",
+      "permanent": true
+    },
+    {
+      "source": "/servico/manutencao-de-ar-condicionado-em-palhoca-sc.html",
+      "destination": "/servico/manutencao-de-ar-condicionado-em-palhoca-sc/",
+      "permanent": true
+    },
+    {
+      "source": "/servico/manutencao-de-ar-condicionado-em-sao-jose-sc.html",
+      "destination": "/servico/manutencao-de-ar-condicionado-em-sao-jose-sc/",
+      "permanent": true
+    },
+    {
+      "source": "/servico/pmoc-de-ar-condicionado-em-biguacu-sc.html",
+      "destination": "/servico/pmoc-de-ar-condicionado-em-biguacu-sc/",
+      "permanent": true
+    },
+    {
+      "source": "/servico/pmoc-de-ar-condicionado-em-florianopolis.html",
+      "destination": "/servico/pmoc-de-ar-condicionado-em-florianopolis/",
+      "permanent": true
+    },
+    {
+      "source": "/servico/pmoc-de-ar-condicionado-em-palhoca-sc.html",
+      "destination": "/servico/pmoc-de-ar-condicionado-em-palhoca-sc/",
+      "permanent": true
+    },
+    {
+      "source": "/servico/pmoc-de-ar-condicionado-em-sao-jose-sc.html",
+      "destination": "/servico/pmoc-de-ar-condicionado-em-sao-jose-sc/",
+      "permanent": true
+    },
+    {
+      "source": "/servico/remocao-e-reinstalacao-de-ar-condicionado-em-biguacu-sc.html",
+      "destination": "/servico/remocao-e-reinstalacao-de-ar-condicionado-em-biguacu-sc/",
+      "permanent": true
+    },
+    {
+      "source": "/servico/remocao-e-reinstalacao-de-ar-condicionado-em-florianopolis.html",
+      "destination": "/servico/remocao-e-reinstalacao-de-ar-condicionado-em-florianopolis/",
+      "permanent": true
+    },
+    {
+      "source": "/servico/remocao-e-reinstalacao-de-ar-condicionado-em-palhoca-sc.html",
+      "destination": "/servico/remocao-e-reinstalacao-de-ar-condicionado-em-palhoca-sc/",
+      "permanent": true
+    },
+    {
+      "source": "/servico/remocao-e-reinstalacao-de-ar-condicionado-em-sao-jose-sc.html",
+      "destination": "/servico/remocao-e-reinstalacao-de-ar-condicionado-em-sao-jose-sc/",
+      "permanent": true
+    }
   ]
 }

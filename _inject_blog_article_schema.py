@@ -8,6 +8,8 @@ import re
 import sys
 from pathlib import Path
 
+from _fix_html_root_paths import apply_relative_paths_to_file
+
 ROOT = Path(__file__).resolve().parent
 BLOG = ROOT / "blog"
 BASE = "https://arcondicionadofloripa.com"
@@ -31,7 +33,11 @@ PUBLISHER = {
 
 MARKER_START = "<!-- blog-schema:start -->"
 MARKER_END = "<!-- blog-schema:end -->"
-LINK_LINE = '  <link rel="stylesheet" href="../css/style.css">'
+# Linha do stylesheet (href relativo ou /css/…), antes do bloco JSON-LD injetado.
+STYLESHEET_LINK = re.compile(
+    r"^(\s*<link rel=\"stylesheet\" href=\"[^\"]*css/style\.css\">)\s*$",
+    re.MULTILINE,
+)
 
 
 def is_faq_h2(title: str) -> bool:
@@ -164,7 +170,7 @@ def process_file(path: Path) -> tuple[bool, str]:
     raw = path.read_text(encoding="utf-8")
     html = strip_old_schema(raw)
 
-    slug = path.stem
+    slug = path.parent.name if path.name == "index.html" else path.stem
     tm = re.search(r'<time datetime="(\d{4}-\d{2}-\d{2})"', html)
     if not tm:
         return False, "sem <time datetime>"
@@ -201,17 +207,20 @@ def process_file(path: Path) -> tuple[bool, str]:
         f"  {MARKER_END}\n"
     )
 
-    if LINK_LINE not in html:
+    sm = STYLESHEET_LINK.search(html)
+    if not sm:
         return False, "linha do stylesheet não encontrada"
-    new_html = html.replace(LINK_LINE, LINK_LINE + injection, 1)
+    insert_at = sm.end()
+    new_html = html[:insert_at] + injection + html[insert_at:]
     path.write_text(new_html, encoding="utf-8")
+    apply_relative_paths_to_file(path, ROOT)
     return True, f"{len(pairs)} FAQs"
 
 
 def main() -> int:
     skip = {"pagina-2", "pagina-3"}
     files = sorted(
-        p for p in BLOG.glob("*.html") if p.stem not in skip
+        p for p in BLOG.glob("*/index.html") if p.parent.name not in skip
     )
     errors: list[str] = []
     for p in files:

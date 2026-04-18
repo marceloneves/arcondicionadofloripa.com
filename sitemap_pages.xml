@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://arcondicionadofloripa.com/servicos.html</loc>
-    <lastmod>2026-04-17</lastmod>
-  </url>
-  <url>
-    <loc>https://arcondicionadofloripa.com/contato.html</loc>
-    <lastmod>2026-04-17</lastmod>
-  </url>
-  <url>
-    <loc>https://arcondicionadofloripa.com/blog.html</loc>
-    <lastmod>2026-04-17</lastmod>
-  </url>
-  <url>
     <loc>https://arcondicionadofloripa.com/</loc>
     <lastmod>2026-04-17</lastmod>
   </url>
   <url>
-    <loc>https://arcondicionadofloripa.com/quem-somos.html</loc>
+    <loc>https://arcondicionadofloripa.com/servicos/</loc>
     <lastmod>2026-04-17</lastmod>
   </url>
   <url>
-    <loc>https://arcondicionadofloripa.com/politica-de-privacidade.html</loc>
+    <loc>https://arcondicionadofloripa.com/contato/</loc>
     <lastmod>2026-04-17</lastmod>
   </url>
   <url>
-    <loc>https://arcondicionadofloripa.com/regioes.html</loc>
+    <loc>https://arcondicionadofloripa.com/blog/</loc>
+    <lastmod>2026-04-17</lastmod>
+  </url>
+  <url>
+    <loc>https://arcondicionadofloripa.com/quem-somos/</loc>
+    <lastmod>2026-04-17</lastmod>
+  </url>
+  <url>
+    <loc>https://arcondicionadofloripa.com/regioes/</loc>
+    <lastmod>2026-04-17</lastmod>
+  </url>
+  <url>
+    <loc>https://arcondicionadofloripa.com/politica-de-privacidade/</loc>
     <lastmod>2026-04-17</lastmod>
   </url>
 </urlset>

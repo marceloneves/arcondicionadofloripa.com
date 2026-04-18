@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
-"""Gera hubs por serviço em servico/*.html com descrição e links para todos os bairros."""
+"""Gera hubs por serviço em servico/<serviço>/index.html com descrição e links para todas as páginas locais."""
 
 from pathlib import Path
 import json
 
+from _fix_html_root_paths import apply_relative_paths_to_file
 from _rebuild_servico_main import BAIRROS, CIDADES, SERV_META, SERVICE_KEYS
 
 ROOT = Path(__file__).parent
@@ -51,11 +52,11 @@ INTRO = {
 
 def href_for(sk: str, prep: str, bairro_slug: str) -> str:
     suf = "sc" if bairro_slug in CIDADES else "florianopolis"
-    return f"/servico/{sk}-{prep}-{bairro_slug}-{suf}.html"
+    return f"/servico/{sk}-{prep}-{bairro_slug}-{suf}/"
 
 
 def hub_slug(sk: str) -> str:
-    return f"/servico/{sk}.html"
+    return f"/servico/{sk}/"
 
 
 def schema_for(sk: str, title: str, description: str) -> str:
@@ -64,8 +65,8 @@ def schema_for(sk: str, title: str, description: str) -> str:
         "@graph": [
             {
                 "@type": "CollectionPage",
-                "@id": f"{BASE_URL}/servico/{sk}.html#webpage",
-                "url": f"{BASE_URL}/servico/{sk}.html",
+                "@id": f"{BASE_URL}/servico/{sk}/#webpage",
+                "url": f"{BASE_URL}/servico/{sk}/",
                 "name": title,
                 "description": description,
                 "isPartOf": {
@@ -77,7 +78,7 @@ def schema_for(sk: str, title: str, description: str) -> str:
             },
             {
                 "@type": "Service",
-                "@id": f"{BASE_URL}/servico/{sk}.html#service",
+                "@id": f"{BASE_URL}/servico/{sk}/#service",
                 "name": SERV_META[sk]["titulo"],
                 "serviceType": SERV_META[sk]["titulo"],
                 "description": SERV_META[sk]["oque"],
@@ -124,20 +125,21 @@ def build_page(sk: str) -> str:
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{title}</title>
   <meta name="description" content="{description}">
-  <link rel="canonical" href="{BASE_URL}/servico/{sk}.html">
-  <link rel="stylesheet" href="../css/style.css">
+  <link rel="canonical" href="{BASE_URL}/servico/{sk}/">
+  <link rel="stylesheet" href="/css/style.css">
   <script type="application/ld+json">{schema_for(sk, title, description)}</script>
 </head>
 <body>
 <header class="site-header">
   <div class="container nav-wrap">
-    <a class="logo" href="../index.html">Ar Condicionado em Florianópolis</a>
+    <a class="logo" href="/">Ar Condicionado em Florianópolis</a>
     <button class="menu-toggle" aria-label="Abrir menu" aria-expanded="false">☰</button>
     <nav class="main-nav" id="mainNav">
-      <a href="../index.html">Início</a>
-      <a href="../servicos.html" class="active">Serviços</a>
-      <a href="../regioes.html">Regiões</a>
-      <a href="../contato.html">Contato</a>
+      <a href="/">Início</a>
+      <a href="/servicos/" class="active">Serviços</a>
+      <a href="/regioes/">Regiões</a>
+      <a href="/blog/">Blog</a>
+      <a href="/contato/">Contato</a>
     </nav>
     <a class="btn btn-whats" href="{WA}" target="_blank" rel="noopener">WhatsApp</a>
   </div>
@@ -153,20 +155,20 @@ def build_page(sk: str) -> str:
   <h2>Páginas de {meta["curto"]} por bairro</h2>
   <div class="grid-3">{cards_html}</div>
 </div></section>
-<section class="section"><div class="container cta-box"><div><h2>Precisa de {meta["curto"]} em Florianópolis?</h2><p>Fale com a equipe e receba orientação técnica para o seu caso.</p></div><div><a class="btn btn-whats" href="{WA}" target="_blank" rel="noopener">WhatsApp</a> <a class="btn btn-primary" href="../contato.html">Solicitar orçamento</a> <a class="btn btn-outline" href="tel:{TEL}">Ligar</a></div></div></section>
-<section class="section"><div class="container"><div class="card"><h2>Links úteis</h2><ul><li><a href="../index.html">Home</a></li><li><a href="../servicos.html">Página geral de serviços</a></li><li><a href="../regioes.html">Lista de regiões</a></li><li><a href="../contato.html">Contato</a></li></ul></div></div></section>
+<section class="section"><div class="container cta-box"><div><h2>Precisa de {meta["curto"]} em Florianópolis?</h2><p>Fale com a equipe e receba orientação técnica para o seu caso.</p></div><div><a class="btn btn-whats" href="{WA}" target="_blank" rel="noopener">WhatsApp</a> <a class="btn btn-primary" href="/contato/">Solicitar orçamento</a> <a class="btn btn-outline" href="tel:{TEL}">Ligar</a></div></div></section>
+<section class="section"><div class="container"><div class="card"><h2>Links úteis</h2><ul><li><a href="/">Home</a></li><li><a href="/servicos/">Página geral de serviços</a></li><li><a href="/regioes/">Lista de regiões</a></li><li><a href="/contato/">Contato</a></li></ul></div></div></section>
 </main>
 <footer class="site-footer">
   <div class="container footer-grid">
     <div><h3>Ar Condicionado em Florianópolis</h3><p>Atendimento técnico para instalação, manutenção, limpeza, higienização, carga de gás e reinstalação em Florianópolis.</p></div>
-    <div><h4>Links rápidos</h4><ul><li><a href="../index.html">Início</a></li><li><a href="../servicos.html">Serviços</a></li><li><a href="../regioes.html">Regiões</a></li><li><a href="../contato.html">Contato</a></li></ul></div>
+    <div><h4>Links rápidos</h4><ul><li><a href="/">Início</a></li><li><a href="/servicos/">Serviços</a></li><li><a href="/regioes/">Regiões</a></li><li><a href="/blog/">Blog</a></li><li><a href="/contato/">Contato</a></li></ul></div>
     <div><h4>Serviços</h4><ul><li><a href="{hub_slug('instalacao-de-ar-condicionado')}">Instalação</a></li><li><a href="{hub_slug('manutencao-de-ar-condicionado')}">Manutenção</a></li><li><a href="{hub_slug('limpeza-de-ar-condicionado')}">Limpeza</a></li><li><a href="{hub_slug('higienizacao-de-ar-condicionado')}">Higienização</a></li><li><a href="{hub_slug('carga-de-gas-de-ar-condicionado')}">Carga de gás</a></li><li><a href="{hub_slug('remocao-e-reinstalacao-de-ar-condicionado')}">Remoção e reinstalação</a></li></ul></div>
-    <div><h4>Este hub</h4><p><a href="../servicos.html">Ver visão geral dos serviços</a></p></div>
+    <div><h4>Este hub</h4><p><a href="/servicos/">Ver visão geral dos serviços</a></p></div>
   </div>
   <div class="container footer-bottom"><p>© 2026 Ar Condicionado em Florianópolis. Todos os direitos reservados.</p><p><a href="tel:{TEL}">{PHONE}</a></p></div>
 </footer>
 <a class="floating-whatsapp" href="{WA}" target="_blank" rel="noopener" aria-label="Falar no WhatsApp">WhatsApp</a>
-<script src="../js/script.js"></script>
+<script src="/js/script.js"></script>
 </body>
 </html>
 """
@@ -175,7 +177,11 @@ def build_page(sk: str) -> str:
 def main() -> None:
     OUT_DIR.mkdir(exist_ok=True)
     for sk in SERVICE_KEYS:
-        (OUT_DIR / f"{sk}.html").write_text(build_page(sk), encoding="utf-8")
+        d = OUT_DIR / sk
+        d.mkdir(parents=True, exist_ok=True)
+        out_path = d / "index.html"
+        out_path.write_text(build_page(sk), encoding="utf-8")
+        apply_relative_paths_to_file(out_path, ROOT)
     print("Hubs gerados:", len(SERVICE_KEYS))
 
 
