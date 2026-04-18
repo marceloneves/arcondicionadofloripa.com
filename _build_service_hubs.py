@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Gera hubs por serviço em servico/<serviço>/index.html com descrição e links para todas as páginas locais."""
+"""Legado: hubs em servico/<serviço>/ (sem cidade). Desativado — páginas canónicas: *-em-florianopolis/ e *-em-*-sc/."""
 
 from html import escape
 from pathlib import Path
@@ -213,14 +213,7 @@ def build_page(sk: str) -> str:
 
 
 def main() -> None:
-    OUT_DIR.mkdir(exist_ok=True)
-    for sk in SERVICE_KEYS:
-        d = OUT_DIR / sk
-        d.mkdir(parents=True, exist_ok=True)
-        out_path = d / "index.html"
-        out_path.write_text(build_page(sk), encoding="utf-8")
-        apply_relative_paths_to_file(out_path, ROOT)
-    print("Hubs gerados:", len(SERVICE_KEYS))
+    print("Geração de hubs desativada (nada gravado). Use /servicos/ e páginas *-em-florianopolis/ ou *-em-*-sc/.")
 
 
 if __name__ == "__main__":
