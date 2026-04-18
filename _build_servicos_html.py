@@ -3,11 +3,12 @@
 
 from __future__ import annotations
 
+import html
 import json
 from pathlib import Path
 
 from _fix_html_root_paths import apply_relative_paths_to_file
-from _brand import FAVICON_PATH, LOGO_ALT, LOGO_URL, SERVICO_CARD_IMG_ALT
+from _brand import FAVICON_PATH, LOGO_ALT, LOGO_URL
 from _social_meta import insert_social_meta_after_description
 from _rebuild_servico_main import CIDADES, SERVICE_KEYS, SERV_META
 
@@ -90,11 +91,12 @@ def _card(sk: str, cidade_slug: str, suffix: str, nome_cidade: str, lcp: _FirstL
     meta = SERV_META[sk]
     href = _href(sk, cidade_slug, suffix)
     label = f'{meta["titulo"]} em {nome_cidade}'
+    label_attr = html.escape(label, quote=True)
     extra = lcp.img_extra_attrs()
     return (
         f'<article class="card"><h3><a href="{href}">{label}</a></h3>'
-        f'<a class="servico-card-img-link" href="{href}">'
-        f'<img class="servico-card-img" src="{IMG}" alt="{SERVICO_CARD_IMG_ALT}"{extra}></a></article>'
+        f'<a class="servico-card-img-link" href="{href}" aria-label="{label_attr}">'
+        f'<img class="servico-card-img" src="{IMG}" alt=""{extra}></a></article>'
     )
 
 
