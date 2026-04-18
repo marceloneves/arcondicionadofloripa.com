@@ -13,6 +13,7 @@ PHONE = "(48) 98810-5199"
 TEL = "+5548988105199"
 WA = "https://wa.me/5548988105199?text=Olá!%20Quero%20orçamento%20de%20ar-condicionado%20em%20Florianópolis."
 BASE_URL = "https://arcondicionadofloripa.com"
+FOUNDING_DATE = "2021-04-06"
 
 INTRO = {
     "instalacao-de-ar-condicionado": (
@@ -76,6 +77,7 @@ def schema_for(sk: str, title: str, description: str) -> str:
             "name": "Ar Condicionado em Florianópolis",
             "url": BASE_URL,
             "telephone": TEL,
+            "foundingDate": FOUNDING_DATE,
         },
         "areaServed": {
             "@type": "City",

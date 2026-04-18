@@ -17,6 +17,7 @@ BUSINESS_IMAGE = f"{BASE_URL}/images/ar-condicionado-florianopolis.webp"
 BUSINESS_STREET = "Rodovia Armando Calil Bullos, 630"
 BUSINESS_NEIGHBORHOOD = "Vargem Grande"
 BUSINESS_POSTAL = "88056-618"
+FOUNDING_DATE = "2021-04-06"
 bairros_html = (root / "regioes" / "index.html").read_text(encoding="utf-8")
 
 # Rodapé idêntico ao de index.html. Após gravar, apply_relative_paths_to_file() ajusta /… para ../…
@@ -894,6 +895,7 @@ def build_schema_service_jsonld(sk, prep, bslug, nome, fname, title, desc, is_ci
         "@id": BUSINESS_ID,
         "name": BUSINESS_NAME,
         "url": f"{BASE_URL}/",
+        "foundingDate": FOUNDING_DATE,
         "telephone": TEL,
         "image": BUSINESS_IMAGE,
         "address": {

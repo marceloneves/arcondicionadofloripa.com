@@ -11,6 +11,7 @@ from _rebuild_servico_main import CIDADES, SERVICE_KEYS, SERV_META
 
 ROOT = Path(__file__).resolve().parent
 BASE_URL = "https://arcondicionadofloripa.com"
+FOUNDING_DATE = "2021-04-06"
 
 IMG = "/images/ar-condicionado-florianopolis.webp"
 IMG_W, IMG_H = 1408, 768
@@ -55,6 +56,12 @@ def build_collection_page_schema_jsonld() -> str:
             "Página com a listagem dos principais serviços de ar-condicionado em Florianópolis, "
             "São José, Palhoça e Biguaçu."
         ),
+        "publisher": {
+            "@type": "Organization",
+            "@id": f"{BASE_URL}/#business",
+            "name": "Ar Condicionado em Florianópolis",
+            "foundingDate": FOUNDING_DATE,
+        },
         "breadcrumb": {
             "@type": "BreadcrumbList",
             "itemListElement": [

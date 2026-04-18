@@ -13,6 +13,7 @@ from _fix_html_root_paths import apply_relative_paths_to_file
 ROOT = Path(__file__).resolve().parent
 BLOG = ROOT / "blog"
 BASE = "https://arcondicionadofloripa.com"
+FOUNDING_DATE = "2021-04-06"
 LOGO_URL = f"{BASE}/images/ar-condicionado-florianopolis.webp"
 AUTHOR = {
     "@type": "Person",
@@ -28,6 +29,7 @@ PUBLISHER = {
     "@id": f"{BASE}/#business",
     "name": "Ar Condicionado em Florianópolis",
     "url": f"{BASE}/",
+    "foundingDate": FOUNDING_DATE,
     "logo": {"@type": "ImageObject", "url": LOGO_URL},
 }
 
