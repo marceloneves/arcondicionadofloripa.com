@@ -7,7 +7,7 @@ from html import escape
 from pathlib import Path
 
 from _fix_html_root_paths import apply_relative_paths_to_file
-from _brand import LOGO_URL as BUSINESS_LOGO_URL
+from _brand import FAVICON_PATH, LOGO_URL as BUSINESS_LOGO_URL
 from _social_meta import insert_social_meta_after_description
 
 root = Path(__file__).parent
@@ -942,6 +942,15 @@ def build_schema_service_jsonld(sk, prep, bslug, nome, fname, title, desc, is_ci
 
 
 def patch_head_seo(html, sk, prep, bslug, nome, fname, is_city: bool = False, suffix: str = "florianopolis"):
+    if 'rel="icon"' not in html:
+        html, cfi = re.subn(
+            r'(<meta name="viewport"[^>]*>)',
+            rf'\1\n  <link rel="icon" href="{FAVICON_PATH}" type="image/webp">',
+            html,
+            count=1,
+        )
+        if cfi != 1:
+            print("Aviso: favicon não inserido em", fname)
     meta = SERV_META[sk]
     pp = prep_phrase(prep, nome)
     page_url = f"{BASE_URL}{servico_public_path(fname)}"

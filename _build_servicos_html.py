@@ -7,7 +7,7 @@ import json
 from pathlib import Path
 
 from _fix_html_root_paths import apply_relative_paths_to_file
-from _brand import LOGO_ALT, LOGO_URL, SERVICO_CARD_IMG_ALT
+from _brand import FAVICON_PATH, LOGO_ALT, LOGO_URL, SERVICO_CARD_IMG_ALT
 from _social_meta import insert_social_meta_after_description
 from _rebuild_servico_main import CIDADES, SERVICE_KEYS, SERV_META
 
@@ -131,6 +131,7 @@ def build_page() -> str:
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="{FAVICON_PATH}" type="image/webp">
   <title>{page_title}</title>
   <meta name="description" content="{page_desc}">
   <link rel="preload" as="image" href="/images/ar-condicionado-florianopolis.webp">

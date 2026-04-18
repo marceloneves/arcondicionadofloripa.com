@@ -5,7 +5,7 @@ from pathlib import Path
 import json
 
 from _fix_html_root_paths import apply_relative_paths_to_file
-from _brand import LOGO_ALT, LOGO_URL as BUSINESS_LOGO_URL
+from _brand import FAVICON_PATH, LOGO_ALT, LOGO_URL as BUSINESS_LOGO_URL
 from _social_meta import insert_social_meta_after_description
 from _rebuild_servico_main import BAIRROS, CIDADES, SERV_META, SERVICE_KEYS
 
@@ -142,6 +142,7 @@ def build_page(sk: str) -> str:
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="{FAVICON_PATH}" type="image/webp">
   <title>{title}</title>
   <meta name="description" content="{description}">
   <link rel="canonical" href="{BASE_URL}/servico/{sk}/">

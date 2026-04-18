@@ -6,6 +6,9 @@ BASE_URL = "https://arcondicionadofloripa.com"
 LOGO_FILENAME = "ar-condicionado-floripa-logo.webp"
 LOGO_PATH = f"/images/{LOGO_FILENAME}"
 LOGO_URL = f"{BASE_URL}{LOGO_PATH}"
+FAVICON_FILENAME = "ar-condicionado-floripa-fav-icon.webp"
+FAVICON_PATH = f"/images/{FAVICON_FILENAME}"
+FAVICON_URL = f"{BASE_URL}{FAVICON_PATH}"
 # Acessibilidade: descreve o símbolo (não só o nome da marca).
 LOGO_ALT = (
     "Logotipo da Ar Condicionado Floripa: monograma preto com as letras AF entrelaçadas "
