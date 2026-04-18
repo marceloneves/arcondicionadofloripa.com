@@ -9,12 +9,13 @@ import sys
 from pathlib import Path
 
 from _fix_html_root_paths import apply_relative_paths_to_file
+from _brand import LOGO_URL
 
 ROOT = Path(__file__).resolve().parent
 BLOG = ROOT / "blog"
 BASE = "https://arcondicionadofloripa.com"
 FOUNDING_DATE = "2021-04-06"
-LOGO_URL = f"{BASE}/images/ar-condicionado-florianopolis.webp"
+
 AUTHOR = {
     "@type": "Person",
     "@id": f"{BASE}/#author-marcelo-menezes",

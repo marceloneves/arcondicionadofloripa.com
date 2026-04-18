@@ -5,6 +5,7 @@ from pathlib import Path
 import json
 
 from _fix_html_root_paths import apply_relative_paths_to_file
+from _brand import LOGO_URL as BUSINESS_LOGO_URL
 from _rebuild_servico_main import BAIRROS, CIDADES, SERV_META, SERVICE_KEYS
 
 ROOT = Path(__file__).parent
@@ -60,6 +61,11 @@ def hub_slug(sk: str) -> str:
     return f"/servico/{sk}/"
 
 
+def servico_florianopolis_url(sk: str) -> str:
+    """Página do serviço na capital (mesmos destinos do rodapé global)."""
+    return f"/servico/{sk}-em-florianopolis/"
+
+
 def schema_for(sk: str, title: str, description: str) -> str:
     """Um único nó: Service + WebPage (breadcrumb). Hub não tem FAQ no HTML."""
     page_url = f"{BASE_URL}/servico/{sk}/"
@@ -78,6 +84,7 @@ def schema_for(sk: str, title: str, description: str) -> str:
             "url": BASE_URL,
             "telephone": TEL,
             "foundingDate": FOUNDING_DATE,
+            "logo": {"@type": "ImageObject", "url": BUSINESS_LOGO_URL},
         },
         "areaServed": {
             "@type": "City",
@@ -129,7 +136,7 @@ def build_page(sk: str) -> str:
 <body>
 <header class="site-header">
   <div class="container nav-wrap">
-    <a class="logo" href="/">Ar Condicionado em Florianópolis</a>
+    <a class="logo" href="/"><img class="logo-img" src="/images/ar-condicionado-floripa-logo.webp" alt="Ar Condicionado Floripa — logo" width="1024" height="558" loading="eager" decoding="async"><span class="logo-text">Ar Condicionado em Florianópolis</span></a>
     <button class="menu-toggle" aria-label="Abrir menu" aria-expanded="false">☰</button>
     <nav class="main-nav" id="mainNav">
       <a href="/">Início</a>
@@ -159,7 +166,7 @@ def build_page(sk: str) -> str:
   <div class="container footer-grid">
     <div><h3>Ar Condicionado em Florianópolis</h3><p>Atendimento técnico para instalação, manutenção, limpeza, higienização, carga de gás e reinstalação em Florianópolis.</p></div>
     <div><h4>Links rápidos</h4><ul><li><a href="/">Início</a></li><li><a href="/servicos/">Serviços</a></li><li><a href="/regioes/">Regiões</a></li><li><a href="/blog/">Blog</a></li><li><a href="/contato/">Contato</a></li></ul></div>
-    <div><h4>Serviços</h4><ul><li><a href="{hub_slug('instalacao-de-ar-condicionado')}">Instalação</a></li><li><a href="{hub_slug('manutencao-de-ar-condicionado')}">Manutenção</a></li><li><a href="{hub_slug('limpeza-de-ar-condicionado')}">Limpeza</a></li><li><a href="{hub_slug('higienizacao-de-ar-condicionado')}">Higienização</a></li><li><a href="{hub_slug('carga-de-gas-de-ar-condicionado')}">Carga de gás</a></li><li><a href="{hub_slug('remocao-e-reinstalacao-de-ar-condicionado')}">Remoção e reinstalação</a></li></ul></div>
+    <div><h4>Serviços</h4><ul><li><a href="{servico_florianopolis_url('instalacao-de-ar-condicionado')}">Instalação de Ar-Condicionado</a></li><li><a href="{servico_florianopolis_url('manutencao-de-ar-condicionado')}">Manutenção de Ar-Condicionado</a></li><li><a href="{servico_florianopolis_url('limpeza-de-ar-condicionado')}">Limpeza de Ar-Condicionado</a></li><li><a href="{servico_florianopolis_url('higienizacao-de-ar-condicionado')}">Higienização de Ar-Condicionado</a></li><li><a href="{servico_florianopolis_url('carga-de-gas-de-ar-condicionado')}">Carga de Gás de Ar-Condicionado</a></li><li><a href="{servico_florianopolis_url('remocao-e-reinstalacao-de-ar-condicionado')}">Remoção e Reinstalação de Ar-Condicionado</a></li><li><a href="{servico_florianopolis_url('conserto-de-ar-condicionado')}">Conserto de Ar-Condicionado</a></li><li><a href="{servico_florianopolis_url('pmoc-de-ar-condicionado')}">PMOC de Ar-Condicionado</a></li></ul></div>
     <div><h4>Este hub</h4><p><a href="/servicos/">Ver visão geral dos serviços</a></p></div>
   </div>
   <div class="container footer-bottom"><p>© 2026 Ar Condicionado em Florianópolis. Todos os direitos reservados.</p><p><a href="tel:{TEL}">{PHONE}</a></p></div>
