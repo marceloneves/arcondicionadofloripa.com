@@ -11,13 +11,13 @@ LOGO_ALT = (
     "Logotipo da Ar Condicionado Floripa: monograma preto com as letras AF entrelaçadas "
     "dentro de um círculo em traço fino, fundo branco"
 )
-# Mesma imagem em todos os cards da listagem de serviços: descreve o conteúdo visual.
+# Mesma imagem em todos os cards da listagem de serviços.
 SERVICO_CARD_IMG_ALT = (
-    "Ilustração de unidade interna de ar-condicionado split branca com painel digital "
-    "mostrando 22°C e fluxo de ar representado; parede clara e tubulação ao lado"
+    "Unidade interna de ar-condicionado split branca com painel digital a 22°C, fluxo de ar "
+    "na saída inferior, parede clara e tubulação ao lado da instalação"
 )
-# Foto do autor nos posts do blog (marcelo-ar-condicionado.webp).
+# Autor nos posts do blog (marcelo-ar-condicionado.webp).
 AUTHOR_PHOTO_ALT = (
-    "Retrato de Marcelo Menezes, técnico em refrigeração, com moletom cinza com listras "
-    "amarelas nos ombros, sentado em cadeira de madeira, olhando para a câmera"
+    "Marcelo Menezes, técnico em refrigeração, de moletom cinza com listras amarelas nos ombros, "
+    "sentado em cadeira de madeira, olhando para a câmera"
 )
