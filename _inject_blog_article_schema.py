@@ -25,7 +25,7 @@ AUTHOR = {
 }
 PUBLISHER = {
     "@type": "Organization",
-    "@id": f"{BASE}/#organization",
+    "@id": f"{BASE}/#business",
     "name": "Ar Condicionado em Florianópolis",
     "url": f"{BASE}/",
     "logo": {"@type": "ImageObject", "url": LOGO_URL},
