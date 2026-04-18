@@ -91,6 +91,7 @@ a{color:var(--blue);text-decoration:none}a:hover{color:var(--blue-dark)}.contain
 .servico-intro p{font-size:1.15rem;line-height:1.7}
 .servico-intro{padding-bottom:1.6rem}
 .servico-intro + .section{padding-top:1.6rem}
+.servico-intro-foto{display:block;width:100%;max-width:100%;height:auto;border-radius:12px;margin:0 0 2rem;box-shadow:0 8px 24px rgba(8,66,152,.1);object-fit:cover}
 .servico-num-sec{margin-bottom:2.25rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border)}
 .servico-num-sec:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
 .servico-num-sec h2{font-size:clamp(1.05rem,2.2vw,1.25rem);margin-bottom:.75rem;line-height:1.35}

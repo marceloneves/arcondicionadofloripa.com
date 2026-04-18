@@ -1,13 +1,23 @@
 # -*- coding: utf-8 -*-
 """Gera hubs por serviço em servico/<serviço>/index.html com descrição e links para todas as páginas locais."""
 
+from html import escape
 from pathlib import Path
 import json
 
 from _fix_html_root_paths import apply_relative_paths_to_file
 from _brand import FAVICON_PATH, LOGO_ALT, LOGO_URL as BUSINESS_LOGO_URL
 from _social_meta import insert_social_meta_after_description
-from _rebuild_servico_main import BAIRROS, CIDADES, SERV_META, SERVICE_KEYS
+from _rebuild_servico_main import (
+    BAIRROS,
+    CIDADES,
+    SERV_META,
+    SERVICE_KEYS,
+    SERVICO_INTRO_FOTO_ALT,
+    SERVICO_INTRO_FOTO_H,
+    SERVICO_INTRO_FOTO_PATH,
+    SERVICO_INTRO_FOTO_W,
+)
 
 ROOT = Path(__file__).parent
 OUT_DIR = ROOT / "servico"
@@ -172,6 +182,7 @@ def build_page(sk: str) -> str:
   <p>Se você quer comparar bairros, avaliar a cobertura ou acessar rapidamente a página certa do seu endereço, use a lista abaixo.</p>
 </div></div>
 <section class="section"><div class="container">
+  <img class="servico-intro-foto" src="{SERVICO_INTRO_FOTO_PATH}" alt="{escape(SERVICO_INTRO_FOTO_ALT, quote=True)}" width="{SERVICO_INTRO_FOTO_W}" height="{SERVICO_INTRO_FOTO_H}" loading="lazy" decoding="async">
   <h2>Páginas de {meta["curto"]} por bairro</h2>
   <div class="grid-3">{cards_html}</div>
 </div></section>

@@ -20,6 +20,13 @@ BUSINESS_STREET = "Rodovia Armando Calil Bullos, 630"
 BUSINESS_NEIGHBORHOOD = "Vargem Grande"
 BUSINESS_POSTAL = "88056-618"
 FOUNDING_DATE = "2021-04-06"
+# Foto comum entre a introdução e o primeiro h2 (páginas servico/* geradas).
+SERVICO_INTRO_FOTO_PATH = "/images/instalacao-ar-condicionado-8.jpeg"
+SERVICO_INTRO_FOTO_ALT = (
+    "Evaporadora split Gree em parede texturizada bege, sob forro de PVC branco com spots; "
+    "tubulação frigorígena isolada à direita"
+)
+SERVICO_INTRO_FOTO_W, SERVICO_INTRO_FOTO_H = 1600, 1200
 bairros_html = (root / "regioes" / "index.html").read_text(encoding="utf-8")
 
 # Rodapé idêntico ao de index.html. Após gravar, apply_relative_paths_to_file() ajusta /… para ../…
@@ -1076,6 +1083,7 @@ def build_main(sk, prep, bslug, nome, suffix: str = "florianopolis"):
   {ctx_html}
 </div></div>
 <section class="section"><div class="container">
+  <img class="servico-intro-foto" src="{SERVICO_INTRO_FOTO_PATH}" alt="{escape(SERVICO_INTRO_FOTO_ALT, quote=True)}" width="{SERVICO_INTRO_FOTO_W}" height="{SERVICO_INTRO_FOTO_H}" loading="lazy" decoding="async">
   <div class="servico-num-sec"><h2>1. O que é o serviço de {meta["curto"]} {pp}?</h2>
   <p>{meta["oque"]}</p>
   <p>Esse atendimento costuma ser necessário em situações como:</p>
