@@ -928,7 +928,8 @@ def build_schema_service_jsonld(sk, prep, bslug, nome, fname, title, desc, is_ci
             "@type": "BreadcrumbList",
             "itemListElement": [
                 {"@type": "ListItem", "position": 1, "name": "Início", "item": f"{BASE_URL}/"},
-                {"@type": "ListItem", "position": 2, "name": title, "item": page_url},
+                {"@type": "ListItem", "position": 2, "name": "Serviços", "item": f"{BASE_URL}/servicos/"},
+                {"@type": "ListItem", "position": 3, "name": title, "item": page_url},
             ],
         },
         "mainEntity": main_q,

@@ -10,9 +10,192 @@
   {
     "@context": "https://schema.org",
     "@type": "ContactPage",
+    "@id": "https://arcondicionadofloripa.com/contato/#contactpage",
     "name": "Contato e Orçamento | Ar Condicionado Florianópolis",
     "url": "https://arcondicionadofloripa.com/contato/",
-    "description": "Página de contato e orçamento para serviços de ar-condicionado em Florianópolis, com WhatsApp, telefone, e-mail, endereço e formulário de atendimento."
+    "description": "Canal oficial para orçamento e dúvidas: WhatsApp, telefone, e-mail, endereço em Florianópolis e formulário com bairro, serviço desejado e mensagem. Atendimento na Grande Florianópolis.",
+    "inLanguage": "pt-BR",
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "Ar Condicionado Floripa",
+      "url": "https://arcondicionadofloripa.com/"
+    },
+    "breadcrumb": {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Início",
+          "item": "https://arcondicionadofloripa.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Contato",
+          "item": "https://arcondicionadofloripa.com/contato/"
+        }
+      ]
+    },
+    "potentialAction": {
+      "@type": "CommunicateAction",
+      "name": "Formulário de contato",
+      "description": "Envio com nome, telefone, seleção de bairro em Florianópolis, serviço desejado e mensagem.",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "https://arcondicionadofloripa.com/contato/",
+        "actionPlatform": [
+          "http://schema.org/DesktopWebPlatform",
+          "http://schema.org/MobileWebPlatform"
+        ]
+      }
+    },
+    "mainEntity": {
+      "@type": "HVACBusiness",
+      "@id": "https://arcondicionadofloripa.com/#organization",
+      "name": "Ar Condicionado em Florianópolis",
+      "alternateName": [
+        "Ar Condicionado Floripa"
+      ],
+      "url": "https://arcondicionadofloripa.com/",
+      "foundingDate": "2021",
+      "telephone": "+55-48-98810-5199",
+      "email": "marcelo@arcondicionadofloripa.com",
+      "sameAs": [
+        "https://wa.me/5548988105199"
+      ],
+      "image": "https://arcondicionadofloripa.com/images/ar-condicionado-florianopolis.webp",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://arcondicionadofloripa.com/images/ar-condicionado-florianopolis.webp"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Rodovia Armando Calil Bullos, 630",
+        "addressLocality": "Florianópolis",
+        "addressRegion": "SC",
+        "postalCode": "88056-618",
+        "addressCountry": "BR"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "-27.4370",
+        "longitude": "-48.4587"
+      },
+      "areaServed": [
+        {
+          "@type": "City",
+          "name": "Florianópolis"
+        },
+        {
+          "@type": "City",
+          "name": "São José"
+        },
+        {
+          "@type": "City",
+          "name": "Palhoça"
+        },
+        {
+          "@type": "City",
+          "name": "Biguaçu"
+        }
+      ],
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer service",
+          "telephone": "+55-48-98810-5199",
+          "email": "marcelo@arcondicionadofloripa.com",
+          "availableLanguage": [
+            "Portuguese"
+          ],
+          "areaServed": "BR"
+        }
+      ],
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday"
+          ],
+          "opens": "08:00",
+          "closes": "18:00"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": "Saturday",
+          "opens": "08:00",
+          "closes": "12:00"
+        }
+      ],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Serviços de ar-condicionado (contato e orçamento)",
+        "description": "Serviços citados na página: opções do formulário e linha completa divulgada no rodapé.",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Instalação de Ar-Condicionado"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Manutenção de Ar-Condicionado"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Limpeza de Ar-Condicionado"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Higienização de Ar-Condicionado"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Carga de Gás de Ar-Condicionado"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Remoção e Reinstalação de Ar-Condicionado"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Conserto de Ar-Condicionado"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "PMOC de Ar-Condicionado"
+            }
+          }
+        ]
+      }
+    }
   }
   </script>
 </head>

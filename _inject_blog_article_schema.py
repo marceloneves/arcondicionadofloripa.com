@@ -113,6 +113,7 @@ def build_graph(
         "@type": "BlogPosting",
         "@id": article_id,
         "mainEntityOfPage": {"@type": "WebPage", "@id": base_path},
+        "breadcrumb": {"@id": breadcrumb_id},
         "headline": headline,
         "description": description,
         "datePublished": date_iso,
@@ -160,6 +161,7 @@ def build_graph(
     faq_page = {
         "@type": "FAQPage",
         "@id": faq_id,
+        "breadcrumb": {"@id": breadcrumb_id},
         "mainEntity": main_entity,
     }
 

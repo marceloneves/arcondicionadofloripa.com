@@ -55,6 +55,13 @@ def build_collection_page_schema_jsonld() -> str:
             "Página com a listagem dos principais serviços de ar-condicionado em Florianópolis, "
             "São José, Palhoça e Biguaçu."
         ),
+        "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                {"@type": "ListItem", "position": 1, "name": "Início", "item": f"{BASE_URL}/"},
+                {"@type": "ListItem", "position": 2, "name": "Serviços", "item": f"{BASE_URL}/servicos/"},
+            ],
+        },
         "mainEntity": {
             "@type": "ItemList",
             "name": "Lista de serviços de ar-condicionado por cidade",
