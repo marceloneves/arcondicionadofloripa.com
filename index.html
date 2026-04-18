@@ -9,156 +9,138 @@
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@graph": [
+  "@type": ["HVACBusiness", "WebSite"],
+  "@id": "https://arcondicionadofloripa.com/#organization",
+  "name": "Ar Condicionado Floripa",
+  "alternateName": "Ar Condicionado em Florianópolis",
+  "url": "https://arcondicionadofloripa.com/",
+  "mainEntityOfPage": "https://arcondicionadofloripa.com/",
+  "inLanguage": "pt-BR",
+  "description": "Empresa especializada em instalação, manutenção, limpeza, higienização, carga de gás, conserto, remoção e reinstalação de ar-condicionado em Florianópolis e Grande Florianópolis.",
+  "telephone": "+55-48-98810-5199",
+  "email": "marcelo@arcondicionadofloripa.com",
+  "priceRange": "$$",
+  "image": [
+    "https://arcondicionadofloripa.com/images/ar-condicionado-florianopolis.webp",
+    "https://arcondicionadofloripa.com/images/marcelo-ar-condicionado.webp",
+    "https://arcondicionadofloripa.com/images/instalacao-ar-condicionado-1.jpeg"
+  ],
+  "logo": {
+    "@type": "ImageObject",
+    "url": "https://arcondicionadofloripa.com/images/ar-condicionado-florianopolis.webp"
+  },
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Rodovia Armando Calil Bullos, 630",
+    "addressLocality": "Florianópolis",
+    "addressRegion": "SC",
+    "postalCode": "88056-618",
+    "addressCountry": "BR"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": "-27.4370",
+    "longitude": "-48.4587"
+  },
+  "areaServed": [
+    { "@type": "City", "name": "Florianópolis" },
+    { "@type": "City", "name": "São José" },
+    { "@type": "City", "name": "Palhoça" },
+    { "@type": "City", "name": "Biguaçu" }
+  ],
+  "contactPoint": [
     {
-      "@type": "HVACBusiness",
-      "@id": "https://arcondicionadofloripa.com/#business",
-      "name": "Ar Condicionado Floripa",
-      "alternateName": "Ar Condicionado em Florianópolis",
-      "url": "https://arcondicionadofloripa.com/",
-      "mainEntityOfPage": "https://arcondicionadofloripa.com/",
-      "description": "Empresa especializada em instalação, manutenção, limpeza, higienização, carga de gás, conserto, remoção e reinstalação de ar-condicionado em Florianópolis e Grande Florianópolis.",
+      "@type": "ContactPoint",
       "telephone": "+55-48-98810-5199",
-      "email": "marcelo@arcondicionadofloripa.com",
-      "priceRange": "$$",
-      "image": [
-        "https://arcondicionadofloripa.com/images/ar-condicionado-florianopolis.webp",
-        "https://arcondicionadofloripa.com/images/marcelo-ar-condicionado.webp",
-        "https://arcondicionadofloripa.com/images/instalacao-ar-condicionado-1.jpeg"
-      ],
-      "logo": "https://arcondicionadofloripa.com/images/ar-condicionado-florianopolis.webp",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "Rodovia Armando Calil Bullos, 410",
-        "addressLocality": "Florianópolis",
-        "addressRegion": "SC",
-        "postalCode": "88056-618",
-        "addressCountry": "BR"
-      },
-      "geo": {
-        "@type": "GeoCoordinates",
-        "latitude": "-27.4370",
-        "longitude": "-48.4587"
-      },
-      "areaServed": [
-        { "@type": "City", "name": "Florianópolis" },
-        { "@type": "City", "name": "São José" },
-        { "@type": "City", "name": "Palhoça" },
-        { "@type": "City", "name": "Biguaçu" }
-      ],
-      "openingHoursSpecification": [
-        {
-          "@type": "OpeningHoursSpecification",
-          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-          "opens": "08:00",
-          "closes": "18:00"
-        },
-        {
-          "@type": "OpeningHoursSpecification",
-          "dayOfWeek": "Saturday",
-          "opens": "08:00",
-          "closes": "12:00"
-        }
-      ],
-      "hasOfferCatalog": {
-        "@type": "OfferCatalog",
-        "name": "Serviços de Ar-Condicionado",
-        "itemListElement": [
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Instalação de Ar-Condicionado",
-              "serviceType": "Instalação de ar-condicionado split"
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Manutenção de Ar-Condicionado",
-              "serviceType": "Manutenção preventiva e corretiva de ar-condicionado"
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Limpeza de Ar-Condicionado",
-              "serviceType": "Limpeza técnica de ar-condicionado"
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Higienização de Ar-Condicionado",
-              "serviceType": "Higienização de ar-condicionado"
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Carga de Gás de Ar-Condicionado",
-              "serviceType": "Recarga de gás refrigerante"
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Conserto de Ar-Condicionado",
-              "serviceType": "Diagnóstico e reparo de ar-condicionado"
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Remoção e Reinstalação de Ar-Condicionado",
-              "serviceType": "Remoção e reinstalação de equipamento de ar-condicionado"
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "PMOC de Ar-Condicionado",
-              "serviceType": "Plano de Manutenção, Operação e Controle"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "@type": "WebSite",
-      "@id": "https://arcondicionadofloripa.com/#website",
-      "url": "https://arcondicionadofloripa.com/",
-      "name": "Ar Condicionado Floripa",
-      "publisher": { "@id": "https://arcondicionadofloripa.com/#business" },
-      "inLanguage": "pt-BR"
-    },
-    {
-      "@type": "Organization",
-      "@id": "https://arcondicionadofloripa.com/#organization",
-      "name": "Ar Condicionado Floripa",
-      "url": "https://arcondicionadofloripa.com/",
-      "logo": {
-        "@type": "ImageObject",
-        "url": "https://arcondicionadofloripa.com/images/ar-condicionado-florianopolis.webp"
-      },
-      "contactPoint": [
-        {
-          "@type": "ContactPoint",
-          "telephone": "+55-48-98810-5199",
-          "contactType": "customer service",
-          "areaServed": "BR",
-          "availableLanguage": ["Portuguese"]
-        }
-      ]
+      "contactType": "customer service",
+      "areaServed": "BR",
+      "availableLanguage": ["Portuguese"]
     }
-  ]
+  ],
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      "opens": "08:00",
+      "closes": "18:00"
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": "Saturday",
+      "opens": "08:00",
+      "closes": "12:00"
+    }
+  ],
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Serviços de Ar-Condicionado",
+    "itemListElement": [
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Instalação de Ar-Condicionado",
+          "serviceType": "Instalação de ar-condicionado split"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Manutenção de Ar-Condicionado",
+          "serviceType": "Manutenção preventiva e corretiva de ar-condicionado"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Limpeza de Ar-Condicionado",
+          "serviceType": "Limpeza técnica de ar-condicionado"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Higienização de Ar-Condicionado",
+          "serviceType": "Higienização de ar-condicionado"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Carga de Gás de Ar-Condicionado",
+          "serviceType": "Recarga de gás refrigerante"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Conserto de Ar-Condicionado",
+          "serviceType": "Diagnóstico e reparo de ar-condicionado"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Remoção e Reinstalação de Ar-Condicionado",
+          "serviceType": "Remoção e reinstalação de equipamento de ar-condicionado"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "PMOC de Ar-Condicionado",
+          "serviceType": "Plano de Manutenção, Operação e Controle"
+        }
+      }
+    ]
+  }
 }
 </script>
 </head>
@@ -200,7 +182,7 @@
     <div><h4>Serviços</h4><ul><li><a href="servicos/#instalacao-de-ar-condicionado">Instalação de Ar-Condicionado</a></li><li><a href="servicos/#manutencao-de-ar-condicionado">Manutenção de Ar-Condicionado</a></li><li><a href="servicos/#limpeza-de-ar-condicionado">Limpeza de Ar-Condicionado</a></li><li><a href="servicos/#higienizacao-de-ar-condicionado">Higienização de Ar-Condicionado</a></li><li><a href="servicos/#carga-de-gas-de-ar-condicionado">Carga de Gás de Ar-Condicionado</a></li><li><a href="servicos/#remocao-e-reinstalacao-de-ar-condicionado">Remoção e Reinstalação de Ar-Condicionado</a></li><li><a href="servicos/#conserto-de-ar-condicionado">Conserto de Ar-Condicionado</a></li><li><a href="servicos/#pmoc-de-ar-condicionado">PMOC de Ar-Condicionado</a></li></ul></div>
     <div><h4>Cidades</h4><ul><li><a href="servicos/#servicos-florianopolis">Florianópolis</a></li><li><a href="regioes/sao-jose-sc/">São José</a></li><li><a href="regioes/biguacu-sc/">Biguaçu</a></li><li><a href="regioes/palhoca-sc/">Palhoça</a></li></ul></div>
   </div>
-  <div class="container footer-bottom"><p class="footer-address">Rodovia Armando Calil Bullos, 410 — Vargem Grande, Florianópolis - SC, 88056-618</p><p>© 2026 Ar Condicionado em Florianópolis. Todos os direitos reservados.</p><p><a href="tel:+5548988105199">(48) 98810-5199</a></p><p>Fale conosco: <a href="mailto:marcelo@arcondicionadofloripa.com">marcelo@arcondicionadofloripa.com</a></p></div>
+  <div class="container footer-bottom"><p class="footer-address">Rodovia Armando Calil Bullos, 630 — Vargem Grande, Florianópolis - SC, 88056-618</p><p>© 2026 Ar Condicionado em Florianópolis. Todos os direitos reservados.</p><p><a href="tel:+5548988105199">(48) 98810-5199</a></p><p>Fale conosco: <a href="mailto:marcelo@arcondicionadofloripa.com">marcelo@arcondicionadofloripa.com</a></p></div>
 </footer>
 <a class="floating-whatsapp" href="https://wa.me/5548988105199?text=Olá!%20Quero%20orçamento%20de%20ar-condicionado%20em%20Florianópolis." target="_blank" rel="noopener" aria-label="Falar no WhatsApp">WhatsApp</a>
 <script src="js/script.js"></script>
