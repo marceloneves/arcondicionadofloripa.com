@@ -112,7 +112,7 @@ def schema_for(sk: str, title: str, description: str) -> str:
 
 def build_page(sk: str) -> str:
     meta = SERV_META[sk]
-    title = f"{meta['titulo']} em Florianópolis | Hub do Serviço"
+    title = meta["titulo"]
     description = (
         f"Hub de {meta['curto']} em Florianópolis: descrição do serviço e links para todas as páginas por bairro."
     )
@@ -160,7 +160,7 @@ def build_page(sk: str) -> str:
       <a href="/blog/">Blog</a>
       <a href="/contato/">Contato</a>
     </nav>
-    <a class="btn btn-whats" href="{WA}" target="_blank" rel="noopener">WhatsApp</a>
+    <a class="btn btn-whats" href="{WA}" target="_blank" rel="noopener nofollow">WhatsApp</a>
   </div>
 </header>
 <main>
@@ -174,7 +174,7 @@ def build_page(sk: str) -> str:
   <h2>Páginas de {meta["curto"]} por bairro</h2>
   <div class="grid-3">{cards_html}</div>
 </div></section>
-<section class="section"><div class="container cta-box"><div><h2>Precisa de {meta["curto"]} em Florianópolis?</h2><p>Fale com a equipe e receba orientação técnica para o seu caso.</p></div><div><a class="btn btn-whats" href="{WA}" target="_blank" rel="noopener">WhatsApp</a> <a class="btn btn-primary" href="/contato/">Solicitar orçamento</a> <a class="btn btn-outline" href="tel:{TEL}">Ligar</a></div></div></section>
+<section class="section"><div class="container cta-box"><div><h2>Precisa de {meta["curto"]} em Florianópolis?</h2><p>Fale com a equipe e receba orientação técnica para o seu caso.</p></div><div><a class="btn btn-whats" href="{WA}" target="_blank" rel="noopener nofollow">WhatsApp</a> <a class="btn btn-primary" href="/contato/">Solicitar orçamento</a> <a class="btn btn-outline" href="tel:{TEL}">Ligar</a></div></div></section>
 <section class="section"><div class="container"><div class="card"><h2>Links úteis</h2><ul><li><a href="/">Home</a></li><li><a href="/servicos/">Página geral de serviços</a></li><li><a href="/regioes/">Lista de regiões</a></li><li><a href="/contato/">Contato</a></li></ul></div></div></section>
 </main>
 <footer class="site-footer">
@@ -186,7 +186,7 @@ def build_page(sk: str) -> str:
   </div>
   <div class="container footer-bottom"><p>© 2026 Ar Condicionado em Florianópolis. Todos os direitos reservados.</p><p><a href="tel:{TEL}">{PHONE}</a></p></div>
 </footer>
-<a class="floating-whatsapp" href="{WA}" target="_blank" rel="noopener" aria-label="Falar no WhatsApp">WhatsApp</a>
+<a class="floating-whatsapp" href="{WA}" target="_blank" rel="noopener nofollow" aria-label="Falar no WhatsApp">WhatsApp</a>
 <script src="/js/script.js"></script>
 </body>
 </html>

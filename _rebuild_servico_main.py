@@ -1101,7 +1101,7 @@ def build_main(sk, prep, bslug, nome, suffix: str = "florianopolis"):
   <div class="servico-num-sec"><h2>8. Perguntas frequentes</h2>
   <div class="faq">{faq_block(sk, prep, nome, is_city=is_city)}</div></div>
 </div></section>
-<section class="section"><div class="container cta-box"><div><h2>Precisa de {meta["curto"]} {pp}?</h2><p>Fale agora com a equipe e receba orientação técnica.</p></div><div><a class="btn btn-whats" href="{WA}" target="_blank" rel="noopener">WhatsApp</a> <a class="btn btn-primary" href="/contato/">Solicitar orçamento</a> <a class="btn btn-outline" href="tel:{TEL}">Ligar</a></div></div></section>
+<section class="section"><div class="container cta-box"><div><h2>Precisa de {meta["curto"]} {pp}?</h2><p>Fale agora com a equipe e receba orientação técnica.</p></div><div><a class="btn btn-whats" href="{WA}" target="_blank" rel="noopener nofollow">WhatsApp</a> <a class="btn btn-primary" href="/contato/">Solicitar orçamento</a> <a class="btn btn-outline" href="tel:{TEL}">Ligar</a></div></div></section>
 {outros_servicos_html}
 </main>"""
 
