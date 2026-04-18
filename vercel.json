@@ -168,6 +168,36 @@
       "permanent": true
     },
     {
+      "source": "/regioes/sao-jose-sc",
+      "destination": "/regioes/#sao-jose",
+      "permanent": true
+    },
+    {
+      "source": "/regioes/sao-jose-sc/",
+      "destination": "/regioes/#sao-jose",
+      "permanent": true
+    },
+    {
+      "source": "/regioes/biguacu-sc",
+      "destination": "/regioes/#biguacu",
+      "permanent": true
+    },
+    {
+      "source": "/regioes/biguacu-sc/",
+      "destination": "/regioes/#biguacu",
+      "permanent": true
+    },
+    {
+      "source": "/regioes/palhoca-sc",
+      "destination": "/regioes/#palhoca",
+      "permanent": true
+    },
+    {
+      "source": "/regioes/palhoca-sc/",
+      "destination": "/regioes/#palhoca",
+      "permanent": true
+    },
+    {
       "source": "/politica-de-privacidade.html",
       "destination": "/politica-de-privacidade/",
       "permanent": true
@@ -335,6 +365,46 @@
     {
       "source": "/servico/remocao-e-reinstalacao-de-ar-condicionado-em-sao-jose-sc.html",
       "destination": "/servico/remocao-e-reinstalacao-de-ar-condicionado-em-sao-jose-sc/",
+      "permanent": true
+    },
+    {
+      "source": "/servico/carga-de-gas-de-ar-condicionado-em-florianopolis-florianopolis/",
+      "destination": "/servico/carga-de-gas-de-ar-condicionado-em-florianopolis/",
+      "permanent": true
+    },
+    {
+      "source": "/servico/conserto-de-ar-condicionado-em-florianopolis-florianopolis/",
+      "destination": "/servico/conserto-de-ar-condicionado-em-florianopolis/",
+      "permanent": true
+    },
+    {
+      "source": "/servico/higienizacao-de-ar-condicionado-em-florianopolis-florianopolis/",
+      "destination": "/servico/higienizacao-de-ar-condicionado-em-florianopolis/",
+      "permanent": true
+    },
+    {
+      "source": "/servico/instalacao-de-ar-condicionado-em-florianopolis-florianopolis/",
+      "destination": "/servico/instalacao-de-ar-condicionado-em-florianopolis/",
+      "permanent": true
+    },
+    {
+      "source": "/servico/limpeza-de-ar-condicionado-em-florianopolis-florianopolis/",
+      "destination": "/servico/limpeza-de-ar-condicionado-em-florianopolis/",
+      "permanent": true
+    },
+    {
+      "source": "/servico/manutencao-de-ar-condicionado-em-florianopolis-florianopolis/",
+      "destination": "/servico/manutencao-de-ar-condicionado-em-florianopolis/",
+      "permanent": true
+    },
+    {
+      "source": "/servico/pmoc-de-ar-condicionado-em-florianopolis-florianopolis/",
+      "destination": "/servico/pmoc-de-ar-condicionado-em-florianopolis/",
+      "permanent": true
+    },
+    {
+      "source": "/servico/remocao-e-reinstalacao-de-ar-condicionado-em-florianopolis-florianopolis/",
+      "destination": "/servico/remocao-e-reinstalacao-de-ar-condicionado-em-florianopolis/",
       "permanent": true
     }
   ]

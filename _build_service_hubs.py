@@ -6,6 +6,7 @@ import json
 
 from _fix_html_root_paths import apply_relative_paths_to_file
 from _brand import LOGO_URL as BUSINESS_LOGO_URL
+from _social_meta import insert_social_meta_after_description
 from _rebuild_servico_main import BAIRROS, CIDADES, SERV_META, SERVICE_KEYS
 
 ROOT = Path(__file__).parent
@@ -53,6 +54,9 @@ INTRO = {
 
 
 def href_for(sk: str, prep: str, bairro_slug: str) -> str:
+    # Capital: arquivo canónico é sempre ...-em-florianopolis/ (não ...-em-florianopolis-florianopolis/).
+    if bairro_slug == "florianopolis":
+        return servico_florianopolis_url(sk)
     suf = "sc" if bairro_slug in CIDADES else "florianopolis"
     return f"/servico/{sk}-{prep}-{bairro_slug}-{suf}/"
 
@@ -115,14 +119,25 @@ def build_page(sk: str) -> str:
     cards = []
     for bairro_slug, bairro in BAIRROS.items():
         href = href_for(sk, bairro["prep"], bairro_slug)
-        loc_txt = "na Grande Florianópolis (SC)" if bairro_slug in CIDADES else "em Florianópolis"
+        if bairro_slug == "florianopolis":
+            desc = f'Página local de {meta["curto"]} {bairro["prep"]} {bairro["nome"]}.'
+        elif bairro_slug in CIDADES:
+            desc = (
+                f'Página local de {meta["curto"]} {bairro["prep"]} {bairro["nome"]} '
+                f"na Grande Florianópolis (SC)."
+            )
+        else:
+            desc = (
+                f'Página local de {meta["curto"]} {bairro["prep"]} {bairro["nome"]} em Florianópolis.'
+            )
         cards.append(
             f'<article class="card hub-servico-item"><h3>{bairro["nome"]}</h3>'
-            f'<p>Página local de {meta["curto"]} {bairro["prep"]} {bairro["nome"]} {loc_txt}.</p>'
+            f"<p>{desc}</p>"
             f'<a class="btn btn-outline" href="{href}">Ver página local</a></article>'
         )
     cards_html = "".join(cards)
-    return f"""<!DOCTYPE html>
+    page_url_hub = f"{BASE_URL}/servico/{sk}/"
+    html = f"""<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
@@ -176,6 +191,13 @@ def build_page(sk: str) -> str:
 </body>
 </html>
 """
+    return insert_social_meta_after_description(
+        html,
+        og_type="website",
+        title=title,
+        description=description,
+        page_url=page_url_hub,
+    )
 
 
 def main() -> None:

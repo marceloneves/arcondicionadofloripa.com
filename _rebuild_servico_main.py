@@ -8,6 +8,7 @@ from pathlib import Path
 
 from _fix_html_root_paths import apply_relative_paths_to_file
 from _brand import LOGO_URL as BUSINESS_LOGO_URL
+from _social_meta import insert_social_meta_after_description
 
 root = Path(__file__).parent
 BASE_URL = "https://arcondicionadofloripa.com"
@@ -30,7 +31,7 @@ SITE_FOOTER_HTML = """<footer class="site-footer">
     </div>
     <div><h4>Institucional</h4><ul><li><a href="https://arcondicionadofloripa.com/">Início</a></li><li><a href="https://arcondicionadofloripa.com/servicos/">Serviços</a></li><li><a href="/regioes/">Regiões Atendidas</a></li><li><a href="/quem-somos/">Quem Somos</a></li><li><a href="https://arcondicionadofloripa.com/blog/">Blog</a></li><li><a href="/contato/">Contato</a></li><li><a href="/politica-de-privacidade/">Política de Privacidade</a></li></ul></div>
     <div><h4>Serviços</h4><ul><li><a href="/servico/instalacao-de-ar-condicionado-em-florianopolis/">Instalação de Ar-Condicionado</a></li><li><a href="/servico/manutencao-de-ar-condicionado-em-florianopolis/">Manutenção de Ar-Condicionado</a></li><li><a href="/servico/limpeza-de-ar-condicionado-em-florianopolis/">Limpeza de Ar-Condicionado</a></li><li><a href="/servico/higienizacao-de-ar-condicionado-em-florianopolis/">Higienização de Ar-Condicionado</a></li><li><a href="/servico/carga-de-gas-de-ar-condicionado-em-florianopolis/">Carga de Gás de Ar-Condicionado</a></li><li><a href="/servico/remocao-e-reinstalacao-de-ar-condicionado-em-florianopolis/">Remoção e Reinstalação de Ar-Condicionado</a></li><li><a href="/servico/conserto-de-ar-condicionado-em-florianopolis/">Conserto de Ar-Condicionado</a></li><li><a href="/servico/pmoc-de-ar-condicionado-em-florianopolis/">PMOC de Ar-Condicionado</a></li></ul></div>
-    <div><h4>Cidades</h4><ul><li><a href="/servicos/#servicos-florianopolis">Florianópolis</a></li><li><a href="/regioes/sao-jose-sc/">São José</a></li><li><a href="/regioes/biguacu-sc/">Biguaçu</a></li><li><a href="/regioes/palhoca-sc/">Palhoça</a></li></ul></div>
+    <div><h4>Cidades</h4><ul><li><a href="/servicos/#servicos-florianopolis">Florianópolis</a></li><li><a href="/regioes/#sao-jose">São José</a></li><li><a href="/regioes/#biguacu">Biguaçu</a></li><li><a href="/regioes/#palhoca">Palhoça</a></li></ul></div>
   </div>
   <div class="container footer-bottom"><p class="footer-address">Rodovia Armando Calil Bullos, 630 — Vargem Grande, Florianópolis - SC, 88056-618</p><p>© 2026 Ar Condicionado em Florianópolis. Todos os direitos reservados.</p><p><a href="tel:+5548988105199">(48) 98810-5199</a></p><p>Fale conosco: <a href="mailto:marcelo@arcondicionadofloripa.com">marcelo@arcondicionadofloripa.com</a></p></div>
 </footer>"""
@@ -980,6 +981,13 @@ def patch_head_seo(html, sk, prep, bslug, nome, fname, is_city: bool = False, su
         html, ins = re.subn(r"(</head>)", f"{new_script}\n\\1", html, count=1)
         if ins != 1:
             print("Aviso: JSON-LD não inserido em", fname)
+    html = insert_social_meta_after_description(
+        html,
+        og_type="website",
+        title=title,
+        description=desc,
+        page_url=page_url,
+    )
     return html
 
 
