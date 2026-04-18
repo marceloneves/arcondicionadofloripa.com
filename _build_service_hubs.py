@@ -5,7 +5,7 @@ from pathlib import Path
 import json
 
 from _fix_html_root_paths import apply_relative_paths_to_file
-from _brand import LOGO_URL as BUSINESS_LOGO_URL
+from _brand import LOGO_ALT, LOGO_URL as BUSINESS_LOGO_URL
 from _social_meta import insert_social_meta_after_description
 from _rebuild_servico_main import BAIRROS, CIDADES, SERV_META, SERVICE_KEYS
 
@@ -151,7 +151,7 @@ def build_page(sk: str) -> str:
 <body>
 <header class="site-header">
   <div class="container nav-wrap">
-    <a class="logo" href="/"><img class="logo-img" src="/images/ar-condicionado-floripa-logo.webp" alt="" width="1024" height="558" loading="eager" decoding="async"><span class="logo-tagline">Ar-Condicionado em Florianópolis</span></a>
+    <a class="logo" href="/"><img class="logo-img" src="/images/ar-condicionado-floripa-logo.webp" alt="{LOGO_ALT}" width="1024" height="558" loading="eager" decoding="async"><span class="logo-tagline">Ar-Condicionado em Florianópolis</span></a>
     <button class="menu-toggle" aria-label="Abrir menu" aria-expanded="false">☰</button>
     <nav class="main-nav" id="mainNav">
       <a href="/">Início</a>
