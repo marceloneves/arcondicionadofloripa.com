@@ -1061,11 +1061,11 @@ def build_main(sk, prep, bslug, nome, suffix: str = "florianopolis"):
   <h1>Precisa de {meta["titulo"]} {pp}?</h1>
   <p class="servico-phones"><a href="tel:{TEL}">{PHONE}</a> &nbsp;|&nbsp; <a href="tel:{TEL}">{PHONE}</a></p>
 </div></section>
-<section class="section servico-intro"><div class="container">
+<div class="section servico-intro"><div class="container">
   <p>{p1}</p>
   <p>{p2} O serviço de {meta["curto"]} {pp} é pensado para quem busca resultado técnico com orientação clara, execução organizada e menos improviso no dia a dia.</p>
   {ctx_html}
-</div></section>
+</div></div>
 <section class="section"><div class="container">
   <div class="servico-num-sec"><h2>1. O que é o serviço de {meta["curto"]} {pp}?</h2>
   <p>{meta["oque"]}</p>

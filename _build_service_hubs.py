@@ -165,11 +165,11 @@ def build_page(sk: str) -> str:
 </header>
 <main>
 <section class="inner-banner"><div class="container"><h1>{meta["titulo"]} em Florianópolis</h1><p>Hub do serviço com explicação objetiva e acesso às páginas locais por bairro.</p></div></section>
-<section class="section"><div class="container">
+<div class="section"><div class="container">
   <p>{INTRO[sk]}</p>
   <p>Este hub reúne o contexto geral do serviço e os links locais para bairros atendidos em Florianópolis, o que facilita a navegação entre páginas com foco geográfico e intenção de busca mais específica.</p>
   <p>Se você quer comparar bairros, avaliar a cobertura ou acessar rapidamente a página certa do seu endereço, use a lista abaixo.</p>
-</div></section>
+</div></div>
 <section class="section"><div class="container">
   <h2>Páginas de {meta["curto"]} por bairro</h2>
   <div class="grid-3">{cards_html}</div>
