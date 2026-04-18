@@ -60,46 +60,41 @@ def hub_slug(sk: str) -> str:
 
 
 def schema_for(sk: str, title: str, description: str) -> str:
-    graph = {
+    """Um único nó: Service + WebPage (breadcrumb). Hub não tem FAQ no HTML."""
+    page_url = f"{BASE_URL}/servico/{sk}/"
+    meta = SERV_META[sk]
+    payload = {
         "@context": "https://schema.org",
-        "@graph": [
-            {
-                "@type": "CollectionPage",
-                "@id": f"{BASE_URL}/servico/{sk}/#webpage",
-                "url": f"{BASE_URL}/servico/{sk}/",
-                "name": title,
-                "description": description,
-                "isPartOf": {
-                    "@type": "WebSite",
-                    "@id": f"{BASE_URL}/#website",
-                    "name": "Ar Condicionado em Florianópolis",
-                    "url": BASE_URL,
-                },
+        "@type": ["Service", "WebPage"],
+        "@id": f"{page_url}#servico",
+        "name": title,
+        "description": description,
+        "url": page_url,
+        "serviceType": meta["titulo"],
+        "provider": {
+            "@type": "LocalBusiness",
+            "name": "Ar Condicionado em Florianópolis",
+            "url": BASE_URL,
+            "telephone": TEL,
+        },
+        "areaServed": {
+            "@type": "City",
+            "name": "Florianópolis",
+            "containedInPlace": {
+                "@type": "AdministrativeArea",
+                "name": "Santa Catarina",
             },
-            {
-                "@type": "Service",
-                "@id": f"{BASE_URL}/servico/{sk}/#service",
-                "name": SERV_META[sk]["titulo"],
-                "serviceType": SERV_META[sk]["titulo"],
-                "description": SERV_META[sk]["oque"],
-                "provider": {
-                    "@type": "LocalBusiness",
-                    "name": "Ar Condicionado em Florianópolis",
-                    "url": BASE_URL,
-                    "telephone": TEL,
-                },
-                "areaServed": {
-                    "@type": "City",
-                    "name": "Florianópolis",
-                    "containedInPlace": {
-                        "@type": "AdministrativeArea",
-                        "name": "Santa Catarina",
-                    },
-                },
-            },
-        ],
+        },
+        "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                {"@type": "ListItem", "position": 1, "name": "Início", "item": f"{BASE_URL}/"},
+                {"@type": "ListItem", "position": 2, "name": "Serviços", "item": f"{BASE_URL}/servicos/"},
+                {"@type": "ListItem", "position": 3, "name": meta["titulo"], "item": page_url},
+            ],
+        },
     }
-    return json.dumps(graph, ensure_ascii=False)
+    return json.dumps(payload, ensure_ascii=False)
 
 
 def build_page(sk: str) -> str:

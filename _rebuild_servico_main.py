@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Regenera páginas servico/*: <main> (8 seções), <title>, meta description, canonical e JSON-LD (@graph)."""
+"""Regenera páginas servico/*: <main> (8 seções), <title>, meta description, canonical e JSON-LD (Service + FAQ num bloco)."""
 import hashlib
 import json
 import re
@@ -10,7 +10,7 @@ from _fix_html_root_paths import apply_relative_paths_to_file
 
 root = Path(__file__).parent
 BASE_URL = "https://arcondicionadofloripa.com"
-# JSON-LD: HVACBusiness (#empresa) reutilizado em todas as páginas de serviço.
+# JSON-LD: um bloco Service + FAQPage com provider, breadcrumb e mainEntity (FAQ).
 BUSINESS_ID = f"{BASE_URL}/#empresa"
 BUSINESS_NAME = "Ar Condicionado Floripa"
 BUSINESS_IMAGE = f"{BASE_URL}/images/ar-condicionado-florianopolis.webp"
@@ -880,17 +880,16 @@ def paragraph_vizinhos(bslug, nome, is_city: bool = False):
     )
 
 
-def build_schema_graph(sk, prep, bslug, nome, fname, title, desc, is_city: bool = False, suffix: str = "florianopolis"):
-    """@graph: HVACBusiness (#empresa) + Service (#servico) + BreadcrumbList + FAQPage."""
+def build_schema_service_jsonld(sk, prep, bslug, nome, fname, title, desc, is_city: bool = False, suffix: str = "florianopolis"):
+    """Um único nó JSON-LD: Service + FAQPage (herda WebPage → aceita breadcrumb) com FAQ em mainEntity."""
     page_url = f"{BASE_URL}{servico_public_path(fname)}"
     meta = SERV_META[sk]
-    pp = prep_phrase(prep, nome)
     main_q = [
         {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}}
         for q, a in faq_items(sk, prep, nome, is_city=is_city)
     ]
 
-    hvac_business = {
+    hvac_provider = {
         "@type": "HVACBusiness",
         "@id": BUSINESS_ID,
         "name": BUSINESS_NAME,
@@ -913,32 +912,27 @@ def build_schema_graph(sk, prep, bslug, nome, fname, title, desc, is_city: bool 
         ],
     }
 
-    # Cidade atendida pelo serviço (página): capital ou cidade da Grande Florianópolis.
     service_area = {"@type": "City", "name": nome if is_city else "Florianópolis"}
 
-    service_entity = {
-        "@type": "Service",
+    return {
+        "@context": "https://schema.org",
+        "@type": ["Service", "FAQPage"],
         "@id": page_url + "#servico",
         "name": title,
-        "serviceType": meta["titulo"],
         "description": desc,
         "url": page_url,
-        "provider": {"@id": BUSINESS_ID},
+        "serviceType": meta["titulo"],
+        "provider": hvac_provider,
         "areaServed": service_area,
+        "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                {"@type": "ListItem", "position": 1, "name": "Início", "item": f"{BASE_URL}/"},
+                {"@type": "ListItem", "position": 2, "name": title, "item": page_url},
+            ],
+        },
+        "mainEntity": main_q,
     }
-
-    breadcrumb = {
-        "@type": "BreadcrumbList",
-        "@id": page_url + "#breadcrumb",
-        "itemListElement": [
-            {"@type": "ListItem", "position": 1, "name": "Início", "item": f"{BASE_URL}/"},
-            {"@type": "ListItem", "position": 2, "name": title, "item": page_url},
-        ],
-    }
-
-    faq_block = {"@type": "FAQPage", "@id": page_url + "#faq", "mainEntity": main_q}
-
-    return [hvac_business, service_entity, breadcrumb, faq_block]
 
 
 def patch_head_seo(html, sk, prep, bslug, nome, fname, is_city: bool = False, suffix: str = "florianopolis"):
@@ -947,10 +941,7 @@ def patch_head_seo(html, sk, prep, bslug, nome, fname, is_city: bool = False, su
     page_url = f"{BASE_URL}{servico_public_path(fname)}"
     title = build_meta_title(meta, pp, is_city=is_city, nome_cidade=nome if is_city else "")
     desc = build_meta_desc(sk, meta, nome, is_city=is_city)
-    payload = {
-        "@context": "https://schema.org",
-        "@graph": build_schema_graph(sk, prep, bslug, nome, fname, title, desc, is_city=is_city, suffix=suffix),
-    }
+    payload = build_schema_service_jsonld(sk, prep, bslug, nome, fname, title, desc, is_city=is_city, suffix=suffix)
     jstr = json.dumps(payload, ensure_ascii=False)
     new_script = f"<script type=\"application/ld+json\">\n{jstr}\n</script>"
     if 'rel="canonical"' not in html:
