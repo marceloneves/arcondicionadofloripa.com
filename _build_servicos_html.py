@@ -3,12 +3,14 @@
 
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 from _fix_html_root_paths import apply_relative_paths_to_file
 from _rebuild_servico_main import CIDADES, SERVICE_KEYS, SERV_META
 
 ROOT = Path(__file__).resolve().parent
+BASE_URL = "https://arcondicionadofloripa.com"
 
 IMG = "/images/ar-condicionado-florianopolis.webp"
 IMG_W, IMG_H = 1408, 768
@@ -33,6 +35,37 @@ def _href(sk: str, cidade_slug: str, suffix: str) -> str:
     if cidade_slug == "florianopolis":
         return f"/servico/{sk}-em-florianopolis/"
     return f"/servico/{sk}-em-{cidade_slug}-{suffix}/"
+
+
+def build_collection_page_schema_jsonld() -> str:
+    """Um único bloco: CollectionPage + ItemList (32 URLs, mesma ordem do HTML)."""
+    urls: list[str] = []
+    for sk in SERVICE_KEYS:
+        urls.append(f"{BASE_URL}/servico/{sk}-em-florianopolis/")
+    for slug in CIDADES:
+        for sk in SERVICE_KEYS:
+            urls.append(f"{BASE_URL}/servico/{sk}-em-{slug}-sc/")
+    items = [{"@type": "ListItem", "position": i + 1, "url": u} for i, u in enumerate(urls)]
+    payload = {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        "name": "Serviços de ar condicionado | Grande Florianópolis SC",
+        "url": f"{BASE_URL}/servicos/",
+        "description": (
+            "Página com a listagem dos principais serviços de ar-condicionado em Florianópolis, "
+            "São José, Palhoça e Biguaçu."
+        ),
+        "mainEntity": {
+            "@type": "ItemList",
+            "name": "Lista de serviços de ar-condicionado por cidade",
+            "itemListOrder": "https://schema.org/ItemListUnordered",
+            "numberOfItems": len(items),
+            "itemListElement": items,
+        },
+    }
+    body = json.dumps(payload, ensure_ascii=False, indent=2)
+    indented = "\n".join(f"  {line}" for line in body.splitlines())
+    return f'  <script type="application/ld+json">\n{indented}\n  </script>'
 
 
 def _card(sk: str, cidade_slug: str, suffix: str, nome_cidade: str, lcp: _FirstLcpImg) -> str:
@@ -69,6 +102,7 @@ def build_page() -> str:
             _bloco_cidade(f"servicos-{slug}", meta["nome"], slug, "sc", lcp),
         )
     main_sections = "\n\n".join(blocos)
+    schema_ld = build_collection_page_schema_jsonld()
     return f"""<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -78,7 +112,7 @@ def build_page() -> str:
   <meta name="description" content="Instalação a PMOC em Floripa, São José, Biguaçu e Palhoça. Abra sua cidade e peça orçamento no WhatsApp — técnico na Grande Florianópolis.">
   <link rel="preload" as="image" href="/images/ar-condicionado-florianopolis.webp">
   <link rel="stylesheet" href="/css/style.css">
-
+{schema_ld}
 </head>
 <body>
 <header class="site-header">
