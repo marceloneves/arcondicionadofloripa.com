@@ -7,7 +7,7 @@ import json
 from pathlib import Path
 
 from _fix_html_root_paths import apply_relative_paths_to_file
-from _brand import LOGO_ALT, LOGO_URL
+from _brand import LOGO_ALT, LOGO_URL, SERVICO_CARD_IMG_ALT
 from _social_meta import insert_social_meta_after_description
 from _rebuild_servico_main import CIDADES, SERVICE_KEYS, SERV_META
 
@@ -94,7 +94,7 @@ def _card(sk: str, cidade_slug: str, suffix: str, nome_cidade: str, lcp: _FirstL
     return (
         f'<article class="card"><h3><a href="{href}">{label}</a></h3>'
         f'<a class="servico-card-img-link" href="{href}">'
-        f'<img class="servico-card-img" src="{IMG}" alt="{label}"{extra}></a></article>'
+        f'<img class="servico-card-img" src="{IMG}" alt="{SERVICO_CARD_IMG_ALT}"{extra}></a></article>'
     )
 
 
