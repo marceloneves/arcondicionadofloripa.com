@@ -16,8 +16,7 @@ LOGO_ALT = (
 )
 # Mesma imagem em todos os cards da listagem de serviços.
 SERVICO_CARD_IMG_ALT = (
-    "Unidade interna de ar-condicionado split branca com painel digital a 22°C, fluxo de ar "
-    "na saída inferior, parede clara e tubulação ao lado da instalação"
+    "Unidade interna de ar-condicionado split instalada na parede em ambiente residencial"
 )
 # Autor nos posts do blog (marcelo-ar-condicionado.webp).
 AUTHOR_PHOTO_ALT = (

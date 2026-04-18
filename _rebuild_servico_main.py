@@ -21,12 +21,11 @@ BUSINESS_NEIGHBORHOOD = "Vargem Grande"
 BUSINESS_POSTAL = "88056-618"
 FOUNDING_DATE = "2021-04-06"
 # Foto comum entre a introdução e o primeiro h2 (páginas servico/* geradas).
-SERVICO_INTRO_FOTO_PATH = "/images/instalacao-ar-condicionado-8.jpeg"
+SERVICO_INTRO_FOTO_PATH = "/images/ar-condicionado-split.webp"
 SERVICO_INTRO_FOTO_ALT = (
-    "Evaporadora split Gree em parede texturizada bege, sob forro de PVC branco com spots; "
-    "tubulação frigorígena isolada à direita"
+    "Unidade interna de ar-condicionado split instalada na parede em ambiente residencial"
 )
-SERVICO_INTRO_FOTO_W, SERVICO_INTRO_FOTO_H = 1600, 1200
+SERVICO_INTRO_FOTO_W, SERVICO_INTRO_FOTO_H = 2000, 1333
 bairros_html = (root / "regioes" / "index.html").read_text(encoding="utf-8")
 
 # Rodapé idêntico ao de index.html. Após gravar, apply_relative_paths_to_file() ajusta /… para ../…

@@ -15,8 +15,8 @@ ROOT = Path(__file__).resolve().parent
 BASE_URL = "https://arcondicionadofloripa.com"
 FOUNDING_DATE = "2021-04-06"
 
-IMG = "/images/ar-condicionado-florianopolis.webp"
-IMG_W, IMG_H = 1408, 768
+IMG = "/images/ar-condicionado-split.webp"
+IMG_W, IMG_H = 2000, 1333
 
 
 class _FirstLcpImg:
@@ -134,7 +134,7 @@ def build_page() -> str:
   <link rel="icon" href="{FAVICON_PATH}" type="image/webp">
   <title>{page_title}</title>
   <meta name="description" content="{page_desc}">
-  <link rel="preload" as="image" href="/images/ar-condicionado-florianopolis.webp">
+  <link rel="preload" as="image" href="/images/ar-condicionado-split.webp">
   <link rel="stylesheet" href="/css/style.css">
 {schema_ld}
 </head>
