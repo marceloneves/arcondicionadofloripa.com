@@ -26,7 +26,8 @@
     const data=await response.json().catch(()=>({}));
     if(!response.ok){
       const debugMissing = data && data.missing ? ` (missing: apiKey=${String(data.missing.resendApiKey)}, fromEmail=${String(data.missing.resendFromEmail)})` : '';
-      throw new Error((data.error||'Falha ao enviar mensagem.')+debugMissing);
+      const debugDetails = data && data.details ? ` Detalhe: ${String(data.details)}` : '';
+      throw new Error((data.error||'Falha ao enviar mensagem.')+debugMissing+debugDetails);
     }
     notice.style.color='#166534';notice.textContent='Mensagem enviada com sucesso. Nossa equipe retornará em breve.';form.reset();
   }catch(err){

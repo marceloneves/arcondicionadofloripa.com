@@ -42,6 +42,25 @@ function firstNonEmptyEnv(names) {
   return "";
 }
 
+function parseResendError(rawErrorText) {
+  try {
+    const parsed = JSON.parse(rawErrorText);
+    if (parsed && typeof parsed === "object") {
+      if (typeof parsed.message === "string" && parsed.message.trim()) {
+        return parsed.message.trim();
+      }
+      if (parsed.error && typeof parsed.error.message === "string" && parsed.error.message.trim()) {
+        return parsed.error.message.trim();
+      }
+    }
+  } catch (_err) {
+    // keep fallback below
+  }
+  return typeof rawErrorText === "string" && rawErrorText.trim()
+    ? rawErrorText.trim().slice(0, 280)
+    : "Erro desconhecido ao enviar via Resend.";
+}
+
 module.exports = async function handler(req, res) {
   withCors(res);
 
@@ -106,7 +125,10 @@ module.exports = async function handler(req, res) {
 
   if (!resendResponse.ok) {
     const resendError = await resendResponse.text();
-    return res.status(502).json({ error: "Falha no envio de e-mail.", details: resendError });
+    return res.status(502).json({
+      error: "Falha no envio de e-mail.",
+      details: parseResendError(resendError),
+    });
   }
 
   return res.status(200).json({ ok: true });
