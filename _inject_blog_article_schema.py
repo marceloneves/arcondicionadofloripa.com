@@ -35,7 +35,7 @@ PUBLISHER = {
 }
 SPEAKABLE_SELECTORS = [
     "main .inner-banner h1",
-    "main .inner-banner p:nth-of-type(2)",
+    "main .inner-banner p:not(.blog-post-meta)",
 ]
 
 MARKER_START = "<!-- blog-schema:start -->"
