@@ -24,7 +24,10 @@
   try{
     const response=await fetch('/api/contact',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nome:nome.value.trim(),email:email.value.trim(),telefone:tel.value.trim(),cidade:cidade.value,servico:servico.value,mensagem:msg.value.trim()})});
     const data=await response.json().catch(()=>({}));
-    if(!response.ok){throw new Error(data.error||'Falha ao enviar mensagem.');}
+    if(!response.ok){
+      const debugMissing = data && data.missing ? ` (missing: apiKey=${String(data.missing.resendApiKey)}, fromEmail=${String(data.missing.resendFromEmail)})` : '';
+      throw new Error((data.error||'Falha ao enviar mensagem.')+debugMissing);
+    }
     notice.style.color='#166534';notice.textContent='Mensagem enviada com sucesso. Nossa equipe retornará em breve.';form.reset();
   }catch(err){
     notice.style.color='#b91c1c';notice.textContent=err.message||'Não foi possível enviar. Tente novamente em instantes.';

@@ -59,12 +59,15 @@ module.exports = async function handler(req, res) {
   }
 
   const apiKey = firstNonEmptyEnv(["RESEND_API_KEY", "RESEND_KEY"]);
-  const from = firstNonEmptyEnv(["RESEND_FROM_EMAIL", "FROM_EMAIL", "CONTACT_FROM_EMAIL"]);
+  const from = firstNonEmptyEnv(["RESEND_FROM_EMAIL", "RESEND_FROM", "FROM_EMAIL", "CONTACT_FROM_EMAIL"]);
   const to = firstNonEmptyEnv(["CONTACT_TO_EMAIL", "RESEND_TO_EMAIL"]) || "marcelo@arcondicionadofloripa.com";
 
   if (!apiKey || !from) {
+    const missingKeys = [];
+    if (!apiKey) missingKeys.push("RESEND_API_KEY/RESEND_KEY");
+    if (!from) missingKeys.push("RESEND_FROM_EMAIL/RESEND_FROM/FROM_EMAIL/CONTACT_FROM_EMAIL");
     return res.status(500).json({
-      error: "Configuracao de e-mail incompleta no servidor.",
+      error: `Configuracao de e-mail incompleta no servidor. Ausente: ${missingKeys.join(", ")}.`,
       missing: {
         resendApiKey: !apiKey,
         resendFromEmail: !from,
