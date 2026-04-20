@@ -33,6 +33,10 @@ PUBLISHER = {
     "foundingDate": FOUNDING_DATE,
     "logo": {"@type": "ImageObject", "url": LOGO_URL},
 }
+SPEAKABLE_SELECTORS = [
+    "main .inner-banner h1",
+    "main .inner-banner p:nth-of-type(2)",
+]
 
 MARKER_START = "<!-- blog-schema:start -->"
 MARKER_END = "<!-- blog-schema:end -->"
@@ -116,6 +120,10 @@ def build_graph(
         "@type": "BlogPosting",
         "@id": article_id,
         "mainEntityOfPage": {"@type": "WebPage", "@id": base_path},
+        "speakable": {
+            "@type": "SpeakableSpecification",
+            "cssSelector": SPEAKABLE_SELECTORS,
+        },
         "headline": headline,
         "description": description,
         "datePublished": date_iso,
