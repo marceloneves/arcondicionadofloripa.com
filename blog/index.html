@@ -31,44 +31,39 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "Blog",
-        "@id": "https://arcondicionadofloripa.com/blog/#blog",
-        "name": "Blog de Ar-Condicionado em Florianópolis",
-        "url": "https://arcondicionadofloripa.com/blog/",
-        "description": "Conteúdos sobre instalação, manutenção, consumo, elétrica, vazamento de gás e outras dúvidas sobre ar-condicionado em Florianópolis e SC.",
-        "publisher": {
-          "@type": "Organization",
-          "@id": "https://arcondicionadofloripa.com/#business",
-          "name": "Ar Condicionado em Florianópolis",
-          "url": "https://arcondicionadofloripa.com/",
-          "foundingDate": "2021-04-06",
-          "logo": {
-            "@type": "ImageObject",
-            "url": "https://arcondicionadofloripa.com/images/ar-condicionado-floripa-logo.webp"
-          }
-        }
-      },
-      {
-        "@type": "BreadcrumbList",
-        "@id": "https://arcondicionadofloripa.com/blog/#breadcrumb",
-        "itemListElement": [
-          {
-            "@type": "ListItem",
-            "position": 1,
-            "name": "Início",
-            "item": "https://arcondicionadofloripa.com/"
-          },
-          {
-            "@type": "ListItem",
-            "position": 2,
-            "name": "Blog",
-            "item": "https://arcondicionadofloripa.com/blog/"
-          }
-        ]
+    "@type": ["Blog", "WebPage"],
+    "@id": "https://arcondicionadofloripa.com/blog/#blog",
+    "name": "Blog de Ar-Condicionado em Florianópolis",
+    "url": "https://arcondicionadofloripa.com/blog/",
+    "description": "Conteúdos sobre instalação, manutenção, consumo, elétrica, vazamento de gás e outras dúvidas sobre ar-condicionado em Florianópolis e SC.",
+    "publisher": {
+      "@type": "Organization",
+      "@id": "https://arcondicionadofloripa.com/#business",
+      "name": "Ar Condicionado em Florianópolis",
+      "url": "https://arcondicionadofloripa.com/",
+      "foundingDate": "2021-04-06",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://arcondicionadofloripa.com/images/ar-condicionado-floripa-logo.webp"
       }
-    ]
+    },
+    "breadcrumb": {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Início",
+          "item": "https://arcondicionadofloripa.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blog",
+          "item": "https://arcondicionadofloripa.com/blog/"
+        }
+      ]
+    }
   }
   </script>
 </head>
