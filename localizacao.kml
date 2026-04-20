@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>Ar Condicionado Floripa - Localizacao</name>
+    <Placemark>
+      <name>Ar Condicionado Floripa</name>
+      <description>
+        Rodovia Armando Calil Bullos, 630 - Vargem Grande, Florianopolis - SC, 88056-618
+      </description>
+      <Point>
+        <coordinates>-48.4587,-27.4370,0</coordinates>
+      </Point>
+    </Placemark>
+  </Document>
+</kml>

@@ -214,8 +214,12 @@ def main() -> None:
     _write_urlset(out_pages, _make_items(root_pages))
     _write_urlset(out_servicos, _make_items(servico_pages))
     _write_urlset(out_regioes, _make_items(regioes_hubs))
-    # Sitemap local = páginas locais (serviços + regiões)
-    _write_urlset(out_local, _make_items(servico_pages + regioes_hubs))
+    # Sitemap local = somente arquivo KML do negócio.
+    local_pages: list[Path] = []
+    local_kml = ROOT / "localizacao.kml"
+    if local_kml.is_file():
+        local_pages.append(local_kml)
+    _write_urlset(out_local, _make_items(local_pages))
     _write_urlset(out_blog, _make_blog_items(blog_pages))
 
     index = ROOT / "sitemap_index.xml"
