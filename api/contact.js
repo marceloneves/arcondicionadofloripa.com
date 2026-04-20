@@ -30,6 +30,16 @@ function escapeHtml(value) {
     .replaceAll("'", "&#39;");
 }
 
+function firstNonEmptyEnv(names) {
+  for (const name of names) {
+    const value = process.env[name];
+    if (typeof value === "string" && value.trim()) {
+      return value.trim();
+    }
+  }
+  return "";
+}
+
 module.exports = async function handler(req, res) {
   withCors(res);
 
@@ -46,12 +56,18 @@ module.exports = async function handler(req, res) {
     return res.status(400).json({ error: errorMessage });
   }
 
-  const apiKey = process.env.RESEND_API_KEY;
-  const from = process.env.RESEND_FROM_EMAIL;
-  const to = process.env.CONTACT_TO_EMAIL || "marcelo@arcondicionadofloripa.com";
+  const apiKey = firstNonEmptyEnv(["RESEND_API_KEY", "RESEND_KEY"]);
+  const from = firstNonEmptyEnv(["RESEND_FROM_EMAIL", "FROM_EMAIL", "CONTACT_FROM_EMAIL"]);
+  const to = firstNonEmptyEnv(["CONTACT_TO_EMAIL", "RESEND_TO_EMAIL"]) || "marcelo@arcondicionadofloripa.com";
 
   if (!apiKey || !from) {
-    return res.status(500).json({ error: "Configuracao de e-mail incompleta no servidor." });
+    return res.status(500).json({
+      error: "Configuracao de e-mail incompleta no servidor.",
+      missing: {
+        resendApiKey: !apiKey,
+        resendFromEmail: !from,
+      },
+    });
   }
 
   const { nome, telefone, bairro, servico, mensagem } = req.body;
