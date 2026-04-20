@@ -6,16 +6,18 @@ function withCors(res) {
 
 function validatePayload(payload) {
   const nome = (payload.nome || "").trim();
+  const email = (payload.email || "").trim();
   const telefone = (payload.telefone || "").trim();
-  const bairro = (payload.bairro || "").trim();
+  const cidade = (payload.cidade || "").trim();
   const servico = (payload.servico || "").trim();
   const mensagem = (payload.mensagem || "").trim();
 
   if (!nome) return "Informe seu nome.";
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return "Informe um e-mail valido.";
   if (!/^\(?\d{2}\)?\s?9?\d{4}-?\d{4}$/.test(telefone.replace(/\s+/g, ""))) {
     return "Informe um telefone valido com DDD.";
   }
-  if (!bairro) return "Selecione um bairro.";
+  if (!cidade) return "Selecione uma cidade.";
   if (!servico) return "Selecione um servico.";
   if (mensagem.length < 10) return "Descreva sua necessidade com pelo menos 10 caracteres.";
   return "";
@@ -70,13 +72,14 @@ module.exports = async function handler(req, res) {
     });
   }
 
-  const { nome, telefone, bairro, servico, mensagem } = req.body;
+  const { nome, email, telefone, cidade, servico, mensagem } = req.body;
 
   const html = `
     <h2>Novo contato pelo site</h2>
     <p><strong>Nome:</strong> ${escapeHtml(nome)}</p>
+    <p><strong>E-mail:</strong> ${escapeHtml(email)}</p>
     <p><strong>Telefone:</strong> ${escapeHtml(telefone)}</p>
-    <p><strong>Bairro:</strong> ${escapeHtml(bairro)}</p>
+    <p><strong>Cidade:</strong> ${escapeHtml(cidade)}</p>
     <p><strong>Servico:</strong> ${escapeHtml(servico)}</p>
     <p><strong>Mensagem:</strong></p>
     <p>${escapeHtml(mensagem).replaceAll("\n", "<br>")}</p>
@@ -91,10 +94,10 @@ module.exports = async function handler(req, res) {
     body: JSON.stringify({
       from,
       to: [to],
-      subject: `Novo lead: ${servico} - ${bairro}`,
-      reply_to: from,
+      subject: `Novo lead: ${servico} - ${cidade}`,
+      reply_to: email,
       html,
-      text: `Novo contato pelo site\n\nNome: ${nome}\nTelefone: ${telefone}\nBairro: ${bairro}\nServico: ${servico}\nMensagem:\n${mensagem}`,
+      text: `Novo contato pelo site\n\nNome: ${nome}\nE-mail: ${email}\nTelefone: ${telefone}\nCidade: ${cidade}\nServico: ${servico}\nMensagem:\n${mensagem}`,
     }),
   });
 
