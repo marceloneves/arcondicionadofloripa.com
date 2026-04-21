@@ -1,3 +1,15 @@
 {
-  "trailingSlash": true
+  "trailingSlash": true,
+  "redirects": [
+    {
+      "source": "/:slug.html",
+      "destination": "/:slug/",
+      "permanent": true
+    },
+    {
+      "source": "/:path*.html",
+      "destination": "/:path*/",
+      "permanent": true
+    }
+  ]
 }
