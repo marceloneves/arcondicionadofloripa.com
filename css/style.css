@@ -92,8 +92,9 @@ a{color:var(--blue);text-decoration:none}a:hover{color:var(--blue-dark)}.contain
 .servico-intro{padding-bottom:1.6rem}
 .servico-intro + .section{padding-top:1.6rem}
 .servico-intro-foto{display:block;width:100%;max-width:100%;height:auto;border-radius:12px;margin:0 0 2rem;box-shadow:0 8px 24px rgba(8,66,152,.1);object-fit:cover}
-.servico-num-sec{margin-bottom:2.25rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border)}
-.servico-num-sec:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.servico-num-sec{margin-bottom:2.25rem;padding-bottom:0;border-bottom:none}
+.servico-num-sec + .servico-num-sec{margin-top:1.25rem}
+.servico-num-sec:last-child{margin-bottom:0}
 .servico-num-sec h2{font-size:clamp(1.05rem,2.2vw,1.25rem);margin-bottom:.75rem;line-height:1.35}
 .servico-num-sec p,.servico-num-sec li{font-size:1.15rem;line-height:1.7}
 .servico-passos{padding-left:1.2rem;margin:.5rem 0 0}
@@ -126,7 +127,9 @@ a{color:var(--blue);text-decoration:none}a:hover{color:var(--blue-dark)}.contain
 /* Blog: reduzir espaçamento vertical entre seções */
 .page-blog-article .section{padding:1.75rem 0}
 .page-blog-article .section h2{margin:0 0 .65rem}
+.page-blog-article .section + .section{padding-top:1.15rem}
 .page-blog-article .section h3{margin:1rem 0 .4rem}
+.page-blog-article h2{border-bottom:none !important;box-shadow:none !important}
 .page-blog-article .section p,
 .page-blog-article .section li{font-size:1.15rem;line-height:1.75}
 .page-blog-article .inner-banner{padding:2.4rem 0 1.6rem}
