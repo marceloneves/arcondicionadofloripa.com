@@ -8,6 +8,8 @@ a{color:var(--blue);text-decoration:none}a:hover{color:var(--blue-dark)}.contain
 .btn-outline{background:#fff;color:var(--blue)}a.btn.btn-outline,a.btn.btn-outline:visited{color:var(--blue)}.btn-outline:hover,.btn-outline:focus-visible{background:var(--soft);color:var(--blue-dark)}a.btn.btn-outline:hover,a.btn.btn-outline:focus-visible{color:var(--blue-dark)}.btn-calc{background:#ff8a00;border-color:#ff8a00;color:#fff}a.btn.btn-calc,a.btn.btn-calc:visited{color:#fff}.btn-calc:hover,.btn-calc:focus-visible{background:#d46f00;border-color:#d46f00;color:#fff}a.btn.btn-calc:hover,a.btn.btn-calc:focus-visible{color:#fff}.btn-whats{background:var(--whats-green);border-color:var(--whats-green);color:#fff}a.btn.btn-whats,a.btn.btn-whats:visited{color:#fff}a.btn.btn-whats:hover,a.btn.btn-whats:focus-visible{color:#fff}.btn-whats:hover,.btn-whats:focus-visible{background:var(--whats-green-hover);border-color:var(--whats-green-hover);color:#fff}
 .hero{padding:4.5rem 0 3.2rem}.page-home .hero{background:var(--soft);border-bottom:1px solid var(--border);text-align:left}.hero h1{font-size:clamp(1.8rem,3vw,2.7rem);line-height:1.2;color:var(--blue-dark);margin:0 0 1rem}
 .hero p{color:var(--muted);font-size:1.05rem}
+.hero-calc-wrap{margin:.6rem 0 0}
+.servico-hero-top .hero-calc-wrap{margin:.25rem 0 .75rem}
 .home-instalacoes-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:.8rem}
 .home-instalacoes-grid img{width:100%;height:180px;object-fit:cover;border-radius:12px;box-shadow:0 8px 20px rgba(8,66,152,.14)}
 .home-instalacao-link{display:block;cursor:zoom-in}

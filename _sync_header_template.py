@@ -3,7 +3,6 @@
 
 Objetivo:
 - manter o menu principal sem item "Calculadora BTU"
-- manter botão chamativo "Calculadora BTU" ao lado do WhatsApp
 - preservar logo existente e link WhatsApp já configurado em cada página
 
 Uso:
@@ -91,15 +90,12 @@ def sync_file(path: Path) -> bool:
     rel_path = path.relative_to(ROOT).as_posix()
     prefix = rel_prefix(path)
     active_key = page_active(rel_path)
-    calc_href = f"{prefix}calculadora-btu/"
-
     new_header = (
         '<header class="site-header">\n'
         '  <div class="container nav-wrap">\n'
         f"    {logo_html}\n"
         '    <button class="menu-toggle" aria-label="Abrir menu" aria-expanded="false">☰</button>\n'
         f"    {build_nav(prefix, active_key)}\n"
-        f'    <a class="btn btn-calc" href="{calc_href}">Calculadora BTU</a>\n'
         f'    <a class="btn {wpp_class}" href="{wpp_href}" target="_blank" rel="noopener nofollow">WhatsApp</a>\n'
         "  </div>\n"
         "</header>"
