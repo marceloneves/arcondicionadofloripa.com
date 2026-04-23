@@ -9,6 +9,7 @@ from pathlib import Path
 
 from _fix_html_root_paths import apply_relative_paths_to_file
 from _brand import FAVICON_PATH, LOGO_ALT, LOGO_URL
+from _schema_speakable import speakable
 from _social_meta import insert_social_meta_after_description
 from _rebuild_servico_main import CIDADES, SERVICE_KEYS, SERV_META
 
@@ -53,6 +54,10 @@ def build_collection_page_schema_jsonld() -> str:
     payload = {
         "@context": "https://schema.org",
         "@type": "CollectionPage",
+        "speakable": speakable(
+            "main .inner-banner h1",
+            "main .inner-banner .container > p:first-of-type",
+        ),
         "name": "Serviços de ar condicionado | Grande Florianópolis SC",
         "url": f"{BASE_URL}/servicos/",
         "description": (

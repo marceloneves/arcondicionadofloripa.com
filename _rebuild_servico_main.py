@@ -10,6 +10,7 @@ from pathlib import Path
 
 from _blog_article_entities import infer_semantic_about_mentions, parse_meta_keywords
 from _fix_html_root_paths import apply_relative_paths_to_file
+from _schema_speakable import speakable
 from _brand import FAVICON_PATH, LOGO_URL as BUSINESS_LOGO_URL
 from _social_meta import insert_social_meta_after_description
 
@@ -945,6 +946,10 @@ def build_schema_service_jsonld(
         "@context": "https://schema.org",
         "@type": ["Service", "FAQPage"],
         "@id": page_url + "#servico",
+        "speakable": speakable(
+            ".servico-hero-top h1",
+            ".servico-intro .container > p:first-of-type",
+        ),
         "name": title,
         "description": desc,
         "url": page_url,

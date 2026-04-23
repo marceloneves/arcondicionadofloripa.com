@@ -11,6 +11,7 @@ from pathlib import Path
 from _blog_article_entities import infer_semantic_about_mentions, is_faq_h2, parse_meta_keywords
 from _fix_html_root_paths import apply_relative_paths_to_file
 from _brand import LOGO_URL
+from _schema_speakable import speakable
 
 ROOT = Path(__file__).resolve().parent
 BLOG = ROOT / "blog"
@@ -36,9 +37,10 @@ PUBLISHER = {
     "telephone": "+55-48-98810-5199",
     "areaServed": "Florianópolis e Grande Florianópolis",
 }
-SPEAKABLE_SELECTORS = [
+BLOG_SPEAKABLE = speakable(
     "main .inner-banner h1",
-]
+    "main .section .container > p:first-of-type",
+)
 AUTHOR_URL = f"{BASE}/autor/marcelo-menezes/"
 BLOG_ID = f"{BASE}/blog/#blog"
 
@@ -148,10 +150,7 @@ def build_graph(
         "@type": "BlogPosting",
         "@id": article_id,
         "mainEntityOfPage": {"@type": "WebPage", "@id": webpage_id},
-        "speakable": {
-            "@type": "SpeakableSpecification",
-            "cssSelector": SPEAKABLE_SELECTORS,
-        },
+        "speakable": BLOG_SPEAKABLE,
         "headline": headline,
         "description": description,
         "datePublished": date_iso,

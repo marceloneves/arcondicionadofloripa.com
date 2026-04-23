@@ -8,6 +8,7 @@ import json
 from _fix_html_root_paths import apply_relative_paths_to_file
 from _brand import FAVICON_PATH, LOGO_ALT, LOGO_URL as BUSINESS_LOGO_URL
 from _social_meta import insert_social_meta_after_description
+from _schema_speakable import speakable
 from _rebuild_servico_main import (
     BAIRROS,
     CIDADES,
@@ -88,6 +89,10 @@ def schema_for(sk: str, title: str, description: str) -> str:
         "@context": "https://schema.org",
         "@type": ["Service", "WebPage"],
         "@id": f"{page_url}#servico",
+        "speakable": speakable(
+            "main section.inner-banner h1",
+            "main .section .container > p:first-of-type",
+        ),
         "name": title,
         "description": description,
         "url": page_url,
