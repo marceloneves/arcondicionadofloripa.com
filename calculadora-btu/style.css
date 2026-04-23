@@ -64,26 +64,40 @@ a:hover {
   gap: 1rem;
 }
 
-.brand {
+.logo {
   display: inline-flex;
   align-items: center;
   gap: 0.65rem;
   color: var(--blue-dark);
+  max-width: min(100%, 100vw - 12rem);
 }
 
-.brand-icon {
-  font-size: 1.4rem;
+.logo-img {
+  height: 48px;
+  width: auto;
+  max-width: min(192px, 50.4vw);
+  object-fit: contain;
+  display: block;
+  flex-shrink: 0;
 }
 
-.brand-text {
-  display: inline-flex;
-  flex-direction: column;
-  line-height: 1.2;
+.logo-tagline {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--blue-dark);
+  line-height: 1.25;
+  letter-spacing: 0.01em;
+  max-width: 12.5rem;
+  flex-shrink: 1;
+  min-width: 0;
 }
 
-.brand-text small {
-  font-size: 0.82rem;
-  color: var(--text);
+.menu-toggle {
+  display: none;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fff;
+  padding: 0.5rem 0.7rem;
 }
 
 .main-nav {
@@ -98,6 +112,7 @@ a:hover {
   border-radius: 8px;
 }
 
+.main-nav a.active,
 .main-nav a:hover {
   background: var(--blue-light);
   color: var(--blue-dark);
@@ -201,6 +216,18 @@ h3 {
 
 .btn-whatsapp:hover {
   background: #168943;
+  color: var(--white);
+}
+
+.btn-calc {
+  background: #ff8a00;
+  border-color: #ff8a00;
+  color: var(--white);
+}
+
+.btn-calc:hover {
+  background: #d46f00;
+  border-color: #d46f00;
   color: var(--white);
 }
 
@@ -420,7 +447,28 @@ details p {
 }
 
 @media (max-width: 740px) {
+  .menu-toggle {
+    display: block;
+  }
+
   .main-nav {
+    position: absolute;
+    top: 72px;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem 4%;
+  }
+
+  .main-nav.open {
+    display: flex;
+  }
+
+  .nav-wrap .btn-whatsapp {
     display: none;
   }
 

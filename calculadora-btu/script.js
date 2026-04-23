@@ -6,6 +6,8 @@ const WHATSAPP_MESSAGE =
 const COMMERCIAL_CAPACITIES = [9000, 12000, 18000, 22000, 24000, 30000, 36000, 48000, 60000];
 
 const form = document.getElementById("btu-form");
+const menuBtn = document.querySelector(".menu-toggle");
+const nav = document.querySelector("#mainNav");
 const feedback = document.getElementById("form-feedback");
 const resultCard = document.getElementById("resultado-card");
 const resultArea = document.getElementById("resultado-area");
@@ -131,3 +133,10 @@ form.addEventListener("submit", function onSubmit(event) {
 });
 
 setGlobalWhatsappLinks();
+
+if (menuBtn && nav) {
+  menuBtn.addEventListener("click", function toggleMenu() {
+    const isOpen = nav.classList.toggle("open");
+    menuBtn.setAttribute("aria-expanded", String(isOpen));
+  });
+}
