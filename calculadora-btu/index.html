@@ -29,10 +29,36 @@
           "name": "Ar Condicionado Floripa",
           "url": "https://arcondicionadofloripa.com/"
         },
-        "about": {
-          "@type": "Thing",
-          "name": "Dimensionamento de ar-condicionado em BTUs"
-        },
+        "about": [
+          { "@type": "Thing", "name": "Calculadora de BTU" },
+          { "@type": "Thing", "name": "Dimensionamento de ar-condicionado" },
+          { "@type": "Thing", "name": "Capacidade em BTUs" },
+          { "@type": "Thing", "name": "Carga térmica" },
+          { "@type": "Place", "name": "Florianópolis" },
+          { "@type": "Place", "name": "Grande Florianópolis" },
+          { "@type": "Place", "name": "Santa Catarina" },
+          { "@type": "Thing", "name": "Climatização residencial e comercial" }
+        ],
+        "mentions": [
+          { "@type": "Thing", "name": "BTU" },
+          { "@type": "Thing", "name": "Ar-condicionado" },
+          { "@type": "Thing", "name": "Refrigeração" },
+          { "@type": "Thing", "name": "Incidência solar" },
+          { "@type": "Thing", "name": "Uso residencial" },
+          { "@type": "Thing", "name": "Uso comercial" },
+          { "@type": "Thing", "name": "Visita técnica" },
+          { "@type": "Thing", "name": "Instalação de ar-condicionado" },
+          { "@type": "Thing", "name": "Área do ambiente" },
+          { "@type": "Thing", "name": "Janelas" },
+          { "@type": "Thing", "name": "Cobertura" },
+          { "@type": "Thing", "name": "Pé-direito" },
+          { "@type": "Thing", "name": "Conforto térmico" },
+          { "@type": "Thing", "name": "Orçamento" },
+          { "@type": "Thing", "name": "Superdimensionamento" },
+          { "@type": "Thing", "name": "Subdimensionamento" },
+          { "@type": "Thing", "name": "Sol direto" },
+          { "@type": "Thing", "name": "Eletrônicos" }
+        ],
         "speakable": {
           "@type": "SpeakableSpecification",
           "cssSelector": [
@@ -63,7 +89,15 @@
         },
         "provider": {
           "@id": "https://arcondicionadofloripa.com/#business"
-        }
+        },
+        "about": [
+          { "@type": "Thing", "name": "Simulação de BTUs para ar-condicionado" },
+          { "@type": "Thing", "name": "Carga térmica e conforto" }
+        ],
+        "mentions": [
+          { "@type": "Thing", "name": "Metragem" },
+          { "@type": "Thing", "name": "Capacidade comercial" }
+        ]
       },
       {
         "@type": "BreadcrumbList",
@@ -80,63 +114,6 @@
             "position": 2,
             "name": "Calculadora de BTU",
             "item": "https://arcondicionadofloripa.com/calculadora-btu/"
-          }
-        ]
-      },
-      {
-        "@type": "FAQPage",
-        "@id": "https://arcondicionadofloripa.com/calculadora-btu/#faq",
-        "isPartOf": {
-          "@id": "https://arcondicionadofloripa.com/calculadora-btu/#webpage"
-        },
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "Como saber quantos BTUs preciso?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Use uma calculadora de BTU considerando área, pessoas, eletrônicos e incidência solar. Depois, confirme com avaliação técnica."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Um ar-condicionado mais potente gasta mais energia?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Depende do uso e da eficiência do aparelho. O ideal é escolher a capacidade correta para evitar esforço excessivo e desperdício."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Posso usar essa calculadora para quarto?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Sim. Basta preencher os dados reais do ambiente para obter uma estimativa inicial."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Posso usar essa calculadora para sala comercial?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Sim. A calculadora inclui ajustes de uso comercial, quantidade de pessoas e equipamentos."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "O sol interfere no cálculo de BTU?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Sim. Ambientes com maior incidência solar tendem a precisar de uma capacidade maior."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "A calculadora substitui a visita técnica?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Não. Ela é uma estimativa inicial. A visita técnica garante a indicação mais precisa para o local."
-            }
           }
         ]
       }
