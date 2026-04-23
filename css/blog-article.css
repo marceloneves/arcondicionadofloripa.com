@@ -1,0 +1,26 @@
+/* Blog: reduzir espaçamento vertical entre seções */
+.page-blog-article .section{padding:1.75rem 0}
+.page-blog-article .section h2{margin:0 0 .65rem}
+.page-blog-article .section + .section{padding-top:1.15rem}
+.page-blog-article .section h3{margin:1rem 0 .4rem}
+.page-blog-article h2{border-bottom:none !important;box-shadow:none !important}
+.page-blog-article .section p,
+.page-blog-article .section li{font-size:1.15rem;line-height:1.75}
+.page-blog-article .inner-banner{padding:2.4rem 0 1.6rem}
+.page-blog-article .inner-banner .blog-post-meta{margin:.45rem 0 .15rem;font-size:.95rem;color:var(--muted)}
+.page-blog-article .inner-banner .blog-post-meta time{font-weight:600;color:var(--muted)}
+.blog-servicos-box{background:#eef5ff;border:1px solid #cfe0fb;border-left:5px solid var(--blue);border-radius:12px;padding:1rem 1.1rem;margin:1rem 0 1.25rem;box-shadow:0 8px 18px rgba(8,66,152,.08)}
+.blog-servicos-box p{margin:.2rem 0 .55rem;color:var(--blue-dark)}
+.blog-servicos-box ul{margin:.1rem 0 .8rem;padding-left:1.15rem;list-style:disc;display:grid;grid-template-columns:1fr 1fr;gap:.35rem 1.2rem}
+.blog-servicos-box li{color:var(--text);margin:0;min-width:0}
+.blog-servicos-box li a{color:var(--blue);font-weight:600;text-decoration:none;position:relative;z-index:1}
+.blog-servicos-box li a:hover,.blog-servicos-box li a:focus-visible{color:var(--blue-dark);text-decoration:underline;text-underline-offset:2px}
+@media (max-width:760px){.blog-servicos-box ul{grid-template-columns:1fr}}
+.page-blog-article .blog-author-section{padding-top:1rem;padding-bottom:1rem}
+.blog-author-card{display:flex;align-items:flex-start;gap:1.1rem;background:#f8fafc;border:1px solid var(--border);border-radius:16px;padding:1.25rem 1.35rem;margin:0;box-shadow:0 6px 20px rgba(8,66,152,.06)}
+.blog-author-media{flex-shrink:0}
+.blog-author-photo{display:block;width:100px;height:100px;object-fit:cover;border-radius:12px;border:1px solid var(--border);background:#e8eef5}
+.blog-author-text{flex:1;min-width:0}
+.blog-author-card .blog-author-title{font-size:1.25rem;margin:0 0 .6rem;color:var(--blue-dark)}
+.blog-author-card .blog-author-bio{margin:0;color:var(--text);font-size:1.05rem;line-height:1.65}
+@media (max-width:760px){.blog-author-card{flex-direction:column;align-items:center;text-align:center;padding:1.1rem 1rem}.blog-author-card .blog-author-title{margin-top:.15rem}}
