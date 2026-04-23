@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
 """Regenera páginas servico/*: <main> (8 seções), <title>, meta description, canonical e JSON-LD (Service + FAQ num bloco)."""
+from __future__ import annotations
+
 import hashlib
 import json
 import re
 from html import escape
 from pathlib import Path
 
+from _blog_article_entities import infer_semantic_about_mentions, parse_meta_keywords
 from _fix_html_root_paths import apply_relative_paths_to_file
 from _brand import FAVICON_PATH, LOGO_URL as BUSINESS_LOGO_URL
 from _social_meta import insert_social_meta_after_description
@@ -889,7 +892,20 @@ def paragraph_vizinhos(bslug, nome, is_city: bool = False):
     )
 
 
-def build_schema_service_jsonld(sk, prep, bslug, nome, fname, title, desc, is_city: bool = False, suffix: str = "florianopolis"):
+def build_schema_service_jsonld(
+    sk,
+    prep,
+    bslug,
+    nome,
+    fname,
+    title,
+    desc,
+    is_city: bool = False,
+    suffix: str = "florianopolis",
+    *,
+    about: list | None = None,
+    mentions: list | None = None,
+):
     """Um único nó JSON-LD: Service + FAQPage (herda WebPage → aceita breadcrumb) com FAQ em mainEntity."""
     page_url = f"{BASE_URL}{servico_public_path(fname)}"
     meta = SERV_META[sk]
@@ -925,7 +941,7 @@ def build_schema_service_jsonld(sk, prep, bslug, nome, fname, title, desc, is_ci
 
     service_area = {"@type": "City", "name": nome if is_city else "Florianópolis"}
 
-    return {
+    payload: dict = {
         "@context": "https://schema.org",
         "@type": ["Service", "FAQPage"],
         "@id": page_url + "#servico",
@@ -945,6 +961,11 @@ def build_schema_service_jsonld(sk, prep, bslug, nome, fname, title, desc, is_ci
         },
         "mainEntity": main_q,
     }
+    if about:
+        payload["about"] = about
+    if mentions:
+        payload["mentions"] = mentions
+    return payload
 
 
 def patch_head_seo(html, sk, prep, bslug, nome, fname, is_city: bool = False, suffix: str = "florianopolis"):
@@ -962,7 +983,30 @@ def patch_head_seo(html, sk, prep, bslug, nome, fname, is_city: bool = False, su
     page_url = f"{BASE_URL}{servico_public_path(fname)}"
     title = build_meta_title(meta, pp, is_city=is_city, nome_cidade=nome if is_city else "")
     desc = build_meta_desc(sk, meta, nome, is_city=is_city)
-    payload = build_schema_service_jsonld(sk, prep, bslug, nome, fname, title, desc, is_city=is_city, suffix=suffix)
+    h1m = re.search(r"<h1>([^<]+)</h1>", html, re.I)
+    headline = h1m.group(1).strip() if h1m else title
+    kw = parse_meta_keywords(html)
+    faq_pairs = faq_items(sk, prep, nome, is_city=is_city)
+    about, mentions = infer_semantic_about_mentions(
+        html=html,
+        headline=headline,
+        description=desc,
+        keywords=kw,
+        faq_pairs=faq_pairs,
+    )
+    payload = build_schema_service_jsonld(
+        sk,
+        prep,
+        bslug,
+        nome,
+        fname,
+        title,
+        desc,
+        is_city=is_city,
+        suffix=suffix,
+        about=about,
+        mentions=mentions,
+    )
     jstr = json.dumps(payload, ensure_ascii=False)
     new_script = f"<script type=\"application/ld+json\">\n{jstr}\n</script>"
     if 'rel="canonical"' not in html:

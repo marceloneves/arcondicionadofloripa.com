@@ -8,6 +8,7 @@ import re
 import sys
 from pathlib import Path
 
+from _blog_article_entities import infer_semantic_about_mentions, is_faq_h2, parse_meta_keywords
 from _fix_html_root_paths import apply_relative_paths_to_file
 from _brand import LOGO_URL
 
@@ -50,32 +51,11 @@ STYLESHEET_LINK = re.compile(
 )
 
 
-def is_faq_h2(title: str) -> bool:
-    t = title.strip()
-    sl = t.lower()
-    if sl == "faq":
-        return True
-    if sl.startswith("faq"):
-        return True
-    if "perguntas frequentes" in sl:
-        return True
-    if "tudo sobre o preço da manutenção do seu ar" in sl:
-        return True
-    return False
-
-
 def html_to_plain(fragment: str) -> str:
     t = re.sub(r"<[^>]+>", " ", fragment)
     t = re.sub(r"\s+", " ", t).strip()
     t = re.sub(r"\s+([.,;:!?])", r"\1", t)
     return html_module.unescape(t)
-
-
-def parse_keywords_from_meta(html: str) -> list[str]:
-    m = re.search(r'<meta name="keywords" content="([^"]*)"', html, re.I)
-    if not m:
-        return []
-    return [k.strip() for k in m.group(1).split(",") if k.strip()]
 
 
 def first_image_object_from_head(html: str, headline: str) -> dict | None:
@@ -102,20 +82,6 @@ def word_count_from_main(html: str) -> int:
     plain = html_to_plain(source)
     words = re.findall(r"\b[\wÀ-ÿ/-]+\b", plain, flags=re.UNICODE)
     return len(words)
-
-
-def infer_mentions(headline: str) -> list[dict[str, str]]:
-    mentions: list[dict[str, str]] = []
-    for token in re.findall(r"\b\d{1,3}(?:\.\d{3})?\s*BTUs?\b", headline, re.I):
-        mentions.append({"@type": "Thing", "name": token.upper().replace("btus", "BTUs")})
-    for token in re.findall(r"\b(?:127|220)\s*V\b", headline, re.I):
-        mentions.append({"@type": "Thing", "name": token.upper().replace(" ", "")})
-    return mentions
-
-
-def infer_about(keywords: list[str], headline: str) -> list[dict[str, str]]:
-    about_terms = keywords[:4] if keywords else [headline]
-    return [{"@type": "Thing", "name": term} for term in about_terms]
 
 
 def extract_faq_section(html: str) -> str | None:
@@ -159,6 +125,7 @@ def build_graph(
     headline: str,
     description: str,
     date_iso: str,
+    html: str,
     faq_pairs: list[tuple[str, str]],
     keywords: list[str],
     word_count: int,
@@ -169,8 +136,13 @@ def build_graph(
     breadcrumb_id = f"{base_path}#breadcrumb"
     webpage_id = base_path
     faq_id = f"{base_path}#faq"
-    mentions = infer_mentions(headline)
-    about = infer_about(keywords, headline)
+    about, mentions = infer_semantic_about_mentions(
+        html=html,
+        headline=headline,
+        description=description,
+        keywords=keywords,
+        faq_pairs=faq_pairs,
+    )
 
     blog_posting = {
         "@type": "BlogPosting",
@@ -274,7 +246,7 @@ def process_file(path: Path) -> tuple[bool, str]:
     if not descm:
         return False, "sem meta description"
     description = html_module.unescape(descm.group(1).strip())
-    keywords = parse_keywords_from_meta(html)
+    keywords = parse_meta_keywords(html)
     wc = word_count_from_main(html)
     image_obj = first_image_object_from_head(html, headline)
 
@@ -290,6 +262,7 @@ def process_file(path: Path) -> tuple[bool, str]:
         headline=headline,
         description=description,
         date_iso=date_iso,
+        html=html,
         faq_pairs=pairs,
         keywords=keywords,
         word_count=wc,
