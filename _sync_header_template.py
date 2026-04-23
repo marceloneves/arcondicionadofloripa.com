@@ -2,7 +2,7 @@
 """Padroniza o header principal em todos os HTMLs do projeto.
 
 Objetivo:
-- manter o menu principal sem item "Calculadora BTU"
+- manter o menu principal sem item "Calculadora de BTUs"
 - preservar logo existente e link WhatsApp já configurado em cada página
 
 Uso:
