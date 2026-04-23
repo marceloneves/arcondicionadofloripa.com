@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora de BTU de Ar-Condicionado em Florianópolis | Quantos BTUs Preciso?</title>
+  <meta name="description" content="Use a calculadora de BTU para descobrir quantos BTUs são recomendados para seu ambiente. Simule online e solicite orçamento de ar-condicionado em Florianópolis.">
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="https://arcondicionadofloripa.com/calculadora-btu/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Calculadora de BTU de Ar-Condicionado">
+  <meta property="og:description" content="Descubra quantos BTUs são recomendados para seu ambiente e escolha a capacidade ideal do ar-condicionado.">
+  <meta property="og:url" content="https://arcondicionadofloripa.com/calculadora-btu/">
+  <meta property="og:locale" content="pt_BR">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="#topo" aria-label="Ir para o início da página">
+        <span class="brand-icon" aria-hidden="true">❄️</span>
+        <span class="brand-text">
+          <strong>Ar Condicionado Floripa</strong>
+          <small>Florianópolis e região</small>
+        </span>
+      </a>
+      <nav class="main-nav" aria-label="Navegação principal">
+        <a href="#calculadora">Calculadora</a>
+        <a href="#como-funciona">Como Funciona</a>
+        <a href="#observacoes">Observações</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="topo">
+    <section class="hero section">
+      <div class="container hero-grid">
+        <div>
+          <p class="eyebrow">Simulação técnica inicial</p>
+          <h1>Calculadora de BTU de Ar-Condicionado</h1>
+          <p class="hero-subtitle">
+            Descubra quantos BTUs são recomendados para o seu ambiente e escolha o ar-condicionado ideal com mais segurança.
+          </p>
+          <a class="btn btn-primary" href="#calculadora">Calcular Agora</a>
+        </div>
+        <aside class="hero-card" aria-label="Destaques da calculadora de BTU">
+          <h2>Por que usar esta calculadora?</h2>
+          <ul>
+            <li>📐 Estimativa rápida da capacidade ideal do ar-condicionado</li>
+            <li>☀️ Considera sol, janelas, pessoas e eletrônicos</li>
+            <li>🏢 Ajustes para uso residencial e comercial</li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <section id="calculadora" class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2>Calculadora de BTU: quantos BTUs preciso?</h2>
+          <p>Preencha os dados abaixo para simular o BTU ar-condicionado recomendado para seu ambiente.</p>
+        </div>
+
+        <form id="btu-form" class="calculator-card" novalidate>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="largura">Largura do ambiente (m)</label>
+              <input id="largura" name="largura" type="number" min="0.1" step="0.1" required>
+            </div>
+
+            <div class="form-group">
+              <label for="comprimento">Comprimento do ambiente (m)</label>
+              <input id="comprimento" name="comprimento" type="number" min="0.1" step="0.1" required>
+            </div>
+
+            <div class="form-group">
+              <label for="pessoas">Quantidade de pessoas</label>
+              <input id="pessoas" name="pessoas" type="number" min="1" step="1" value="1" required>
+            </div>
+
+            <div class="form-group">
+              <label for="eletronicos">Quantidade de eletrônicos</label>
+              <input id="eletronicos" name="eletronicos" type="number" min="0" step="1" value="0" required>
+            </div>
+
+            <div class="form-group">
+              <label for="solar">Incidência solar</label>
+              <select id="solar" name="solar" required>
+                <option value="">Selecione</option>
+                <option value="baixa">Baixa</option>
+                <option value="media">Média</option>
+                <option value="alta">Alta</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="ambiente">Tipo de ambiente</label>
+              <select id="ambiente" name="ambiente" required>
+                <option value="">Selecione</option>
+                <option value="quarto">Quarto</option>
+                <option value="sala">Sala</option>
+                <option value="escritorio">Escritório</option>
+                <option value="loja">Loja</option>
+                <option value="comercio">Comércio</option>
+                <option value="outro">Outro</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="janelas">Quantidade de janelas</label>
+              <input id="janelas" name="janelas" type="number" min="0" step="1" value="0" required>
+            </div>
+
+            <div class="form-group">
+              <label for="cobertura">Fica em cobertura ou último andar?</label>
+              <select id="cobertura" name="cobertura" required>
+                <option value="">Selecione</option>
+                <option value="nao">Não</option>
+                <option value="sim">Sim</option>
+              </select>
+            </div>
+
+            <div class="form-group full-width">
+              <label for="uso">Tipo de uso</label>
+              <select id="uso" name="uso" required>
+                <option value="">Selecione</option>
+                <option value="residencial">Residencial</option>
+                <option value="comercial">Comercial</option>
+              </select>
+            </div>
+          </div>
+
+          <p id="form-feedback" class="form-feedback" role="alert" aria-live="polite"></p>
+          <button class="btn btn-primary" type="submit">Calcular Agora</button>
+        </form>
+
+        <article id="resultado-card" class="result-card" aria-live="polite" hidden>
+          <h3>Resultado da simulação</h3>
+          <p class="result-highlight" id="resultado-recomendado"></p>
+          <div class="result-grid">
+            <p><strong>Área calculada:</strong> <span id="resultado-area">-</span></p>
+            <p><strong>BTU estimado:</strong> <span id="resultado-btu">-</span></p>
+            <p><strong>Capacidade comercial recomendada:</strong> <span id="resultado-capacidade">-</span></p>
+          </div>
+          <p class="result-message" id="resultado-mensagem"></p>
+          <a id="resultado-whatsapp" class="btn btn-whatsapp" href="#" target="_blank" rel="noopener nofollow">
+            Quero solicitar um orçamento
+          </a>
+        </article>
+      </div>
+    </section>
+
+    <section id="como-funciona" class="section section-soft">
+      <div class="container">
+        <h2>Como calcular BTU do ar-condicionado?</h2>
+        <p>
+          BTU é a unidade que representa a capacidade de refrigeração do equipamento. Em resumo, mostra quanto calor o aparelho consegue retirar do ambiente.
+          Por isso, ao pensar em capacidade ideal do ar-condicionado, é importante considerar área, exposição solar e carga térmica interna.
+        </p>
+        <div class="info-grid">
+          <article class="info-card">
+            <h3>O que influencia no cálculo</h3>
+            <p>Sol direto, quantidade de pessoas e eletrônicos ligados aumentam a necessidade de BTU ar-condicionado.</p>
+          </article>
+          <article class="info-card">
+            <h3>Por que calcular corretamente</h3>
+            <p>Um equipamento subdimensionado perde desempenho; superdimensionado pode aumentar custo inicial e reduzir conforto.</p>
+          </article>
+          <article class="info-card">
+            <h3>Estimativa inicial</h3>
+            <p>A calculadora de BTU oferece uma base rápida. A visita técnica é a forma mais precisa para definir a capacidade final.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="observacoes" class="section">
+      <div class="container">
+        <h2>Observações importantes</h2>
+        <ul class="check-list">
+          <li>Ambientes com muito sol exigem maior capacidade</li>
+          <li>Muitos equipamentos ligados aumentam a carga térmica</li>
+          <li>Pé-direito alto pode exigir análise adicional</li>
+          <li>Ambientes comerciais costumam precisar de reforço no cálculo</li>
+          <li>A instalação correta influencia diretamente no desempenho</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="faq" class="section section-soft">
+      <div class="container">
+        <h2>Perguntas frequentes</h2>
+        <div class="faq-list">
+          <details>
+            <summary>Como saber quantos BTUs preciso?</summary>
+            <p>Use uma calculadora de BTU considerando área, pessoas, eletrônicos e incidência solar. Depois, confirme com avaliação técnica.</p>
+          </details>
+          <details>
+            <summary>Um ar-condicionado mais potente gasta mais energia?</summary>
+            <p>Depende do uso e da eficiência do aparelho. O ideal é escolher a capacidade correta para evitar esforço excessivo e desperdício.</p>
+          </details>
+          <details>
+            <summary>Posso usar essa calculadora para quarto?</summary>
+            <p>Sim. Basta preencher os dados reais do ambiente para obter uma estimativa inicial.</p>
+          </details>
+          <details>
+            <summary>Posso usar essa calculadora para sala comercial?</summary>
+            <p>Sim. A calculadora inclui ajustes de uso comercial, quantidade de pessoas e equipamentos.</p>
+          </details>
+          <details>
+            <summary>O sol interfere no cálculo de BTU?</summary>
+            <p>Sim. Ambientes com maior incidência solar tendem a precisar de uma capacidade maior.</p>
+          </details>
+          <details>
+            <summary>A calculadora substitui a visita técnica?</summary>
+            <p>Não. Ela é uma estimativa inicial. A visita técnica garante a indicação mais precisa para o local.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="section cta-final">
+      <div class="container cta-content">
+        <h2>Descobriu a capacidade ideal? Agora fale com um especialista</h2>
+        <p>Nossa equipe pode avaliar o ambiente e indicar a melhor solução em ar-condicionado para sua necessidade.</p>
+        <a class="btn btn-light" id="cta-whatsapp" href="#" target="_blank" rel="noopener nofollow">
+          Solicitar Orçamento no WhatsApp
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <h3>Ar Condicionado Floripa</h3>
+        <p>Atendimento técnico em Florianópolis e Grande Florianópolis.</p>
+      </div>
+      <div>
+        <h3>Contato</h3>
+        <p>Telefone: <a href="tel:+5548988105199">(48) 98810-5199</a></p>
+        <p>WhatsApp: <a id="footer-whatsapp" href="#" target="_blank" rel="noopener nofollow">Falar agora</a></p>
+      </div>
+      <div>
+        <h3>Navegação</h3>
+        <ul>
+          <li><a href="#calculadora">Calculadora</a></li>
+          <li><a href="#como-funciona">Como Funciona</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <p>© 2026 Ar Condicionado Floripa. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <script src="./script.js"></script>
+</body>
+</html>
