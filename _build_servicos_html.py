@@ -148,7 +148,7 @@ def build_page() -> str:
 <body>
 <header class="site-header">
   <div class="container nav-wrap">
-    <a class="logo" href="/"><img class="logo-img" src="/images/ar-condicionado-floripa-logo.webp" alt="{LOGO_ALT}" width="1024" height="558" loading="eager" decoding="async"><span class="logo-tagline">Ar-Condicionado em Florianópolis</span></a>
+    <a class="logo" href="/"><img class="logo-img" src="/images/ar-condicionado-floripa-logo.webp" alt="{LOGO_ALT}" width="1024" height="558" loading="eager" decoding="async"><span class="logo-tagline">Ar Condicionado Floripa</span></a>
     <button class="menu-toggle" aria-label="Abrir menu" aria-expanded="false">☰</button>
     <nav class="main-nav" id="mainNav">
       <a href="/" class="">Início</a>
