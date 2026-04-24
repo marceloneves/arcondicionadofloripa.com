@@ -9,6 +9,7 @@
 .page-blog-article .inner-banner{padding:2.4rem 0 1.6rem}
 .page-blog-article .inner-banner .blog-post-meta{margin:.45rem 0 .15rem;font-size:.95rem;color:var(--muted)}
 .page-blog-article .inner-banner .blog-post-meta time{font-weight:600;color:var(--muted)}
+.page-blog-article .inner-banner .hero-calc-wrap{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;margin:.75rem 0 0}
 .blog-servicos-box{background:#eef5ff;border:1px solid #cfe0fb;border-left:5px solid var(--blue);border-radius:12px;padding:1rem 1.1rem;margin:1rem 0 1.25rem;box-shadow:0 8px 18px rgba(8,66,152,.08)}
 .blog-servicos-box p{margin:.2rem 0 .55rem;color:var(--blue-dark)}
 .blog-servicos-box ul{margin:.1rem 0 .8rem;padding-left:1.15rem;list-style:disc;display:grid;grid-template-columns:1fr 1fr;gap:.35rem 1.2rem}
